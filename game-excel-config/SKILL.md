@@ -6,23 +6,88 @@ metadata:
   schema-version: "1"
 ---
 # 游戏 Excel 配置表
-个人级游戏开发技能，不限定引擎或编程语言。先查项目表格式、导出器和配置读取 API，复用现有链路；无业务依据不推测数值、表关系或权威端。
 
-## 路由
-- 规划与修改：读 [配置流程](references/workflows/config.md)。
-- 字段、标识和外键：读 [配置契约](references/contracts/tables.md)。
-- 字段整理与导出链路：必须读 [字段与导出规范](references/contracts/fields-and-export.md)，使用 [配置模板](assets/templates/config.md)，逐字段说明类型、填写格式、缺省、端开关和实际输出映射。
-- 工作簿显示与跳转：读 [排版](references/contracts/formatting.md)。
-- 仅项目已有同类标签式 legacy .xls 导出器时，读 [标签格式适配](references/adapters/legacy-xls.md)；不是所有游戏项目的固定格式。
+个人级游戏开发技能，跨项目/语言使用。需要配置先查已有配置；有则读取核对，无则先规划再按任务授权编写。图中操作节点链接到对应技能规范，图下保留 Markdown 链接。
 
-## 与系统流程协作
-游戏系统开发阶段先确定哪些数值/规则/展示数据由表驱动，在模块 config.md 中规划表字段字典、表头布局、主键、外键、端归属、导出类型/路径/转换及读取公开函数和依赖，不写运行时实现。把计划写入该任务的系统接口/关系规划和拟定 API，拟定声明存于 docs/规划/<任务>/api/<端>/<模块>/，由任务规划映射；实现核对后由文档技能移到正式 API 位置并更新系统 Markdown 映射。
-开发阶段按实际实现完善同一 API 和文档。文档在独立 docs Git 中维护；Excel 源表与导出产物遵循项目代码/资源仓库约定，不为此强制移动到 docs。
+## 1. 判断需要读取还是规划编写
 
-## 字段注释
-每字段必须有清楚说明；同步规划 config.md、Excel TIPS/说明列和生成配置原生注释，写明用途、单位、格式、真实约束、默认/特殊值、外键及端侧差异。逐字段核对注释与实际导出行为；没有校验能力不能在注释中声称有。详见字段与导出规范。
+```mermaid
+%%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 360}}}%%
+flowchart TD
+  Need{"本模块需要配置？"}
+  Need -->|否| Skip["配置流程<br/>config.md<br/>说明不涉及，不建空表"]
+  Need -->|是| Locate["配置流程<br/>config.md<br/>查源表 / 导出器 / 读取 API"]
+  Locate --> Exists{"当前已有对应配置？"}
+  Exists -->|有| Read["配置流程<br/>config.md<br/>读取实际配置及读取契约"]
+  Exists -->|没有| Plan["字段与导出规范<br/>fields-and-export.md<br/>先规划配置，不直接造表"]
+  Read --> Gap{"已有配置满足需求？"}
+  Gap -->|满足| List["配置流程<br/>config.md<br/>列举配置与处理清单"]
+  Gap -->|部分缺失| Plan
+  Plan --> List
+  List --> Scope{"本次授权包括写表？"}
+  Scope -->|只查阅或规划| Deliver["配置流程<br/>config.md<br/>交付清单 / 规划 / 待确认项"]
+  Scope -->|需要新建或修改| Write["配置流程<br/>config.md<br/>进入第 2 步"]
+  click Skip "references/workflows/config.md"
+  click Locate "references/workflows/config.md"
+  click Read "references/workflows/config.md"
+  click Plan "references/contracts/fields-and-export.md"
+  click List "references/workflows/config.md"
+  click Deliver "references/workflows/config.md"
+  click Write "references/workflows/config.md"
+```
 
-## 边界与验证
-采用项目实际 .xls/.xlsx 格式，不私自迁移；不手改自动生成代码，不将原项目单机、首条 Id=1 或特定命名空间作为跨项目业务规则。
-配置源、导出物和读取 API 相互核对，验证重复 Id、外键、类型、端侧泄漏、中文、公式与生成一致性。正式生成器是可复用工具；临时 .py 可保留但不入 Git，精确本地忽略，不能忽略所有 Python 源码。
-纯配置设计不安装工具或执行生成；实际修改后使用项目已有导出与检查命令，不能宣称未运行的检查通过。语言 API 模板引用 [游戏系统开发文档](../game-system-development-documentation/SKILL.md)，游戏整体开发由 [游戏系统开发规划](../game-system-development-planning/SKILL.md) 组织。
+| 判断 | 操作 | 必须说明 |
+| --- | --- | --- |
+| 不需要配置 | 不建空表、空 config.md | 本模块为何不涉及配置 |
+| 配置已有且够用 | 读源表、导出结果和实际读取 API，直接复用 | 表/Sheet、端归属、字段语义、真实调用与缺省；无变更不重新造表/导出 |
+| 配置部分缺失 | 保留已有表/Id/语义，只规划缺口 | 新增/修改的字段、兼容影响与读取差距 |
+| 配置缺失 | 先写模块 config.md，列字段与导出/读取契约 | 按 [字段与导出规范](references/contracts/fields-and-export.md) 和 [配置模板](assets/templates/config.md) 规划，不先写生产配置 |
+| 需新建/修改 | 按已明确任务授权写表并验证 | 纯规划不导出、不安装工具；实际修改才运行已查阅的项目链路 |
+
+具体定位、读取与决策遵循 [配置流程](references/workflows/config.md)。已有框架读取能力先列准确接口、用法和差距；涉及替代读取器时遵循规划技能的 [已有框架能力与重写选择](../game-system-development-planning/references/workflows/framework-reuse.md)，询问复用还是重写，已有明确选择沿用。
+
+## 2. 规划完成后编写、导出与核对
+
+```mermaid
+%%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 360}}}%%
+flowchart TD
+  Fields["配置契约<br/>tables.md<br/>主键 / 字段 / 外键 / 端归属"] --> Map["字段与导出规范<br/>fields-and-export.md<br/>注释 / 默认 / 转换 / 读取"]
+  Map --> Layout["排版与导航<br/>formatting.md"]
+  Layout --> Legacy{"已有标签式 legacy xls 导出器？"}
+  Legacy -->|是| Adapter["使用前提<br/>legacy-xls.md"]
+  Legacy -->|否| Write["配置流程<br/>config.md<br/>用项目实际格式编写"]
+  Adapter --> Write
+  Write --> Export["字段与导出规范<br/>fields-and-export.md<br/>格式化 / 导出 / 一致性检查"]
+  Export --> Check{"源表、产物与读取一致？"}
+  Check -->|失败| Fields
+  Check -->|未能验证| Pending["配置流程<br/>config.md<br/>保留缺口，不标通过"]
+  Check -->|通过| Sync["配置流程<br/>config.md<br/>同步字段注释、API 与文档"]
+  click Fields "references/contracts/tables.md"
+  click Map "references/contracts/fields-and-export.md"
+  click Layout "references/contracts/formatting.md"
+  click Adapter "references/adapters/legacy-xls.md"
+  click Write "references/workflows/config.md"
+  click Export "references/contracts/fields-and-export.md"
+  click Pending "references/workflows/config.md"
+  click Sync "references/workflows/config.md"
+```
+
+依次读取 [配置契约](references/contracts/tables.md)、[字段与导出规范](references/contracts/fields-and-export.md)、[排版与导航](references/contracts/formatting.md)。[标签格式适配](references/adapters/legacy-xls.md) 仅用于已有同类工具的项目，不推广为所有项目的表格式。缺少导出器先明确工具缺口和范围，不假装已有，也不擅自另造生成工具。
+
+## 3. 列举配置与处理清单
+
+每次围绕配置的规划/修改，按表或字段列出以下清单；纯查阅可直接给回答，已有 config.md 时增量更新，不复制一套重复字典。
+
+| 表 / Sheet / 字段 | 现状及证据 | 处理方式 | 读取 API / 消费者 | 影响及检查 |
+| --- | --- | --- | --- | --- |
+| 实际或拟定名称 | 已有 / 缺失 / 部分缺失；真实路径和端归属 | 读取复用 / 新增规划 / 新建 / 修改 / 保留待确认 | 已实现函数直接映射；新接口标 planned | 兼容影响、字段/外键/端导出及读取验证 |
+
+完整字段字典仍由 [字段与导出规范](references/contracts/fields-and-export.md) 维护：逐字段说明含义、单位、类型/格式、必填/空值/默认/特殊值、Id/外键、client/server 使用方和导出/读取映射。每字段注释必填，同步 config.md、Excel TIPS/说明列和生成原生注释；不能用注释声称未实现的校验。
+
+## 同步与交付
+
+规划 config.md 保存到 docs/规划/<任务>/<模块>/；任务入口维护唯一 TODO。字段是配置说明，不塞入公开函数 API。新增读取公开函数按项目实际语言存任务 api/<端>/<模块>/，与 [游戏系统开发规划](../game-system-development-planning/SKILL.md) 协作；实现核对后由 [游戏系统开发文档](../game-system-development-documentation/SKILL.md) 移交正式 API 并同步精简主体/配置专题。已实现读取 API 直接链接，不重复声明。
+
+docs 独立 Git；源 Excel 和导出物遵循项目代码/资源归属，不强制移到 docs。采用已有 .xls/.xlsx 和导出链路，不手改生成代码，不把来源项目的 Id=1、命名空间或单机规则当通用业务。
+
+修改后验证类型/注释/缺省、重复或非法 Id、外键、中文/公式、端泄漏、生成一致性与实际读表；变更编译输入时按项目要求构建。未运行写未验证。临时 .py 可保留但不入 Git，精确本地忽略，不忽略所有 Python 源码。

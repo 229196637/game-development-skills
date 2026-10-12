@@ -5,7 +5,7 @@ metadata:
   kind: skill-reference
   schema-version: "1"
 ---
-# 每个配置模块必须说明如何导出
+# 字段与导出规范
 有 Excel 配置需求的模块，规划阶段在 docs/规划/<任务>/<模块>/config.md 保存字段与导出契约；开发后将实际配置说明整合到系统 Markdown 或其直接链接的配置专题。不要只写“数据放 Excel”，也不为此增加 API 清单文件。
 
 ## 表清单与工作簿布局
