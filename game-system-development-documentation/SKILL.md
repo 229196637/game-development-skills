@@ -7,11 +7,11 @@ metadata:
 ---
 # 游戏系统开发文档
 
-个人级游戏系统文档技能，跨项目、跨语言使用。正式文档按实际实现提炼，不复制规划正文或文件套件。图中操作节点可点击对应规范，名称与文件相对应；图下保留同目标 Markdown 链接。
+个人级游戏系统文档技能，跨项目、跨语言使用。正式文档参照项目 SDK 的系统说明：先讲用途，再按实际使用场景给短调用示例，说明生命周期与限制；不把扫描结果和检查清单堆成正文。图中操作节点可点击对应规范，名称与文件相对应；图下保留同目标 Markdown 链接。
 
 ## 系统文档工具（优先执行）
 
-优先使用 [系统文档工具](references/tooling.md) 的 rules/check，固定检查精简 meta、文档依赖、API 布局与测试内容分离；真实实现、持有关系和生命周期仍人工核对。
+优先使用 [系统文档工具](references/tooling.md) 的 rules/check，固定检查精简 meta、文档依赖、API 布局与测试内容分离；真实实现、持有关系、生命周期及 SDK 式可读性仍人工核对，结构检查通过不能证明正文好读。
 
 ## 1. 按任务选择入口
 
@@ -50,7 +50,8 @@ flowchart TD
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 360}}}%%
 flowchart TD
   Git["独立文档 Git<br/>docs-git.md"] --> Facts["增量同步<br/>sync.md<br/>核对本次实现事实"]
-  Facts --> Body["正式文档边界<br/>document-layout.md<br/>架构、生命周期与持有关系"]
+  Facts --> Style["SDK 式系统说明<br/>document-layout.md<br/>阅读相关 SDK，确定使用场景"]
+  Style --> Body["正式文档边界<br/>document-layout.md<br/>用途、架构、调用示例与生命周期"]
   Body --> Api["查阅 API<br/>snapshots.md<br/>公开函数与真实契约"]
   Api --> Move{"任务 API 全部函数已实现核对？"}
   Move -->|是| Handoff["从规划移交正式文档<br/>snapshots.md"]
@@ -62,6 +63,7 @@ flowchart TD
   Pass -->|通过| Deliver["增量同步<br/>sync.md<br/>交付范围、证据和已知缺口"]
   click Git "references/contracts/docs-git.md"
   click Facts "references/workflows/sync.md"
+  click Style "references/contracts/document-layout.md#sdk-式系统说明"
   click Body "references/contracts/document-layout.md"
   click Api "references/api/snapshots.md"
   click Handoff "references/api/snapshots.md#从规划移交正式文档"
@@ -70,12 +72,12 @@ flowchart TD
   click Deliver "references/workflows/sync.md"
 ```
 
-补录任务从第 1 图的 [老工程补录](references/workflows/baseline.md) 进入；统一采用 [系统模板](assets/templates/system.md)，具体规范如下：
+补录任务从第 1 图的 [老工程补录](references/workflows/baseline.md) 进入；先按 [SDK 式系统说明](references/contracts/document-layout.md#sdk-式系统说明) 组织阅读路径；[系统模板](assets/templates/system.md) 是可裁剪骨架，标题按实际操作命名，具体规范如下：
 
 | 步骤 | 阅读规范 | 必须得到的结果 |
 | --- | --- | --- |
 | 检查仓库 | [独立文档 Git](references/contracts/docs-git.md) | docs 是独立仓库，知道本次范围与用户已有改动 |
-| 提炼现状 | [正式文档边界](references/contracts/document-layout.md) | 每系统一份主体；实际架构图、职责、生命周期、创建/持有/借用/释放关系、必要使用约束 |
+| 提炼现状 | [正式文档边界](references/contracts/document-layout.md) | 每系统一份使用说明；用途 → 理解架构 → 最短用法 → 必要场景 → 生命周期 → API 入口；持有与限制就近讲清，不强制职责表或固定章节 |
 | 维护 meta | [精简 meta](references/contracts/document-layout.md#精简-meta) | 默认 system、side、updated、code_revision、sources、dependencies；依赖其他文档用 document 与 uses，不在正文重复依赖表 |
 | 维护 API | [查阅 API](references/api/snapshots.md) | api/client|server|shared/<模块>/ 原语言公开函数声明及直接映射；保留真实参数/返回/异常与版本信息 |
 | 检查遗漏 | [精简后的信息完整性](references/contracts/document-layout.md#精简后的信息完整性)、[增量同步](references/workflows/sync.md) | 初始化前置、owner、成功含义、重复调用、取消/失败及清理限制可从主体/API 恢复；核对链接、架构显示与实际验证 |
