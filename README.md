@@ -25,3 +25,15 @@
 - 项目特定框架及 Excel 适配以实际项目为准；技能不授权自动推送项目代码或创建远程仓库。
 
 技能入口为各目录的 `SKILL.md`，详细规范与模板在 `references/`、`assets/` 中。
+## 固定规则工具
+
+四个技能内都有独立 scripts/skill_tool.py。优先让程序处理 meta、链接/图节点、API 布局、配置字段处理清单和日志筛选，输出 JSON 错误定位，再由技能判断业务语义。
+
+- rules：查询固定 meta 结构。
+- check：只读检查 Markdown/API；不自动修复，也不验证业务或渲染。
+- config：盘点标签式 .xls/.xlsx；--summary 减少输出，不存在则提示先规划。
+- logs：按会话/请求标识流式筛选及有界上下文。
+
+依赖 Python 3.10+、PyYAML；可选 xlrd/openpyxl。缺依赖明确报错，不自动安装。
+
+仓库 tools/skill_tool.py 为维护源，四个脚本副本应保持字节一致。测试在 tools/tests/，可运行 python -m unittest discover -s tools/tests；隔离样例不写生产项目，测试报告不进入正式系统文档。
