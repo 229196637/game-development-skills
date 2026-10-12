@@ -25,15 +25,13 @@
 - 项目特定框架及 Excel 适配以实际项目为准；技能不授权自动推送项目代码或创建远程仓库。
 
 技能入口为各目录的 `SKILL.md`，详细规范与模板在 `references/`、`assets/` 中。
-## 固定规则工具
+## 各技能专用工具
 
-四个技能内都有独立 scripts/skill_tool.py。优先让程序处理 meta、链接/图节点、API 布局、配置字段处理清单和日志筛选，输出 JSON 错误定位，再由技能判断业务语义。
+| 技能 | 工具 | 命令与范围 |
+| --- | --- | --- |
+| 开发规划 | scripts/planning_tool.py | rules/check：规划 meta、跳转和任务配置清单 |
+| 开发文档 | scripts/documentation_tool.py | rules/check：精简 meta、文档依赖、API 和测试分离 |
+| Excel 配置 | scripts/config_tool.py | inspect/check：配置读取与字段处理清单 |
+| 日志阅读 | scripts/log_tool.py | read：日志标识过滤、行号和上下文 |
 
-- rules：查询固定 meta 结构。
-- check：只读检查 Markdown/API；不自动修复，也不验证业务或渲染。
-- config：盘点标签式 .xls/.xlsx；--summary 减少输出，不存在则提示先规划。
-- logs：按会话/请求标识流式筛选及有界上下文。
-
-依赖 Python 3.10+、PyYAML；可选 xlrd/openpyxl。缺依赖明确报错，不自动安装。
-
-仓库 tools/skill_tool.py 为维护源，四个脚本副本应保持字节一致。测试在 tools/tests/，可运行 python -m unittest discover -s tools/tests；隔离样例不写生产项目，测试报告不进入正式系统文档。
+每个工具只随对应技能安装，使用说明在该技能 references/tooling.md。工具只读、结果为 JSON；结构通过不代表业务/运行验证通过。测试代码不随技能或本仓库分发，分别在隔离目录验证。
