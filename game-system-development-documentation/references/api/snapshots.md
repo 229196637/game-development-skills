@@ -31,6 +31,8 @@ metadata:
 使用原生文档注释解释用途、参数可空和输入约束、返回含义与空值、真实异常及调用顺序/生命周期。无参数/返回值不机械补注释；没有校验就不能宣称会校验。
 C# 用 XML 注释和分号声明；TS/JS 用 JSDoc 和 .d.ts；Python 用 .pyi 签名、文档字符串及省略号。不保存实现体，不补 throw 或空实现，不用 partial 接入生产源码。
 
+补录/更新 API 时对照方法体的实际检查、任务取消与调用链，而不只复制源码 XML；旧注释遗漏的已释放、前置未就绪、重复调用、取消及返回边界需据实现补齐。仅写有证据的异常，未知 SDK 异常不猜测；声明核对不能冒充运行验证。
+
 # 顶部版本注释与同步
 API 文件顶部使用原语言注释，注明 System、Side（client/server/shared）、Language、Namespace/Module、Source（相对代码仓库根）、CodeRevision（真实提交或 working-tree，规划时注明设计基线）、Status（planned/mixed/implemented）、Updated（用户时区日期）、Verification（实际核对范围与结果），以及“仅供文档查阅，不参与编译或发布”。
 有真实发布版本可额外写 Version；没有则不编造。函数独有版本变化有证据时可写入函数注释，不推测首次引入版本。
