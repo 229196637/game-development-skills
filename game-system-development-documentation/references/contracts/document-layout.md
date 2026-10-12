@@ -1,48 +1,49 @@
 ---
 name: document-layout
-description: 系统 Markdown 与分端、分模块 API 声明的映射协议。
+description: 精简的实际系统说明、依赖 meta 与原语言公开函数 API 映射。
 metadata:
   kind: skill-reference
-  schema-version: "2"
+  schema-version: "3"
 ---
-# 产物结构
-保留现有 SDK 和第三方 API 参考，不覆盖自动生成内容。项目自己的文档默认如下；旧结构先映射，迁移前检查引用。
-~~~text
-docs/                        独立 Git 仓库
-  index.md
-  规划/
-    index.md
-    <任务>/<系统>/...md
-  文档/
-    index.md
-    systems/<模块>.md
-    api/
-      client/<模块>/<类型或模块>.<语言声明扩展名>
-      server/<模块>/<类型或模块>.<语言声明扩展名>
-      shared/<模块>/<类型或模块>.<语言声明扩展名>
+# 正式文档边界
+正式文档依据实现重新整理，不复制规划的文件套件、段落和设计图。每系统一份主体 docs/文档/systems/<模块>.md，保留简短用途、实际架构图、模块职责/持有关系、生命周期、API 映射和必要使用约束。规划详细内容与任务 TODO 留在 docs/规划/<任务>/；不在正式目录重建 architecture/responsibilities/interfaces/relationships/flows/verification 六件套。
+
+正文默认只保留架构图，不强制流程、时序、状态图。架构图中的依赖边表达实际连接，其他系统的文档链接及依赖用途统一维护在 meta.dependencies，不再重复依赖表、依赖版本表或“相关系统”章节。模块生命周期按真实顺序简要说明即可，不从规划抄执行步骤。
+
+# 精简 meta
+正式系统说明默认仅用以下关键信息：
+~~~yaml
+---
+system: <模块标识>
+side: [client] # 实际 client/server/shared，可多端；shared 必须真实共享
+updated: <YYYY-MM-DD>
+code_revision: working-tree # 实际提交；未提交时明确写 working-tree
+sources:
+- <相对代码仓库根的模块入口或关键源文件>
+dependencies:
+- document: <相对当前 MD 的其他系统文档>
+  uses: <具体依赖用途或所用能力>
+---
 ~~~
-client 是客户端，server 是服务端，shared 是两端共享。先按这三个端目录分类，再按模块建文件夹。只有实际共享的接口放 shared，不把两端同名但契约不同的函数合并，也不重复复制共享接口。没有公开函数的端不建空目录。
-API 模块文件夹内只放原编程语言的声明文件，不另建 Markdown、清单、索引或 meta。扩展名按语言选择 .api.cs、.api.d.ts、.api.pyi 或原语言声明扩展名；不能用 Markdown 代替语言声明。参见 [API 规范](../api/snapshots.md)。
+sources 只列能定位该系统和关键行为的源码，不写生成源码/扫描文件的全量清单。dependencies 只列真实依赖，不将所有相关文档、上游消费者、索引、API 或规划都塞进去；没有依赖用 []。上游 caller 在架构图/职责里说明，不伪装为下游依赖。
 
-# UI 说明与设计稿（涉及时）
-系统主体链接独立 docs/文档/systems/<模块>/ui.md 及其相对链接 ui-preview.html；已有位置优先复用。UI 说明与业务系统使用同一 system 标识，作为该系统专题，不另建重复业务主体。规划使用 docs/规划/<任务>/<模块>/ui.md 和 ui-preview.html。设计稿按实际实现同步，保留已确认设计与实现差异；HTML 不需要 YAML frontmatter。API 目录仍仅原语言声明。
+不默认生成 id、kind、title、links、layout_version、schema_version、category、scan_scope、api_files、function_count、code_dirty、verified_by 长列表或多层 metadata：系统由路径/system 定位，标题由正文承担，API 映射仅在正文维护，依赖只在 dependencies 维护。仅真实工具必需的额外字段可保留，并说明理由，不为了兼容模板继续堆字段。已有依赖版本仅在确有版本锁定消费要求时保留。
 
-# 规划 API 与正式 API
-未实现声明只保存在 docs/规划/<任务>/api/client|server|shared/<模块>/，由任务及模块规划引用。文档技能核对实现后将已完成文件移动至上图正式 API 对应位置，并同步链接、版本及系统说明；不保留双份当前声明。planned/mixed 文件继续留在任务目录，长期系统说明中的正式 API 不用提案覆盖。
+验证或已知缺口在正文末尾最多一段说明实际范围；无变化不反复罗列构建历史。文档需独立版本号时可加 version；没有真实需要不编造。API 文件仍按原语言头注释保留来源、版本/日期与真实核对信息。SKILL.md 保持标准技能 frontmatter，不采用上述产物格式。
 
-# Markdown meta
-仅规划、系统说明和已有文档导航 Markdown 使用 YAML frontmatter。字段：id、kind（index/system/plan）、system、title、status、updated、sources、links、code_revision。system 对应模块标识，索引用 catalog；sources 相对代码仓库根，links 相对本文件；代码未提交则基线写 working-tree 并注明涉及路径。
-状态 verified 表示注明范围内已核对，partial 为不完整，stale 为已知过期。扩展字段置于 metadata，如 schema_version、verified_by、scan_scope、code_dirty，保留项目已有字段。SKILL.md 顶层仍遵循技能规范。API 使用原语言文件头注释记录版本与来源，不需要独立 YAML 文件。
+# API 与查询
+API 先分 client/server/shared，再按模块：docs/文档/api/<端>/<模块>/<类型或模块>.<原语言声明扩展名>。shared 仅真实共享；模块目录仅存公开函数声明，不另建 MD、manifest 或 meta。主体正文用简短表格/链接直接映射实际命名空间、类型和 API 文件，详细签名及契约不再复制进正文。没有公开函数则说明，不建空文件。
 
-# 系统说明与 API 映射
-每系统一份主体 Markdown：用途、边界、源码结构、类职责、入口与状态流、使用编程示例、生命周期、错误处理、验证与缺口。在其中维护：
-| 端 | 真实命名空间/模块及类型 | API 文件链接 | 用途 |
-| --- | --- | --- | --- |
-仅填实际条目，分别映射 client/server/shared 的原语言文件。系统主体直接链接对应 API 文件，不需 API 目录的额外导航。系统 meta 的代码基线、日期及验证状态与 API 文件头保持一致。
+已实现 API 足以回答且未过期时不扫描源码。缺失、冲突或需核对当前变更时查看相关实现。规划的 planned/mixed API 仍在任务目录；逐文件核对完成后移动到正式目录并修复引用，不保留双份声明。移动 API 不是复制规划正文。
 
-# 开发任务入口
-当前任务入口为 docs/规划/<任务>/index.md，详细需求、模块规划、TODO 和验收均保存在所属任务文件夹内。它链接 docs/文档/systems/<模块>.md 及其 API 映射。总索引仅提供导航，不承载开发任务细节；长期系统文档不复制任务 TODO。
+# 生命周期与持有关系
+记录模块由谁创建/注册、何时就绪、如何运行/暂停、怎样关闭/释放。明确依赖的创建先后与释放先后；借用对象不得由模块释放，拥有对象标明唯一销毁者。只写真实存在的阶段，无暂停能力就不添加暂停章节。
 
-# 查阅和跳转
-根/文档分类 → 系统 Markdown → 原语言 API 文件。系统说明还链接规划和相关系统，检查相对链接存在，不依赖私人机器路径。
-接口查询优先查 Markdown 映射和对应 API；已有声明能回答且无过期/冲突时，不扫描源码。接口缺失、文档已知过期或契约矛盾时才调查相关源码。修改系统后必须根据本次实现差异同步真实签名和行为，不以旧 API 代替实现核对。
+职责/所有权表记录实际类或模块、创建/持有者、owned/borrowed、状态修改者及释放方，说明订阅/回调与资源解绑。需要时补取消/失败部分装配、缓存重开、晚到回调等实际边界，不能虚构兜底能力。
+
+# UI、配置及网络专题
+需要 UI 时系统主体链接独立 docs/文档/systems/<模块>/ui.md 及其 HTML 设计稿；ui.md 只写实际目录、界面状态/接口、资源绑定和生命周期，不复制规划稿或强制绘制交互流程图。沿用已确认的客户端逻辑 View/view、服务端逻辑客户端模块根目录规则。
+
+Excel 字段字典或网络事件等确需独立查阅时用独立专题，主体只给入口和必要约束，不复制全量字典/协议/验收。专题也用精简 meta，依赖放 dependencies；HTML 无 YAML。已确认设计与实际实现差异只在确有必要时简要说明。
+
+索引只导航；主体不复制任务 TODO、历史修订、规划推演、拟定接口、伪代码和验收矩阵。所有相对依赖/专题/API 链接必须可跳转。迁移已有格式前检查引用和工具消费，只整理本次授权的文件。
