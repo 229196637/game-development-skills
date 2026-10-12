@@ -1,0 +1,19 @@
+// API 文档模板，仅供查阅，不参与编译或发布；替换为真实签名与契约。
+// System: <实际模块>
+// Side: <client/server/shared；shared 是两端共享>
+// Language: TypeScript/JavaScript
+// Namespace/Module: <真实名称>
+// Source: <代码仓库相对路径>
+// CodeRevision: <真实提交或 working-tree；规划时注明设计基线>
+// Status: <planned/mixed/implemented>
+// Updated: <用户时区日期>
+// Verification: <实际核对范围及结果>
+/** 示例公开服务；没有字段、属性或构造器。 */
+export declare class LookupService {
+    /**
+     * 示例查询方法；生成文档时替换为真实用途与契约。
+     * @param key 示例查询键；实际输入约束以实现为准。
+     * @returns 示例查询结果；实际 undefined 含义以实现为准。
+     */
+    find(key: string): string | undefined;
+}

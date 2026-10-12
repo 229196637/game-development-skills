@@ -1,0 +1,4 @@
+interface:
+  display_name: "游戏 Excel 配置表"
+  short_description: "规划游戏配置字段、稳定标识、外键关系与端归属，维护工作簿和导出验证流程"
+  default_prompt: "使用 $game-excel-config，为当前游戏系统设计或维护 Excel 配置表、表关系及读取接口。"

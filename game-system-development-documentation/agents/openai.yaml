@@ -1,0 +1,4 @@
+interface:
+  display_name: "游戏系统开发文档"
+  short_description: "扫描老工程或同步系统改动，维护分系统编程说明、真实 API 快照及文档版本"
+  default_prompt: "使用 $game-system-development-documentation，扫描当前实现并更新独立 docs 仓库中的系统说明、编程指南与 API 快照。"
