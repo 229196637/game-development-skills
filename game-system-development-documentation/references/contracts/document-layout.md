@@ -29,7 +29,7 @@ sources 只列能定位该系统和关键行为的源码，不写生成源码/�
 
 不默认生成 id、kind、title、links、layout_version、schema_version、category、scan_scope、api_files、function_count、code_dirty、verified_by 长列表或多层 metadata：系统由路径/system 定位，标题由正文承担，API 映射仅在正文维护，依赖只在 dependencies 维护。仅真实工具必需的额外字段可保留，并说明理由，不为了兼容模板继续堆字段。已有依赖版本仅在确有版本锁定消费要求时保留。
 
-验证或已知缺口在正文末尾最多一段说明实际范围；无变化不反复罗列构建历史。文档需独立版本号时可加 version；没有真实需要不编造。API 文件仍按原语言头注释保留来源、版本/日期与真实核对信息。SKILL.md 保持标准技能 frontmatter，不采用上述产物格式。
+正式主体不放测试/验收章节或任何执行总结，包括一段简短测试说明。测试方案、用例、执行命令/结果、日志截图、扫描/实验记录均在任务的 verification.md 或既有独立测试报告保存；没有任务规划时沿用项目测试报告位置，不为此补造规划。测试报告不是系统依赖，不塞进 dependencies。已实现功能的真实限制仍写在相应生命周期/API 使用约束中，不与测试缺口混淆。文档需独立版本号时可加 version；没有真实需要不编造。API 文件仍按原语言头注释保留来源、版本/日期与签名/契约静态核对信息；不在 API 文件复制测试记录。SKILL.md 保持标准技能 frontmatter，不采用上述产物格式。
 
 # API 与查询
 API 先分 client/server/shared，再按模块：docs/文档/api/<端>/<模块>/<类型或模块>.<原语言声明扩展名>。shared 仅真实共享；模块目录仅存公开函数声明，不另建 MD、manifest 或 meta。主体正文用简短表格/链接直接映射实际命名空间、类型和 API 文件，详细签名及契约不再复制进正文。没有公开函数则说明，不建空文件。
