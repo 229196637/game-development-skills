@@ -21,7 +21,14 @@ flowchart TD
   Layout --> Task["统一入口与路由<br/>task-routing.md"]
   Task --> Graph["每个模块必须有图<br/>module-diagrams.md"]
   Graph --> Api["查阅 API<br/>snapshots.md"]
-  Api --> Extensions["规划流程<br/>planning.md<br/>按需补 UI / 配置 / 网络"]
+  Api --> Framework["已有框架能力与重写选择<br/>framework-reuse.md"]
+  Framework --> Existing{"已有相关能力？"}
+  Existing -->|没有| Extensions
+  Existing -->|有| Details["已有框架能力与重写选择<br/>framework-reuse.md<br/>给调用细节 / 差距并询问"]
+  Details --> Chosen{"选择已明确？"}
+  Chosen -->|待回复| Pending["已有框架能力与重写选择<br/>framework-reuse.md<br/>暂停替代设计，继续独立项"]
+  Chosen -->|复用或明确重写范围| Extensions
+  Extensions["规划流程<br/>planning.md<br/>按需补 UI / 配置 / 网络"]
   Extensions --> Ready["统一入口与路由<br/>task-routing.md<br/>核对任务入口与验收"]
   click Git "references/contracts/docs-git.md"
   click Docs "../game-system-development-documentation/SKILL.md"
@@ -30,6 +37,9 @@ flowchart TD
   click Task "references/workflows/task-routing.md"
   click Graph "references/workflows/module-diagrams.md"
   click Api "../game-system-development-documentation/references/api/snapshots.md"
+  click Framework "references/workflows/framework-reuse.md"
+  click Details "references/workflows/framework-reuse.md"
+  click Pending "references/workflows/framework-reuse.md"
   click Extensions "references/workflows/planning.md"
   click Ready "references/workflows/task-routing.md"
 ```
@@ -40,6 +50,7 @@ flowchart TD
 | 调查 | [规划流程](references/workflows/planning.md) | 先读系统 Markdown / API；缺失、过期、冲突或需核对实现时才查相关源码 |
 | 路由 | [目录与元数据协议](references/contracts/document-layout.md)、[统一入口与路由](references/workflows/task-routing.md) | docs/规划/<任务>/index.md 保存需求、模块关系、唯一 TODO、优先级/前置与验收；优化优先更新已有规划 |
 | 分模块 | [每个模块必须有图](references/workflows/module-diagrams.md) | 每模块规划目录、职责、接口/关系、架构图和关键流程；不写具体实现、算法或伪代码 |
+| 框架选择 | [已有框架能力与重写选择](references/workflows/framework-reuse.md) | 有现成能力先给准确接口、用法、生命周期/持有及差距，再询问复用或重写；已有选择不重复问，未确定不规划替代实现 |
 | 定接口 | [查阅 API](../game-system-development-documentation/references/api/snapshots.md) | 本任务 api/client|server|shared/<模块>/ 生成原语言公开函数声明，标 planned/mixed；不冒充已实现接口 |
 | 检查 | [统一入口与路由](references/workflows/task-routing.md) | 确认依赖可开展、链接/meta/接口一致、TODO 可验证；未知业务只阻塞依赖它的部分 |
 

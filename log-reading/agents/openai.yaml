@@ -1,0 +1,4 @@
+interface:
+  display_name: "日志阅读技能"
+  short_description: "定位当前构建与运行日志，关联客户端服务端异常链并输出有依据的排查结论"
+  default_prompt: "使用 $log-reading，定位当前任务的真实日志，核对会话并关联异常与上下文，给出有路径和行号支持的结论。"
