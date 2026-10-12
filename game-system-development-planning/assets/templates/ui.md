@@ -4,7 +4,7 @@ kind: plan
 system: <system>
 title: <模块 UI 规划>
 status: draft
-updated: <YYYY-MM-DD>
+updated: '<YYYY-MM-DD HH:mm:ss ±HH:MM>'
 sources: []
 links:
 - ../index.md

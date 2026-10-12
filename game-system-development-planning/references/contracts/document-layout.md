@@ -48,7 +48,7 @@ API 先分 client/server/shared，再按模块建文件夹；shared 是两端共
 - `id`：稳定唯一标识，例如 `plan.<task>.inventory.architecture`。
 - `kind`：`index` / `plan` / `system`。
 - `system`：单一系统标识；索引用 `catalog`。
-- `title`、`status`、`updated`（YYYY-MM-DD，按用户时区）。
+- `title`、`status`、`updated`（YYYY-MM-DD HH:mm:ss ±HH:MM，按用户时区，YAML 使用引号）。
 - `sources`：相对代码仓库根目录的路径列表；纯设计可为空。
 - `links`：相对本文件的相关文档路径列表。
 - `code_revision`：验证过的代码提交；尚未提交时写 `working-tree` 并在正文说明涉及路径。
@@ -60,3 +60,6 @@ API 先分 client/server/shared，再按模块建文件夹；shared 是两端共
 
 ## 导航
 根索引 → 分类索引 → 任务索引 → 单系统规划；正文提供返回上级、同系统相关规划及现状文档链接。meta.links 也写实际相对路径。源代码路径是证据字段，不伪造为 docs 仓库内部文件链接；跨仓库可用已验证的固定版本远程链接。不要硬编码当前机器路径。
+
+## 可读更新时间
+updated 与 API Updated 使用 YYYY-MM-DD HH:mm:ss ±HH:MM，例如 '2026-10-12 17:19:55 +08:00'。使用用户时区并注明 UTC 偏移，YAML 使用带引号字符串。修改文件时取本次真实更新时间；历史仅有日期不填猜测时分秒，也不统一补成 00:00:00。历史记录不自动迁移，日期缺少时间的当前产物会由工具指出，实际更新再补真实时间。

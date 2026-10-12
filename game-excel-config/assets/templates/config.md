@@ -4,7 +4,7 @@ kind: plan
 system: <system>
 title: <模块 Excel 配置与导出契约>
 status: draft
-updated: <YYYY-MM-DD>
+updated: '<YYYY-MM-DD HH:mm:ss ±HH:MM>'
 sources: []
 links: []
 code_revision: working-tree

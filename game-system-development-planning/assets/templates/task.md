@@ -4,7 +4,7 @@ kind: index
 system: catalog
 title: <游戏开发任务>
 status: draft
-updated: <YYYY-MM-DD>
+updated: '<YYYY-MM-DD HH:mm:ss ±HH:MM>'
 sources: []
 links: []
 code_revision: working-tree

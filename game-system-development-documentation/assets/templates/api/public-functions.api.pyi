@@ -6,7 +6,7 @@
 # Source: <代码仓库相对路径>
 # CodeRevision: <真实提交或 working-tree；规划时注明设计基线>
 # Status: <planned/mixed/implemented>
-# Updated: <用户时区日期>
+# Updated: <YYYY-MM-DD HH:mm:ss ±HH:MM>
 # Verification: <实际核对范围及结果>
 # 原模块示例：example.public_api
 

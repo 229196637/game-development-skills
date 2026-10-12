@@ -1,7 +1,7 @@
 ---
 system: <模块标识>
 side: [<实际端>]
-updated: <YYYY-MM-DD>
+updated: '<YYYY-MM-DD HH:mm:ss ±HH:MM>'
 code_revision: working-tree
 sources:
 - <模块入口或关键实现路径>

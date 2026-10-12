@@ -4,7 +4,7 @@ kind: plan
 system: <system>
 title: <模块依赖架构>
 status: draft
-updated: <YYYY-MM-DD>
+updated: '<YYYY-MM-DD HH:mm:ss ±HH:MM>'
 sources: []
 links: []
 code_revision: working-tree

@@ -16,7 +16,7 @@ metadata:
 ---
 system: <模块标识>
 side: [client] # 实际 client/server/shared，可多端；shared 必须真实共享
-updated: <YYYY-MM-DD>
+updated: '<YYYY-MM-DD HH:mm:ss ±HH:MM>'
 code_revision: working-tree # 实际提交；未提交时明确写 working-tree
 sources:
 - <相对代码仓库根的模块入口或关键源文件>
@@ -52,3 +52,6 @@ API 先分 client/server/shared，再按模块：docs/文档/api/<端>/<模块>/
 Excel 字段字典或网络事件等确需独立查阅时用独立专题，主体只给入口和必要约束，不复制全量字典/协议/验收。专题也用精简 meta，依赖放 dependencies；HTML 无 YAML。已确认设计与实际实现差异只在确有必要时简要说明。
 
 索引只导航；主体不复制任务 TODO、历史修订、规划推演、拟定接口、伪代码和验收矩阵。所有相对依赖/专题/API 链接必须可跳转。迁移已有格式前检查引用和工具消费，只整理本次授权的文件。
+
+## 可读更新时间
+updated 与 API Updated 使用 YYYY-MM-DD HH:mm:ss ±HH:MM，例如 '2026-10-12 17:19:55 +08:00'。使用用户时区并注明 UTC 偏移，YAML 使用带引号字符串。修改文件时取本次真实更新时间；历史仅有日期不填猜测时分秒，也不统一补成 00:00:00。历史记录不自动迁移，日期缺少时间的当前产物会由工具指出，实际更新再补真实时间。

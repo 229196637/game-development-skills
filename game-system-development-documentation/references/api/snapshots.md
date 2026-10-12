@@ -34,7 +34,7 @@ C# 用 XML 注释和分号声明；TS/JS 用 JSDoc 和 .d.ts；Python 用 .pyi �
 补录/更新 API 时对照方法体的实际检查、任务取消与调用链，而不只复制源码 XML；旧注释遗漏的已释放、前置未就绪、重复调用、取消及返回边界需据实现补齐。仅写有证据的异常，未知 SDK 异常不猜测；声明核对不能冒充运行验证。
 
 # 顶部版本注释与同步
-API 文件顶部使用原语言注释，注明 System、Side（client/server/shared）、Language、Namespace/Module、Source（相对代码仓库根）、CodeRevision（真实提交或 working-tree，规划时注明设计基线）、Status（planned/mixed/implemented）、Updated（用户时区日期）、Verification（签名/契约的静态核对范围与结果，不复制测试记录），以及“仅供文档查阅，不参与编译或发布”。
+API 文件顶部使用原语言注释，注明 System、Side（client/server/shared）、Language、Namespace/Module、Source（相对代码仓库根）、CodeRevision（真实提交或 working-tree，规划时注明设计基线）、Status（planned/mixed/implemented）、Updated（用户时区时间，格式 YYYY-MM-DD HH:mm:ss ±HH:MM）、Verification（签名/契约的静态核对范围与结果，不复制测试记录），以及“仅供文档查阅，不参与编译或发布”。
 有真实发布版本可额外写 Version；没有则不编造。函数独有版本变化有证据时可写入函数注释，不推测首次引入版本。
 每次系统修改同步：接口实现状态、公开函数签名、参数/返回/异常/调用约束注释、头部代码版本/日期/验证状态、系统 Markdown 映射与 meta。删除旧函数声明，改文件名时修复链接，更新受影响消费者的用法。只改日期不等于核对过新实现。
 

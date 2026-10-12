@@ -39,6 +39,15 @@ def slug(title):
     title = re.sub('[^\\w\\s-]', '', title.lower(), flags=re.UNICODE)
     return title.replace(' ', '-')
 
+def valid_updated(value):
+    if not isinstance(value, str) or not re.fullmatch(r'\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2} [+-]\d{2}:\d{2}', value):
+        return False
+    try:
+        dt.datetime.strptime(value, '%Y-%m-%d %H:%M:%S %z')
+        return True
+    except ValueError:
+        return False
+
 def check(args):
     path = Path(args.path).resolve()
     if not path.exists():
@@ -81,6 +90,9 @@ def check(args):
             for field in ['System', 'Side', 'Language', 'Source', 'CodeRevision', 'Status', 'Updated', 'Verification']:
                 if not re.search('(?m)^\\s*(?://|#)\\s*' + field + ':\\s*\\S', text):
                     fail(file, 'API_HEADER', 'missing header: ' + field)
+            updated_header = re.search(r'(?m)^\s*(?://|#)\s*Updated:\s*(.+)$', text)
+            if updated_header and not valid_updated(updated_header[1].strip()):
+                fail(file, 'API_UPDATED_TIME', 'Updated requires YYYY-MM-DD HH:mm:ss +/-HH:MM')
             side = re.search('(?m)^\\s*(?://|#)\\s*Side:\\s*(\\w+)', text)
             if side and relative and (side[1] != relative[0]):
                 fail(file, 'API_SIDE', 'header Side differs from directory')
@@ -118,13 +130,8 @@ def check(args):
             if not isinstance(meta[field], str) or not meta[field].strip():
                 fail(file, 'TYPE', field + ' must be a nonempty string')
         if kind != 'skill':
-            try:
-                date = str(meta.get('updated', ''))
-                if not re.fullmatch('\\d{4}-\\d{2}-\\d{2}', date):
-                    raise ValueError()
-                dt.date.fromisoformat(date)
-            except ValueError:
-                fail(file, 'DATE', 'updated must be a real YYYY-MM-DD date')
+            if not valid_updated(meta.get('updated')):
+                fail(file, 'UPDATED_TIME', 'updated must be a quoted YYYY-MM-DD HH:mm:ss +/-HH:MM string with a real date/time and UTC offset')
             sources = meta.get('sources')
             if not isinstance(sources, list) or any((not isinstance(s, str) or not s for s in sources)):
                 fail(file, 'SOURCES', 'sources must be a list of nonempty relative paths')
