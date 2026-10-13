@@ -18,7 +18,7 @@ TYPE 支持范围以当前导出器为准，不能因旧技能只写基础类型
 源表 common/xlsl/*.xls；生成器 mytool/generate_config_tables.py 支持 --source、--client-output、--server-output、--check。2026-10-11 核对默认输出为 src/generateLl/ConfigSystem/Client 与 Server。旧技能中的 src/client/mod/config 路径已过时，不能照抄。
 读取入口为 GameEntry.Config.ConfigSystem.Instance；公开查询实际存在 GetAll、TryGet、TryGetByCode 等，应查询当前接口文档，不沿用旧 ConfigMgr/Upsert/Remove 示例。
 格式化器 mytool/config_xls_formatting.py 依赖 xlrd 和 xlwt，冻结八行和第一列，并通过 REFERENCE_TIPS 配置跳转；生成器还依赖项目 calculation_compiler 和 buff_config_validator。不要只复制一个脚本称它可独立运行，也不无条件安装其 requirements（其中不一定包含全部格式化依赖）。
-示意执行顺序：当前 Python 运行格式化器 → 生成器 → 同生成器 --check；执行前核对当前项目脚本、依赖与配置。来源项目原有客户端单机导出、元素配色等仅在项目仍明确要求时保留，服务器或双端项目自行按确认规则选择。
+当前执行顺序：通过个人配置技能统一入口读取项目 profile → 生成 → 自动 --check。mytool/generate_config_tables.py 保留兼容入口与旧路径参数，实际实现归技能适配器；具体使用见[项目导表适配](project-export.md)。格式化仅在需要改源表时显式 --format，默认不运行；执行前核对当前项目脚本、依赖与配置。来源项目原有客户端单机导出、元素配色等仅在项目仍明确要求时保留，服务器或双端项目自行按确认规则选择。
 
 # 字段到结果的具体映射（该适配）
 | Excel 输入 | 实际作用/导出结果 |

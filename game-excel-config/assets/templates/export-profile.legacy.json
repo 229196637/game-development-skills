@@ -1,0 +1,18 @@
+{
+  "version": 1,
+  "adapter": "legacy-xls-csharp",
+  "source": "common/xlsl",
+  "outputs": {
+    "client": "src/generateLl/ConfigSystem/Client",
+    "server": "src/generateLl/ConfigSystem/Server",
+    "calculation_client": "src/generateLl/Calculation/Client",
+    "calculation_server": "src/generateLl/Calculation/Server"
+  },
+  "python_paths": [
+    "mytool"
+  ],
+  "format_command": [
+    "{python}",
+    "{project}/mytool/config_xls_formatting.py"
+  ]
+}

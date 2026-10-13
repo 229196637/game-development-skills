@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "adapter": "command",
+  "source": "config/source",
+  "outputs": {
+    "runtime": "assets/config"
+  },
+  "export_command": [
+    "{python}",
+    "{project}/tools/export_tables.py",
+    "--source",
+    "{source}",
+    "--output",
+    "{output_runtime}"
+  ],
+  "check_command": [
+    "{python}",
+    "{project}/tools/export_tables.py",
+    "--source",
+    "{source}",
+    "--output",
+    "{output_runtime}",
+    "--check"
+  ]
+}

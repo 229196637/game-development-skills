@@ -6,7 +6,7 @@
 | --- | --- |
 | game-system-development-planning | 游戏系统开发规划：读取文档，按类填写具体工单、文档索引、验收标准及底部测试/验收记录 |
 | game-system-development-documentation | 游戏系统开发文档：扫描现状、增量同步、原语言公开函数 API、独立 docs Git |
-| game-excel-config | 游戏 Excel 配置表：字段注释、表关系、端归属、导出与读取契约 |
+| game-excel-config | 游戏 Excel 配置表：字段注释、表关系、端归属及项目固定路径一键导表，独立适配不同语言 |
 | log-reading | 日志阅读技能：定位构建/运行日志，关联会话、双端及异常链；含 SCE 可选适配 |
 
 ## 安装
@@ -31,10 +31,10 @@
 | --- | --- | --- |
 | 开发规划 | scripts/planning_tool.py | init/update/set-item/status/record-test/record-acceptance/complete/check/list：具体工单、测试和验收门槛 |
 | 开发文档 | scripts/documentation_tool.py | rules/check：精简 meta、文档依赖、API 和测试分离 |
-| Excel 配置 | scripts/config_tool.py | inspect/check：配置读取与字段处理清单 |
+| Excel 配置 | scripts/config_tool.py、scripts/export_config.py | inspect/check：配置读取与字段处理清单；export_config：按项目配置导出并检查 |
 | 日志阅读 | scripts/log_tool.py | read：日志标识过滤、行号和上下文 |
 
-每个工具只随对应技能安装，使用说明在该技能 references/tooling.md。规划工具可以在显式任务根内记录任务，其余工具只读；结果为 JSON，结构通过不代表业务/运行验证通过。测试代码不随技能或本仓库分发，分别在隔离目录验证。
+每个工具只随对应技能安装，使用说明在该技能 references/tooling.md。规划工具可以在显式任务根内记录任务，配置导出工具按项目 profile 写生成产物，--check 调用已核对的检查器，--describe 只读显示路线；文档、配置盘点和日志工具只读。结果为 JSON，结构通过不代表业务/运行验证通过。测试代码不随技能或本仓库分发，分别在隔离目录验证。
 
 更新时间使用便于阅读的 `YYYY-MM-DD HH:mm:ss ±HH:MM`，例如 `2026-10-12 17:19:55 +08:00`；YAML 用带引号字符串。新更新记录与 API 头部按此格式，旧历史不补造时分秒。日志事件的原始时间保持原样。
 

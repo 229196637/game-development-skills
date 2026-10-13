@@ -1,6 +1,6 @@
 ---
 name: game-excel-config
-description: 为游戏系统设计、创建、修改、导出和验证 Excel 策划配置表，规划字段、稳定标识、表关系、客户端/服务端归属及读取接口。适用于游戏配置，不用于普通办公表格。
+description: 为游戏系统设计、创建、修改与验证 Excel 配置，规划字段、端归属和读取接口；通过 Python 入口按项目固定路径一键导表，适配不同目标语言。适用于游戏配置，不用于普通办公表格。
 metadata:
   short-description: 游戏 Excel 配置设计、端侧归属与导出验证
   schema-version: "1"
@@ -11,7 +11,7 @@ metadata:
 
 ## 配置工具（优先执行）
 
-优先使用 [配置工具](references/tooling.md)：inspect 只读盘点配置，缺失时提示先规划；check 专门检查配置规划 meta、字段注释和处理清单，不写表或执行导出。
+优先使用 [配置工具](references/tooling.md)：inspect 只读盘点配置，缺失时提示先规划；check 专门检查配置规划 meta、字段注释和处理清单；导出使用独立 scripts/export_config.py 按项目配置执行。
 
 ## 1. 判断需要读取还是规划编写
 
@@ -61,7 +61,7 @@ flowchart TD
   Legacy -->|是| Adapter["使用前提<br/>legacy-xls.md"]
   Legacy -->|否| Write["配置流程<br/>config.md<br/>用项目实际格式编写"]
   Adapter --> Write
-  Write --> Export["字段与导出规范<br/>fields-and-export.md<br/>格式化 / 导出 / 一致性检查"]
+  Write --> Export["项目导表适配<br/>project-export.md<br/>读取固定路径配置，导出后检查"]
   Export --> Check{"源表、产物与读取一致？"}
   Check -->|失败| Fields
   Check -->|未能验证| Pending["配置流程<br/>config.md<br/>保留缺口，不标通过"]
@@ -71,7 +71,7 @@ flowchart TD
   click Layout "references/contracts/formatting.md"
   click Adapter "references/adapters/legacy-xls.md"
   click Write "references/workflows/config.md"
-  click Export "references/contracts/fields-and-export.md"
+  click Export "references/adapters/project-export.md"
   click Pending "references/workflows/config.md"
   click Sync "references/workflows/config.md"
 ```
@@ -90,8 +90,22 @@ flowchart TD
 
 ## 同步与交付
 
-规划 config.md 保存到 docs/规划/<任务>/<模块>/；任务入口维护唯一 TODO。字段是配置说明，不塞入公开函数 API。新增读取公开函数按项目实际语言存任务 api/<端>/<模块>/，与 [游戏系统开发规划](../game-system-development-planning/SKILL.md) 协作；实现核对后由 [游戏系统开发文档](../game-system-development-documentation/SKILL.md) 移交正式 API 并同步精简主体/配置专题。已实现读取 API 直接链接，不重复声明。
+配置字典保存在 docs/文档/<模块>/，设计资料放模块设计任务目录；规划只建立对应职责类的执行工单。字段是配置说明，不塞入公开函数 API。新增读取公开函数按项目实际语言存 docs/文档/<模块>/api/<端>/，设计态标 planned；与 [游戏系统开发规划](../game-system-development-planning/SKILL.md) 协作建立对应类工单，实现核对后由 [游戏系统开发文档](../game-system-development-documentation/SKILL.md) 同步正式 API 和配置专题。已实现读取 API 直接链接，不重复声明。
 
 docs 独立 Git；源 Excel 和导出物遵循项目代码/资源归属，不强制移到 docs。采用已有 .xls/.xlsx 和导出链路，不手改生成代码，不把来源项目的 Id=1、命名空间或单机规则当通用业务。
 
 修改后验证类型/注释/缺省、重复或非法 Id、外键、中文/公式、端泄漏、生成一致性与实际读表；变更编译输入时按项目要求构建。未运行写未验证。临时 .py 可保留但不入 Git，精确本地忽略，不忽略所有 Python 源码。
+
+## Python 一键导表
+
+读取 [项目导表适配](references/adapters/project-export.md)，采用统一入口：
+
+```powershell
+python <配置技能>/scripts/export_config.py --project-root <项目根>
+python <配置技能>/scripts/export_config.py --project-root <项目根> --check
+python <配置技能>/scripts/export_config.py --project-root <项目根> --describe
+```
+
+默认读取项目 mytool/config-export.json；其他项目可用 --profile 指定自己的配置。默认导出后检查；--check 只调用检查，--describe 只显示路径和实际 argv。当前项目仍可双击 mytool/GenerateConfigTables.bat 或运行 `py -3 mytool/generate_config_tables.py`，由薄入口交给本技能。配置输出位置固定在项目配置中，不随个人技能安装位置改变。需要格式化时显式 --format，不把源表格式化混入默认一键导出。
+
+通用入口不限定业务编程语言。已有 C#/.xls 代码只在独立 legacy 适配器中；其他语言/表格式使用 command 配置调用已核对的工具，或按需求扩展独立适配器。不要把当前项目特有的类型、端策略、生成命名空间和路径套用到下一款游戏。

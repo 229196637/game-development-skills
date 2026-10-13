@@ -1,0 +1,3 @@
+# Existing legacy .xls adapter and its project formatting helper.
+xlrd==2.0.2
+xlwt==1.3.0

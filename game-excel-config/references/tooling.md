@@ -25,3 +25,7 @@ inspect 支持已有标签式 .xls/.xlsx，核对表级/字段级 client/server 
 
 ## 更新时间
 更新产物时使用带秒与时区的可读时间，例如 updated: '2026-10-12 17:19:55 +08:00'；原语言 API 头部 Updated 同格式。YAML 必须为带引号的字符串。历史记录没有时分秒时不补造，实际更新才填写本次真实时间。日志原始时间保留原样，不能用报告更新时间替换事件时间。
+
+## 一键导出与只读检查
+
+配置盘点/字段检查工具仍只读；实际导出由 scripts/export_config.py 负责。读取 [项目导表适配](adapters/project-export.md)，参数 --project-root 必填，--profile 可选，--describe 显示路由，--check 只读检查，--format 显式允许项目格式化器改源表。默认导出后自动检查；工具返回实际子进程失败码。依赖按 requirements.txt 安装，不自动联网安装。
