@@ -10,6 +10,7 @@ import os
 import subprocess
 from collections import deque
 from pathlib import Path
+from module_layout import validate_layout
 from urllib.parse import unquote
 SCHEMAS = {'skill': ['name', 'description'], 'documentation': ['system', 'side', 'updated', 'code_revision', 'sources', 'dependencies']}
 SIDES = {'client', 'server', 'shared'}
@@ -57,6 +58,7 @@ def check(args):
     if not path.exists():
         raise ValueError('target does not exist')
     candidates = [path] if path.is_file() else sorted(path.rglob('*'))
+    candidates = [file for file in candidates if '设计' not in file.relative_to(path).parts] if path.is_dir() else candidates
     issues, count, skipped = ([], 0, [])
 
     def fail(file, code, message, line=1):
@@ -90,6 +92,7 @@ def check(args):
         if 'templates' in file.parts:
             skipped.append(str(file))
             continue
+        validate_layout(file, fail)
         in_api = 'api' in file.parts and 'references' not in file.parts
         if in_api and file.name != 'README.md' and file.suffix.lower() in {'.md', '.json', '.yaml', '.yml'}:
             fail(file, 'API_DIRECTORY', 'API directory contains a non-declaration file')
@@ -98,8 +101,8 @@ def check(args):
             count += 1
             text = file.read_text(encoding='utf-8-sig')
             relative = file.parts[file.parts.index('api') + 1:]
-            if len(relative) < 3 or relative[0] not in SIDES:
-                fail(file, 'API_SIDE', 'expected api/client|server|shared/module/file')
+            if len(relative) < 2 or relative[0] not in SIDES:
+                fail(file, 'API_SIDE', 'expected <module>/api/client|server|shared/file')
             for field in ['System', 'Side', 'Language', 'Source', 'CodeRevision', 'Status', 'Updated', 'Verification']:
                 if not re.search('(?m)^\\s*(?://|#)\\s*' + field + ':\\s*\\S', text):
                     fail(file, 'API_HEADER', 'missing header: ' + field)
@@ -112,7 +115,7 @@ def check(args):
             status = re.search('(?m)^\\s*(?://|#)\\s*Status:\\s*(\\w+)', text)
             if status and status[1] not in {'planned', 'mixed', 'implemented'}:
                 fail(file, 'API_STATUS', 'invalid declaration status')
-            if status and '文档' in file.parts and (status[1] != 'implemented'):
+            if status and '文档' in file.parts and '设计' not in file.parts and (status[1] != 'implemented'):
                 fail(file, 'API_HANDOFF', 'unfinished declaration placed in formal docs')
             if file.suffix == '.cs':
                 code = re.sub('(?m)^\\s*//.*$', '', text)

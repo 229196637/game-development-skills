@@ -10,7 +10,7 @@ design_patterns:
   uses: 注册表提供事件实例，宿主调用统一行为接口
 - name: 完成请求延迟提交
   uses: 实例完成请求进入集合，在 Update 中释放并发出完成信号
-updated: '2026-10-13 20:07:45 +08:00'
+updated: '2026-10-13 22:51:05 +08:00'
 code_revision: working-tree
 sources:
 - src/client/Mod/GameRandomEvent/GameRandomEventSystem.cs
@@ -44,10 +44,10 @@ flowchart TD
   Events -->|工厂创建与行为调用| Instance["GameRandomEvent 实例"]
   Instance -->|完成请求| Events
   Events -->|回调入队| Rule
-  click Rule "GameRuleSystem.md#信号消费"
+  click Rule "../../GameRule/职责/GameRuleSystem.md#信号消费"
 ```
 
-[规则信号消费](GameRuleSystem.md#信号消费)
+[规则信号消费](../../GameRule/职责/GameRuleSystem.md#信号消费)
 
 ## 调度流水线
 
@@ -78,12 +78,12 @@ flowchart TD
   Select -->|否| Exit["释放候选并返回"]
   Select -->|是| Begin["选中实例 Begin<br/>释放未选候选"]
   Begin --> Rule["GameRuleSystem<br/>EventStarted 回调入队"]
-  click Rule "GameRuleSystem.md#信号消费"
+  click Rule "../../GameRule/职责/GameRuleSystem.md#信号消费"
 ```
 
 新实例不回溯消费触发它的机会。Begin 失败移除并释放实例，再抛出；Start 只绑定一次上下文。
 
-[开始信号接收方](GameRuleSystem.md#信号消费)
+[开始信号接收方](../../GameRule/职责/GameRuleSystem.md#信号消费)
 
 ### 活动实例推进
 
@@ -96,12 +96,12 @@ flowchart TD
   Instances --> Pending["读取待完成集合"]
   Pending --> Release["移除并释放仍活动的实例<br/>完成计数加一"]
   Release --> Rule["GameRuleSystem<br/>EventCompleted 回调入队"]
-  click Rule "GameRuleSystem.md#信号消费"
+  click Rule "../../GameRule/职责/GameRuleSystem.md#信号消费"
 ```
 
 实例完成回调只登记请求，Update 才提交完成消息。暂停时调用方不推进。
 
-[完成信号接收方](GameRuleSystem.md#信号消费)
+[完成信号接收方](../../GameRule/职责/GameRuleSystem.md#信号消费)
 
 ### 手动完成输入
 
@@ -133,4 +133,4 @@ flowchart TD
 
 ## API
 
-[公开函数声明](../api/client/random-events/GameRandomEventSystem.api.cs)。
+[公开函数声明](../api/client/GameRandomEventSystem.api.cs)。

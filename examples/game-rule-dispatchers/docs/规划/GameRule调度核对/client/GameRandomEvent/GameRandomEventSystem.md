@@ -1,7 +1,7 @@
 ---
 task_id: "GameRandomEventSystem"
 class: "GameRandomEventSystem"
-document: "../../../../文档/职责/GameRandomEventSystem.md"
+document: "../../../../文档/GameRandomEvent/职责/GameRandomEventSystem.md"
 status: "todo"
 depends_on: ["GameplayWeightedChoice"]
 required_tests: ["document-structure"]
@@ -20,15 +20,15 @@ updated: "2026-10-13 21:36:12 +08:00"
 
 ## 文档索引
 
-- [对应类文档](../../../../文档/职责/GameRandomEventSystem.md)
-- [文档入口](../../../../文档/README.md)
-- [目录架构](../../../../文档/目录架构.md)
-- [公开函数 API](../../../../文档/api/client/random-events/GameRandomEventSystem.api.cs)
+- [对应类文档](../../../../文档/GameRandomEvent/职责/GameRandomEventSystem.md)
+- [文档入口](../../../../文档/GameRandomEvent/README.md)
+- [目录架构](../../../../文档/GameRandomEvent/目录架构.md)
+- [公开函数 API](../../../../文档/GameRandomEvent/api/client/GameRandomEventSystem.api.cs)
 
 ## 任务内容
 
-- [ ] 读取 docs/文档/职责/GameRandomEventSystem.md：核对事件机会、有效时间更新、完成回调进入规则队列的关系；确认事件不直接递归推进规则，并链接接收流水线。
-- [ ] 比对 docs/文档/目录架构.md 中 GameRandomEventSystem 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
+- [ ] 读取 docs/文档/GameRandomEvent/职责/GameRandomEventSystem.md：核对事件机会、有效时间更新、完成回调进入规则队列的关系；确认事件不直接递归推进规则，并链接接收流水线。
+- [ ] 比对 docs/文档/GameRandomEvent/目录架构.md 中 GameRandomEventSystem 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
 
 ## 验收标准
 

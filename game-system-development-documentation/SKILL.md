@@ -85,7 +85,7 @@ flowchart TD
 | 检查仓库 | [独立文档 Git](references/contracts/docs-git.md) | docs 是独立仓库，知道本次范围与用户已有改动 |
 | 提炼现状 | [正式文档边界](references/contracts/document-layout.md) | 每系统一份使用说明；用途 → 理解架构 → 最短用法 → 必要场景 → 生命周期 → API 入口；持有与限制就近讲清，不强制职责表或固定章节 |
 | 维护 meta | [精简 meta](references/contracts/document-layout.md#精简-meta) | 默认 system、side、updated、code_revision、sources、dependencies；依赖其他文档用 document 与 uses，不在正文重复依赖表 |
-| 维护 API | [查阅 API](references/api/snapshots.md) | api/client|server|shared/<模块>/ 原语言公开函数声明及直接映射；保留真实参数/返回/异常与版本信息 |
+| 维护 API | [查阅 API](references/api/snapshots.md) | <模块>/api/client|server|shared/ 原语言公开函数声明及直接映射；保留真实参数/返回/异常与版本信息 |
 | 检查遗漏 | [精简后的信息完整性](references/contracts/document-layout.md#精简后的信息完整性)、[增量同步](references/workflows/sync.md) | 初始化前置、owner、成功含义、重复调用、取消/失败及清理限制可从主体/API 恢复；核对链接、架构显示与实际验证 |
 | 交付 | [增量同步](references/workflows/sync.md) | 在交付说明区分已核对与未验证；测试内容全部放任务测试文件/独立报告，不进入系统主体或 meta |
 
@@ -119,7 +119,7 @@ flowchart TD
 
 ## 文档与执行任务的存储边界
 
-为保持已有文档生成格式，本技能的设计态/现状态 schema、类说明、调度图、API 与同步逻辑继续沿用。旧设计规范/模板中 `docs/规划/<任务>/` 的文档位置，新任务统一映射为 `docs/文档/设计/<任务>/`；其中的文档内容仍由本技能维护，独立目录架构也放在该文档根。历史设计资料不自动搬迁，按原入口查阅。
+为保持已有文档生成格式，本技能的设计态/现状态 schema、类说明、调度图、API 与同步逻辑继续沿用。旧设计规范/模板中 `docs/规划/<任务>/` 的文档位置，新任务统一映射为 `docs/文档/<模块>/设计/<任务>/`；其中的文档内容仍由本技能维护，独立目录架构也放在该文档根。历史设计资料不自动搬迁，按原入口查阅。
 
 `docs/规划/<执行任务>/` 现在只保存规划技能的逐类执行记录，不接收设计文档或 API；旧模板提及的 TODO/测试/验收路由改为链接这些任务，不向文档 README 添加状态或执行内容。先完成文档再创建执行记录，开发后按原同步流程完善文档。
 
@@ -130,3 +130,7 @@ flowchart TD
 设计态完整流程与模板见 [规划文档生成](references/workflows/planning-documents.md)、[规划目录与元数据](references/contracts/planning-layout.md)；工具统一 scripts/documentation_tool.py，check --mode planning 或 --mode implemented。返回文档入口、源码路径表、模块依赖/交付门槛、框架决定和未决项，由 [游戏系统开发规划](../game-system-development-planning/SKILL.md) 读取对应文档建立逐类执行任务。生成器不擅自实现业务、不排序任务、不另存第二份 TODO；开发后更新仍由规划技能调用本技能。
 
 独立文件夹层级架构由 [目录架构与脚本位置](references/workflows/script-layout.md#独立目录架构文件) 生成；文档入口直接链接 `目录架构.md`，规划只引用。
+
+## 模块优先的文档目录
+
+正式内容必须按 `docs/文档/<模块>/` 划分，不再把所有系统集中到顶层职责或 API 目录。读取 [模块文档目录](references/contracts/module-layout.md)；全局 README 导航模块与类，模块 README 汇总本模块的类/角色/简短职责/API/MD。每个模块入口与目录架构同级，模块内保存职责、原语言 API 和确有需要的 UI/网络/配置专题。文档技能可独立使用；规划只读取对应模块文档。

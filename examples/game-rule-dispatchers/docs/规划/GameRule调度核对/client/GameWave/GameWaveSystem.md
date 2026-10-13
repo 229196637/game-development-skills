@@ -1,7 +1,7 @@
 ---
 task_id: "GameWaveSystem"
 class: "GameWaveSystem"
-document: "../../../../文档/职责/GameWaveSystem.md"
+document: "../../../../文档/GameWave/职责/GameWaveSystem.md"
 status: "todo"
 depends_on: ["GameRuleStep"]
 required_tests: ["document-structure"]
@@ -20,15 +20,15 @@ updated: "2026-10-13 21:36:12 +08:00"
 
 ## 文档索引
 
-- [对应类文档](../../../../文档/职责/GameWaveSystem.md)
-- [文档入口](../../../../文档/README.md)
-- [目录架构](../../../../文档/目录架构.md)
-- [公开函数 API](../../../../文档/api/client/waves/GameWaveSystem.api.cs)
+- [对应类文档](../../../../文档/GameWave/职责/GameWaveSystem.md)
+- [文档入口](../../../../文档/GameWave/README.md)
+- [目录架构](../../../../文档/GameWave/目录架构.md)
+- [公开函数 API](../../../../文档/GameWave/api/client/GameWaveSystem.api.cs)
 
 ## 任务内容
 
-- [ ] 读取 docs/文档/职责/GameWaveSystem.md：核对波次排期、触发去重、实际生成单位与释放边界；确认请求波次与结束回调有文档入口，清理范围符合持有关系。
-- [ ] 比对 docs/文档/目录架构.md 中 GameWaveSystem 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
+- [ ] 读取 docs/文档/GameWave/职责/GameWaveSystem.md：核对波次排期、触发去重、实际生成单位与释放边界；确认请求波次与结束回调有文档入口，清理范围符合持有关系。
+- [ ] 比对 docs/文档/GameWave/目录架构.md 中 GameWaveSystem 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
 
 ## 验收标准
 

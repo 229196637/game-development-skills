@@ -1,7 +1,7 @@
 ---
 task_id: "GameRuleSystem"
 class: "GameRuleSystem"
-document: "../../../../文档/职责/GameRuleSystem.md"
+document: "../../../../文档/GameRule/职责/GameRuleSystem.md"
 status: "todo"
 depends_on: ["GameRuleStep", "RuleChainSnapshot", "GameWaveSystem", "GameRandomEventSystem"]
 required_tests: ["document-structure"]
@@ -20,15 +20,15 @@ updated: "2026-10-13 21:36:12 +08:00"
 
 ## 文档索引
 
-- [对应类文档](../../../../文档/职责/GameRuleSystem.md)
-- [文档入口](../../../../文档/README.md)
-- [目录架构](../../../../文档/目录架构.md)
-- [公开函数 API](../../../../文档/api/client/game-rules/GameRuleSystem.api.cs)
+- [对应类文档](../../../../文档/GameRule/职责/GameRuleSystem.md)
+- [文档入口](../../../../文档/GameRule/README.md)
+- [目录架构](../../../../文档/GameRule/目录架构.md)
+- [公开函数 API](../../../../文档/GameRule/api/client/GameRuleSystem.api.cs)
 
 ## 任务内容
 
-- [ ] 读取 docs/文档/职责/GameRuleSystem.md：核对 Start 装配波次/事件与首阶段、Update 的死亡优先与排队信号消费、规则推进及结果锁存；确认跨调度器跳转不声称递归推进。
-- [ ] 比对 docs/文档/目录架构.md 中 GameRuleSystem 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
+- [ ] 读取 docs/文档/GameRule/职责/GameRuleSystem.md：核对 Start 装配波次/事件与首阶段、Update 的死亡优先与排队信号消费、规则推进及结果锁存；确认跨调度器跳转不声称递归推进。
+- [ ] 比对 docs/文档/GameRule/目录架构.md 中 GameRuleSystem 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
 
 ## 验收标准
 

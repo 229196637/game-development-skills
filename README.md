@@ -45,3 +45,7 @@
 重构前认可版本已保存为 Git 标签 `backup/before-planning-driver-20261013-204919`，对应提交 `a7864d91ba47c776ce94260a1aa8c2859b4570dd`。
 
 规划工单先填写当前情况与改动、具体工作项和验收标准；执行后追加测试过程与验收情况。文档入口 README.md 与目录架构.md 同级且直接相连。[工单功能验证](examples/game-rule-dispatchers/work-order-review.md)。
+
+## 模块文档布局
+
+当前文档目录为 `docs/文档/<模块>/`，模块内部保存 README、同级目录架构、职责、api/client|server|shared 和需要的专题。根目录只汇总模块/类导航及总目录架构；不再有顶层职责/api。设计资料也归模块的设计任务目录，规划工单引用对应模块入口与类说明。[模块布局验证](examples/game-rule-dispatchers/module-layout-review.md)。

@@ -1,7 +1,7 @@
 ---
 task_id: "RuleChainSnapshot"
 class: "RuleChainSnapshot"
-document: "../../../../文档/职责/RuleChainSnapshot.md"
+document: "../../../../文档/GameRule/职责/RuleChainSnapshot.md"
 status: "todo"
 depends_on: []
 required_tests: ["document-structure"]
@@ -20,14 +20,14 @@ updated: "2026-10-13 21:36:12 +08:00"
 
 ## 文档索引
 
-- [对应类文档](../../../../文档/职责/RuleChainSnapshot.md)
-- [文档入口](../../../../文档/README.md)
-- [目录架构](../../../../文档/目录架构.md)
+- [对应类文档](../../../../文档/GameRule/职责/RuleChainSnapshot.md)
+- [文档入口](../../../../文档/GameRule/README.md)
+- [目录架构](../../../../文档/GameRule/目录架构.md)
 
 ## 任务内容
 
-- [ ] 读取 docs/文档/职责/RuleChainSnapshot.md：核对规则快照、上下文和结果的数据归属，明确借用委托及嵌套引用，不将只读 record 描述成全层级深复制。
-- [ ] 比对 docs/文档/目录架构.md 中 RuleChainSnapshot 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
+- [ ] 读取 docs/文档/GameRule/职责/RuleChainSnapshot.md：核对规则快照、上下文和结果的数据归属，明确借用委托及嵌套引用，不将只读 record 描述成全层级深复制。
+- [ ] 比对 docs/文档/GameRule/目录架构.md 中 RuleChainSnapshot 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
 
 ## 验收标准
 

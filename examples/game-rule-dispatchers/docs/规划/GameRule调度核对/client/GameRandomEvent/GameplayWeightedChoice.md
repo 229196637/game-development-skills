@@ -1,7 +1,7 @@
 ---
 task_id: "GameplayWeightedChoice"
 class: "GameplayWeightedChoice"
-document: "../../../../文档/职责/GameplayWeightedChoice.md"
+document: "../../../../文档/GameRandomEvent/职责/GameplayWeightedChoice.md"
 status: "todo"
 depends_on: []
 required_tests: ["document-structure"]
@@ -20,14 +20,14 @@ updated: "2026-10-13 21:36:11 +08:00"
 
 ## 文档索引
 
-- [对应类文档](../../../../文档/职责/GameplayWeightedChoice.md)
-- [文档入口](../../../../文档/README.md)
-- [目录架构](../../../../文档/目录架构.md)
+- [对应类文档](../../../../文档/GameRandomEvent/职责/GameplayWeightedChoice.md)
+- [文档入口](../../../../文档/GameRandomEvent/README.md)
+- [目录架构](../../../../文档/GameRandomEvent/目录架构.md)
 
 ## 任务内容
 
-- [ ] 读取 docs/文档/职责/GameplayWeightedChoice.md：核对内部静态工具的权重选择、无正总权重返回值及非法随机值异常；保留无对外公开函数说明，不创建空 API。
-- [ ] 比对 docs/文档/目录架构.md 中 GameplayWeightedChoice 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
+- [ ] 读取 docs/文档/GameRandomEvent/职责/GameplayWeightedChoice.md：核对内部静态工具的权重选择、无正总权重返回值及非法随机值异常；保留无对外公开函数说明，不创建空 API。
+- [ ] 比对 docs/文档/GameRandomEvent/目录架构.md 中 GameplayWeightedChoice 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
 
 ## 验收标准
 

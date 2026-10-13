@@ -10,14 +10,14 @@ design_patterns:
   uses: 以 GameRuleStep 多态接口处理不同规则条件
 - name: 队列化事件分派
   uses: 子模块回调入队，再由 _drainSignals 串行消费，避免递归推进
-updated: '2026-10-13 20:07:45 +08:00'
+updated: '2026-10-13 22:51:05 +08:00'
 code_revision: working-tree
 sources:
 - src/client/Mod/GameRule/GameRuleSystem.cs
 dependencies:
-- document: GameWaveSystem.md
+- document: ../../GameWave/职责/GameWaveSystem.md
   uses: 调用 GameWaveSystem 完成本局协作
-- document: GameRandomEventSystem.md
+- document: ../../GameRandomEvent/职责/GameRandomEventSystem.md
   uses: 调用 GameRandomEventSystem 完成本局协作
 ---
 # GameRuleSystem
@@ -49,12 +49,12 @@ flowchart TD
   Rule -->|调用| Waves["GameWaveSystem"]
   Rule -->|调用| Events["GameRandomEventSystem"]
   Events -->|完成回调入队| Rule
-  click Waves "GameWaveSystem.md"
-  click Events "GameRandomEventSystem.md"
+  click Waves "../../GameWave/职责/GameWaveSystem.md"
+  click Events "../../GameRandomEvent/职责/GameRandomEventSystem.md"
   click Step "GameRuleStep.md"
 ```
 
-[波次调度](GameWaveSystem.md) · [随机事件调度](GameRandomEventSystem.md) · [执行者](GameRuleStep.md)
+[波次调度](../../GameWave/职责/GameWaveSystem.md) · [随机事件调度](../../GameRandomEvent/职责/GameRandomEventSystem.md) · [执行者](GameRuleStep.md)
 
 ## 调度流水线
 
@@ -69,8 +69,8 @@ flowchart TD
   Check --> Waves["GameWaveSystem<br/>Start：普通链排期"]
   Waves --> Events["GameRandomEventSystem<br/>Start：绑定上下文"]
   Events --> Enter["激活首个 GameRuleStep<br/>RuleEntered 入队"]
-  click Waves "GameWaveSystem.md#启动排期"
-  click Events "GameRandomEventSystem.md#启动"
+  click Waves "../../GameWave/职责/GameWaveSystem.md#启动排期"
+  click Events "../../GameRandomEvent/职责/GameRandomEventSystem.md#启动"
 ```
 
 Start 不在回调中递归推进规则。首规则可能在 Enter 请求 Boss 出生，但提交出生不等于立即完成。
@@ -91,8 +91,8 @@ flowchart TD
   Rules --> End{"规则链耗尽？"}
   End -->|是| Win["锁存胜利并返回"]
   End -->|否| Waves["GameWaveSystem<br/>Update(elapsed)"]
-  click Events "GameRandomEventSystem.md#活动实例推进"
-  click Waves "GameWaveSystem.md#到期出生"
+  click Events "../../GameRandomEvent/职责/GameRandomEventSystem.md#活动实例推进"
+  click Waves "../../GameWave/职责/GameWaveSystem.md#到期出生"
   click Rules "GameRuleSystem.md#规则推进"
   click Signals "GameRuleSystem.md#信号消费"
 ```
@@ -119,8 +119,8 @@ flowchart TD
   Waves --> Events["GameRandomEventSystem<br/>Observe(signal)"]
   Events -->|EventStarted / Completed<br/>回调入队，随后消费| Drain
   click Step "GameRuleStep.md"
-  click Waves "GameWaveSystem.md#信号触发排期"
-  click Events "GameRandomEventSystem.md#机会分派"
+  click Waves "../../GameWave/职责/GameWaveSystem.md#信号触发排期"
+  click Events "../../GameRandomEvent/职责/GameRandomEventSystem.md#机会分派"
   click Convert "GameRuleSystem.md#tick"
 ```
 
@@ -163,8 +163,8 @@ flowchart TD
   Step --> Events["GameRandomEventSystem<br/>Dispose"]
   Events --> Waves["GameWaveSystem<br/>Dispose"]
   Waves --> Clear["清空信号与批次队列"]
-  click Events "GameRandomEventSystem.md#停止"
-  click Waves "GameWaveSystem.md#停止"
+  click Events "../../GameRandomEvent/职责/GameRandomEventSystem.md#停止"
+  click Waves "../../GameWave/职责/GameWaveSystem.md#停止"
 ```
 
 GameRunSession 先解除批次/帧回调再 Dispose Rules；Rules 不销毁借用关卡或世界。
@@ -175,4 +175,4 @@ GameRunSession 先解除批次/帧回调再 Dispose Rules；Rules 不销毁借�
 
 ## API
 
-[公开函数声明](../api/client/game-rules/GameRuleSystem.api.cs)。
+[公开函数声明](../api/client/GameRuleSystem.api.cs)。

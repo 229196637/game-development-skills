@@ -8,7 +8,7 @@ dispatcher: GameWaveSystem
 design_patterns:
 - name: 优先队列调度
   uses: 以到期有效时间和稳定次序排序普通链及信号触发链
-updated: '2026-10-13 20:07:45 +08:00'
+updated: '2026-10-13 22:51:05 +08:00'
 code_revision: working-tree
 sources:
 - src/client/Mod/GameWave/GameWaveSystem.cs
@@ -41,10 +41,10 @@ flowchart TD
   Rule["GameRuleSystem"] -->|Start / RequestWave / Update| Wave["GameWaveSystem"]
   Wave -->|提交出生请求与取消票号| Port["关卡 Spawn 端口"]
   Port -->|实际出生回调| Wave
-  click Rule "GameRuleSystem.md#tick"
+  click Rule "../../GameRule/职责/GameRuleSystem.md#tick"
 ```
 
-[规则 Tick](GameRuleSystem.md#tick)
+[规则 Tick](../../GameRule/职责/GameRuleSystem.md#tick)
 
 ## 调度流水线
 
@@ -71,12 +71,12 @@ flowchart TD
   Rule["GameRuleSystem"] -->|RequestWave| Validate["校验本局信号与触发行"]
   Validate --> Dedupe["按信号号和触发行去重"]
   Dedupe --> Queue["按信号时刻加延迟入队"]
-  click Rule "GameRuleSystem.md#信号消费"
+  click Rule "../../GameRule/职责/GameRuleSystem.md#信号消费"
 ```
 
 旧局忽略；配置与来源不匹配报错。触发链不改普通链位置。
 
-[信号消费入口](GameRuleSystem.md#信号消费)
+[信号消费入口](../../GameRule/职责/GameRuleSystem.md#信号消费)
 
 ### 到期出生
 
@@ -91,12 +91,12 @@ flowchart TD
   Complete --> Next{"还有到期项？"}
   Next -->|是| Due
   Next -->|否| Return["返回规则 Tick"]
-  click Rule "GameRuleSystem.md#tick"
+  click Rule "../../GameRule/职责/GameRuleSystem.md#tick"
 ```
 
 重复模板有不同出现号；未到期返回。场景失效时停止并抛异常，不能把请求已提交写成实际已出生。
 
-[规则 Tick](GameRuleSystem.md#tick)
+[规则 Tick](../../GameRule/职责/GameRuleSystem.md#tick)
 
 ### 停止
 
@@ -113,4 +113,4 @@ flowchart TD
 
 ## API
 
-[公开函数声明](../api/client/waves/GameWaveSystem.api.cs)。
+[公开函数声明](../api/client/GameWaveSystem.api.cs)。

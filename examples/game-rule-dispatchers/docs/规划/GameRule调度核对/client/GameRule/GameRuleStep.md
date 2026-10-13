@@ -1,7 +1,7 @@
 ---
 task_id: "GameRuleStep"
 class: "GameRuleStep"
-document: "../../../../文档/职责/GameRuleStep.md"
+document: "../../../../文档/GameRule/职责/GameRuleStep.md"
 status: "todo"
 depends_on: []
 required_tests: ["document-structure"]
@@ -20,15 +20,15 @@ updated: "2026-10-13 21:36:12 +08:00"
 
 ## 文档索引
 
-- [对应类文档](../../../../文档/职责/GameRuleStep.md)
-- [文档入口](../../../../文档/README.md)
-- [目录架构](../../../../文档/目录架构.md)
-- [公开函数 API](../../../../文档/api/client/game-rules/GameRuleStep.api.cs)
+- [对应类文档](../../../../文档/GameRule/职责/GameRuleStep.md)
+- [文档入口](../../../../文档/GameRule/README.md)
+- [目录架构](../../../../文档/GameRule/目录架构.md)
+- [公开函数 API](../../../../文档/GameRule/api/client/GameRuleStep.api.cs)
 
 ## 任务内容
 
-- [ ] 读取 docs/文档/职责/GameRuleStep.md：核对执行者只判断当前条件，激活/时间推进/阶段切换由调度器控制；确认公开函数与生命周期说明能对应。
-- [ ] 比对 docs/文档/目录架构.md 中 GameRuleStep 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
+- [ ] 读取 docs/文档/GameRule/职责/GameRuleStep.md：核对执行者只判断当前条件，激活/时间推进/阶段切换由调度器控制；确认公开函数与生命周期说明能对应。
+- [ ] 比对 docs/文档/GameRule/目录架构.md 中 GameRuleStep 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
 
 ## 验收标准
 
