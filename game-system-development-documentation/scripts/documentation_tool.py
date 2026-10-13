@@ -71,8 +71,8 @@ def check(args):
             headers = re.findall('^#{1,6}\\s+(.+)$', target.read_text(encoding='utf-8-sig'), re.M)
             if anchor not in {slug(h) for h in headers}:
                 fail(file, 'ANCHOR', 'missing Markdown heading: ' + ref, line)
-    if path.is_dir() and path.name == '文档' and not (path / 'index.md').is_file():
-        fail(path, 'DOC_INDEX', 'formal documentation root requires index.md')
+    if path.is_dir() and path.name == '文档' and not (path / 'README.md').is_file():
+        fail(path, 'DOC_INDEX', 'formal documentation root requires README.md')
     for file in candidates:
         if not file.is_file() or '.git' in file.parts:
             continue
@@ -170,7 +170,7 @@ def check(args):
             for heading in headings:
                 if re.search('测试|验收|验证结果|核对与缺口|执行记录|(?i:testing|test results)', heading):
                     fail(file, 'TEST_SECTION', 'test content must be in a separate report: ' + heading)
-            is_navigation = file.name == 'index.md' and meta.get('system') == 'catalog'
+            is_navigation = file.name == 'README.md' and meta.get('system') == 'catalog'
             if is_navigation:
                 if any(re.search(r'(?i:todo)|待办|执行顺序|任务进度', h) for h in headings) or re.search(r'^\s*[-*] \[[ xX]\]', body, re.M):
                     fail(file, 'INDEX_TASKS', 'formal index is navigation only; no TODO/task execution state')
@@ -181,6 +181,16 @@ def check(args):
                 fail(file, 'ARCHITECTURE', 'formal system document requires its actual architecture diagram')
             if not meta.get('dispatcher') and re.search('(?m)^\\s*(?:sequenceDiagram|stateDiagram)', body):
                 fail(file, 'FORMAL_DIAGRAM', 'formal system document should retain architecture, not copied planning diagrams')
+        if kind == 'documentation' and '职责' in file.parts and meta.get('roles') and not args.topic:
+            if not re.search(r'^## 职责\s*$', body, re.M):
+                fail(file, 'RESPONSIBILITY_SECTION', 'type document requires ## 职责')
+            api_section = re.search(r'^## API\s*\n(.*?)(?=^## |\Z)', body, re.S | re.M)
+            if not api_section or not api_section[1].strip():
+                fail(file, 'API_SECTION', 'type document requires ## API with a code declaration link or explicit absence/gap')
+            elif not re.search('无公开函数|待补齐', api_section[1]):
+                refs = re.findall(r'\[[^\]]+\]\(([^)]+)\)', api_section[1])
+                if not refs or any('api' not in Path(ref.split('#')[0]).parts or Path(ref.split('#')[0]).suffix.lower() in {'.md', '.json', '.yaml', '.yml'} for ref in refs):
+                    fail(file, 'API_CODE', 'API section must directly link original-language declarations under api/')
         if kind != 'skill' and 'roles' in meta:
             roles = meta['roles']
             if not isinstance(roles, list) or not roles or any(not isinstance(r, str) or r not in {'dispatcher', 'executor', 'tool', 'data'} for r in roles):
@@ -235,7 +245,7 @@ def check(args):
                     clicks = re.findall(r'click\s+\w+\s+"([^"\n]+)"', section[1] if section else '')
                     if not any((file.parent / c.split('#')[0]).resolve() == target for c in clicks):
                         fail(file, 'DISPATCH_LINK', 'cross-dispatcher dependency needs clickable pipeline node: ' + ref)
-        is_class_entry = file.name == 'index.md' and meta.get('system') == 'catalog' and kind != 'skill'
+        is_class_entry = file.name == 'README.md' and meta.get('system') == 'catalog' and kind != 'skill'
         if is_class_entry:
             class_index = re.search(r'^## 类索引\s*\n(.*?)(?=^## |\Z)', body, re.S | re.M)
             table = [line.strip() for line in class_index[1].splitlines() if line.strip().startswith('|')] if class_index else []

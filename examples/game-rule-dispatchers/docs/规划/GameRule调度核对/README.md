@@ -4,7 +4,7 @@ kind: index
 system: catalog
 title: GameRule 调度核对
 status: implemented
-updated: '2026-10-13 19:40:40 +08:00'
+updated: '2026-10-13 19:46:44 +08:00'
 sources: []
 links:
 - GameRuleSystem.md
@@ -24,7 +24,7 @@ code_revision: working-tree
 
 | 来源/已有能力 | 接口/文档入口 | 端与使用前提 | 本次复用与缺口 | 决定及范围 |
 | --- | --- | --- | --- | --- |
-| 项目规则及阶段框架 | [GameRuleSystem](../../文档/systems/GameRuleSystem.md)、[GameRuleStep](../../文档/systems/GameRuleStep.md)；Start/Update/Observe/ObserveBatch | client；开战上下文已准备，有效帧后驱动；阶段由调度器拥有 | 复用实际规则、死亡优先和队列语义；仅补说明与跳转 | 沿用本次技能/文档工作范围，不改生产实现 |
+| 项目规则及阶段框架 | [GameRuleSystem](../../文档/职责/GameRuleSystem.md)、[GameRuleStep](../../文档/职责/GameRuleStep.md)；Start/Update/Observe/ObserveBatch | client；开战上下文已准备，有效帧后驱动；阶段由调度器拥有 | 复用实际规则、死亡优先和队列语义；仅补说明与跳转 | 沿用本次技能/文档工作范围，不改生产实现 |
 | 项目波次与事件框架 | [GameWaveSystem](GameWaveSystem.md)、[GameRandomEventSystem](GameRandomEventSystem.md)；Start/Update/RequestWave/Observe | client；共享本局有效时间，Rules 持有实例，完成回调入队 | 复用排期、机会及完成机制；补各流水线入口说明 | 沿用现有能力，未提出重写 |
 
 具体调用、生命周期和限制见上述文档；不能把示例的复用决定套用到新的开发需求。后续新任务有相关现成能力时，给真实接口细节，再按已有会话选择复用/适配或明确范围重写。
@@ -37,12 +37,12 @@ code_revision: working-tree
 
 | 类 | 角色 | 职责 | API | 文档 |
 | --- | --- | --- | --- | --- |
-| GameRuleSystem | dispatcher | 推进规则 | [公开函数](../../文档/api/client/game-rules/GameRuleSystem.api.cs) | [GameRuleSystem](../../文档/systems/GameRuleSystem.md) |
-| GameWaveSystem | dispatcher | 调度波次 | [公开函数](../../文档/api/client/waves/GameWaveSystem.api.cs) | [GameWaveSystem](../../文档/systems/GameWaveSystem.md) |
-| GameRandomEventSystem | dispatcher | 调度事件 | [公开函数](../../文档/api/client/random-events/GameRandomEventSystem.api.cs) | [GameRandomEventSystem](../../文档/systems/GameRandomEventSystem.md) |
-| GameRuleStep | executor | 执行规则 | [公开函数](../../文档/api/client/game-rules/GameRuleStep.api.cs) | [GameRuleStep](../../文档/systems/GameRuleStep.md) |
-| GameplayWeightedChoice | tool | 加权选择 | 无公开函数 | [GameplayWeightedChoice](../../文档/systems/GameplayWeightedChoice.md) |
-| RuleChainSnapshot | data | 保存规则快照 | 无公开函数 | [RuleChainSnapshot](../../文档/systems/RuleChainSnapshot.md) |
+| GameRuleSystem | dispatcher | 推进规则 | [公开函数](../../文档/api/client/game-rules/GameRuleSystem.api.cs) | [GameRuleSystem](../../文档/职责/GameRuleSystem.md) |
+| GameWaveSystem | dispatcher | 调度波次 | [公开函数](../../文档/api/client/waves/GameWaveSystem.api.cs) | [GameWaveSystem](../../文档/职责/GameWaveSystem.md) |
+| GameRandomEventSystem | dispatcher | 调度事件 | [公开函数](../../文档/api/client/random-events/GameRandomEventSystem.api.cs) | [GameRandomEventSystem](../../文档/职责/GameRandomEventSystem.md) |
+| GameRuleStep | executor | 执行规则 | [公开函数](../../文档/api/client/game-rules/GameRuleStep.api.cs) | [GameRuleStep](../../文档/职责/GameRuleStep.md) |
+| GameplayWeightedChoice | tool | 加权选择 | 无公开函数 | [GameplayWeightedChoice](../../文档/职责/GameplayWeightedChoice.md) |
+| RuleChainSnapshot | data | 保存规则快照 | 无公开函数 | [RuleChainSnapshot](../../文档/职责/RuleChainSnapshot.md) |
 
 ## TODO 与执行顺序
 
@@ -53,9 +53,9 @@ code_revision: working-tree
 | 1 | T01 | 核对本局信号、阶段接口及数据语义 | P0 后续模块共同前提 | — | verified | [规则](GameRuleSystem.md) | 明确信号接收、完成与有效时间含义，契约核对后才能整理消费方 | [报告](../../../review.md) |
 | 2 | T02 | 整理波次提供能力与流水线 | P1 规则调度需要调用 | T01 | verified | [波次](GameWaveSystem.md) | 排期、触发去重、实际出生与释放语义有入口 | [报告](../../../review.md) |
 | 2 | T03 | 整理随机事件提供能力与回调 | P1 规则推进依赖事件完成 | T01 | verified | [随机事件](GameRandomEventSystem.md) | 机会、更新与完成入队顺序清晰，不递归推进规则 | [报告](../../../review.md) |
-| 2 | T04 | 整理执行者与数据职责 | P1 规则策略和上下文前提 | T01 | verified | [执行者](../../文档/systems/GameRuleStep.md) | 仅执行具体条件，调度权限与数据读写归属明确 | [报告](../../../review.md) |
+| 2 | T04 | 整理执行者与数据职责 | P1 规则策略和上下文前提 | T01 | verified | [执行者](../../文档/职责/GameRuleStep.md) | 仅执行具体条件，调度权限与数据读写归属明确 | [报告](../../../review.md) |
 | 3 | T05 | 完善规则调度与各链跳转 | P0 跨模块主入口 | T02,T03,T04 | verified | [规则](GameRuleSystem.md) | 各提供方契约已核对，再连接 Tick、信号消费和规则推进 | [报告](../../../review.md) |
-| 4 | T06 | 集成查阅、工具检查与图显示验证 | P1 本次样例必须检查 | T05 | verified | [现状入口](../../文档/systems/GameRuleSystem.md) | 链接、meta、每链用途及实际图字号检查通过 | [报告](../../../review.md) |
+| 4 | T06 | 集成查阅、工具检查与图显示验证 | P1 本次样例必须检查 | T05 | verified | [现状入口](../../文档/职责/GameRuleSystem.md) | 链接、meta、每链用途及实际图字号检查通过 | [报告](../../../review.md) |
 | 5 | T07 | 同步技能与独立核对报告 | P1 交付前保持一致 | T06 | verified | [报告](../../../review.md) | 测试结果与现状文档分离，未运行 SDK 不宣称运行通过 | [报告](../../../review.md) |
 
 ## 范围与未验证项

@@ -10,13 +10,15 @@ design_patterns:
   uses: 注册表提供事件实例，宿主调用统一行为接口
 - name: 完成请求延迟提交
   uses: 实例完成请求进入集合，在 Update 中释放并发出完成信号
-updated: '2026-10-13 19:41:51 +08:00'
+updated: '2026-10-13 19:46:44 +08:00'
 code_revision: working-tree
 sources:
 - src/client/Mod/GameRandomEvent/GameRandomEventSystem.cs
 dependencies: []
 ---
 # GameRandomEventSystem
+
+## 职责
 
 随机事件实例调度器，借用注册表、随机源及回调，拥有活动事件实例。开始和完成消息交回 GameRuleSystem 的队列；不直接推进规则或销毁世界。
 

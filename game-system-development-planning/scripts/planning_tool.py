@@ -160,7 +160,7 @@ def check(args):
                         link(file, ref)
                     else:
                         fail(file, 'LINKS', 'link must be a string')
-            if file.name == 'index.md' and meta.get('kind') == 'index' and meta.get('system') == 'catalog':
+            if file.name == 'README.md' and meta.get('kind') == 'index' and meta.get('system') == 'catalog':
                 framework = re.search(r'^## 已有框架与复用\s*\n(.*?)(?=^## |\Z)', body, re.S | re.M)
                 if not framework or not framework[1].strip():
                     fail(file, 'TASK_FRAMEWORK', 'task index must summarize existing framework capabilities and reuse decisions')
@@ -293,7 +293,7 @@ def check(args):
                     clicks = re.findall(r'click\s+\w+\s+"([^"\n]+)"', section[1] if section else '')
                     if not any((file.parent / c.split('#')[0]).resolve() == target for c in clicks):
                         fail(file, 'DISPATCH_LINK', 'cross-dispatcher dependency needs clickable pipeline node: ' + ref)
-        is_class_entry = file.name == 'index.md' and meta.get('system') == 'catalog' and kind != 'skill'
+        is_class_entry = file.name == 'README.md' and meta.get('system') == 'catalog' and kind != 'skill'
         if is_class_entry:
             class_index = re.search(r'^## 类索引\s*\n(.*?)(?=^## |\Z)', body, re.S | re.M)
             table = [line.strip() for line in class_index[1].splitlines() if line.strip().startswith('|')] if class_index else []

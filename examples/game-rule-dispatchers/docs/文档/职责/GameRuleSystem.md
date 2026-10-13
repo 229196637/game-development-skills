@@ -10,7 +10,7 @@ design_patterns:
   uses: 以 GameRuleStep 多态接口处理不同规则条件
 - name: 队列化事件分派
   uses: 子模块回调入队，再由 _drainSignals 串行消费，避免递归推进
-updated: '2026-10-13 19:41:51 +08:00'
+updated: '2026-10-13 19:46:44 +08:00'
 code_revision: working-tree
 sources:
 - src/client/Mod/GameRule/GameRuleSystem.cs
@@ -21,6 +21,8 @@ dependencies:
   uses: 调用 GameRandomEventSystem 完成本局协作
 ---
 # GameRuleSystem
+
+## 职责
 
 本局规则调度器。借用关卡上下文与随机源，拥有当前 GameRuleStep、波次和随机事件子模块；只锁存结果，不在规则回调中释放世界。GameRunSession 在有效帧结束后驱动 Update。以下各条链均来自当前实现。
 

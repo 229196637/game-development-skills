@@ -7,7 +7,7 @@ status: draft
 updated: '<YYYY-MM-DD HH:mm:ss ±HH:MM>'
 sources: []
 links:
-- ../index.md
+- ../README.md
 - ui-preview.html
 code_revision: working-tree
 metadata:
@@ -15,7 +15,7 @@ metadata:
   task: <任务标识>
 ---
 # <模块 UI 规划>
-[任务入口](../index.md) · [HTML 设计稿](ui-preview.html)
+[任务入口](../README.md) · [HTML 设计稿](ui-preview.html)
 
 仅涉及 UI 的模块使用此模板。HTML 为本模块可直接打开的设计稿，完成内容后保留真实链接。
 

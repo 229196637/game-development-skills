@@ -4,7 +4,7 @@ kind: plan
 system: game-rule
 title: GameRuleSystem
 status: implemented
-updated: '2026-10-13 17:55:46 +08:00'
+updated: '2026-10-13 19:46:44 +08:00'
 sources:
 - src/client/Mod/GameRule/GameRuleSystem.cs
 links:
@@ -36,10 +36,10 @@ flowchart TD
   Events -->|完成回调入队| Rule
   click Waves "GameWaveSystem.md"
   click Events "GameRandomEventSystem.md"
-  click Step "../../文档/systems/GameRuleStep.md"
+  click Step "../../文档/职责/GameRuleStep.md"
 ```
 
-[波次调度](GameWaveSystem.md) · [随机事件调度](GameRandomEventSystem.md) · [执行者](../../文档/systems/GameRuleStep.md)
+[波次调度](GameWaveSystem.md) · [随机事件调度](GameRandomEventSystem.md) · [执行者](../../文档/职责/GameRuleStep.md)
 
 ## 调度流水线
 
@@ -103,7 +103,7 @@ flowchart TD
   Step --> Waves["GameWaveSystem<br/>匹配触发后 RequestWave"]
   Waves --> Events["GameRandomEventSystem<br/>Observe(signal)"]
   Events -->|EventStarted / Completed<br/>回调入队，随后消费| Drain
-  click Step "../../文档/systems/GameRuleStep.md"
+  click Step "../../文档/职责/GameRuleStep.md"
   click Waves "GameWaveSystem.md#信号触发排期"
   click Events "GameRandomEventSystem.md#机会分派"
   click Convert "GameRuleSystem.md#tick"
@@ -128,7 +128,7 @@ flowchart TD
   Next --> Has{"仍有阶段？"}
   Has -->|是| Step
   Has -->|否| Win["Tick<br/>回 Tick 锁存胜利"]
-  click Step "../../文档/systems/GameRuleStep.md"
+  click Step "../../文档/职责/GameRuleStep.md"
   click Emit "GameRuleSystem.md#信号消费"
   click Win "GameRuleSystem.md#tick"
 ```
@@ -156,4 +156,4 @@ GameRunSession 先解除批次/帧回调再 Dispose Rules；Rules 不销毁借�
 
 ## 执行者
 
-见 [GameRuleStep](../../文档/systems/GameRuleStep.md)，只负责具体完成条件；激活顺序、有效时间、累计计数和终局由本调度器控制。
+见 [GameRuleStep](../../文档/职责/GameRuleStep.md)，只负责具体完成条件；激活顺序、有效时间、累计计数和终局由本调度器控制。

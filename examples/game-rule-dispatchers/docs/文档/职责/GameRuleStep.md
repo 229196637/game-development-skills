@@ -4,13 +4,15 @@ side:
 - client
 roles:
 - executor
-updated: '2026-10-13 19:41:51 +08:00'
+updated: '2026-10-13 19:46:44 +08:00'
 code_revision: working-tree
 sources:
 - src/client/Mod/GameRule/GameRuleStep.cs
 dependencies: []
 ---
 # GameRuleStep
+
+## 职责
 
 规则执行者统一提供 Enter、Observe、Update、Dispose，由 GameRuleSystem 激活与释放。
 

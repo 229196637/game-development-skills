@@ -95,7 +95,7 @@ flowchart TD
 
 ## 3. 必要专题与核心边界
 
-使用 [文档总入口](references/contracts/document-layout.md#文档总入口) 与 [入口模板](assets/templates/index.md) 维护 docs/文档/index.md，正式入口用类/角色/简短职责/API/MD 类索引导航，不放 TODO。
+使用 [文档总入口](references/contracts/document-layout.md#文档总入口) 与 [入口模板](assets/templates/README.md) 维护 docs/文档/README.md，正式入口用类/角色/简短职责/API/MD 类索引导航，不放 TODO。
 
 正式系统文档及其 UI/配置/网络专题不设测试、验收或执行记录章节，也不放简短测试总结。测试方案/用例、验收矩阵、命令与结果、截图/日志证据、扫描/实验记录统一保存在任务的 verification.md 或既有独立测试报告；无需复制进正文或 meta.dependencies。文档操作流程仍要核对正确性，核对动作不代表把报告放进产物。
 

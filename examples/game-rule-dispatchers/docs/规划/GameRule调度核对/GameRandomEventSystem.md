@@ -4,7 +4,7 @@ kind: plan
 system: random-event
 title: GameRandomEventSystem
 status: implemented
-updated: '2026-10-13 17:55:46 +08:00'
+updated: '2026-10-13 19:46:44 +08:00'
 sources:
 - src/client/Mod/GameRandomEvent/GameRandomEventSystem.cs
 links: []
