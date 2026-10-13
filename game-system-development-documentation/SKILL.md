@@ -52,7 +52,8 @@ flowchart TD
   Git["独立文档 Git<br/>docs-git.md"] --> Facts["增量同步<br/>sync.md<br/>核对本次实现事实"]
   Facts --> Style["SDK 式系统说明<br/>document-layout.md<br/>阅读相关 SDK，确定使用场景"]
   Style --> Body["正式文档边界<br/>document-layout.md<br/>用途、架构、调用示例与生命周期"]
-  Body --> Api["查阅 API<br/>snapshots.md<br/>公开函数与真实契约"]
+  Body --> Dispatch["调度器与执行者<br/>dispatchers.md"]
+  Dispatch --> Api["查阅 API<br/>snapshots.md<br/>公开函数与真实契约"]
   Api --> Move{"任务 API 全部函数已实现核对？"}
   Move -->|是| Handoff["从规划移交正式文档<br/>snapshots.md"]
   Move -->|否或无迁移| Keep["文件与目录<br/>snapshots.md<br/>未完成声明保留任务内"]
@@ -65,6 +66,7 @@ flowchart TD
   click Facts "references/workflows/sync.md"
   click Style "references/contracts/document-layout.md#sdk-式系统说明"
   click Body "references/contracts/document-layout.md"
+  click Dispatch "references/workflows/dispatchers.md"
   click Api "references/api/snapshots.md"
   click Handoff "references/api/snapshots.md#从规划移交正式文档"
   click Keep "references/api/snapshots.md#文件与目录"
@@ -83,7 +85,11 @@ flowchart TD
 | 检查遗漏 | [精简后的信息完整性](references/contracts/document-layout.md#精简后的信息完整性)、[增量同步](references/workflows/sync.md) | 初始化前置、owner、成功含义、重复调用、取消/失败及清理限制可从主体/API 恢复；核对链接、架构显示与实际验证 |
 | 交付 | [增量同步](references/workflows/sync.md) | 在交付说明区分已核对与未验证；测试内容全部放任务测试文件/独立报告，不进入系统主体或 meta |
 
-正式系统文档默认只要求架构图；这里的流程图说明“如何使用技能”，不要求系统文档复制流程、时序、状态图。
+普通系统保留架构图；调度器额外为每条主要流水线画实际流程图并链接跨调度器通信。技能操作图与业务流水线图分别维护，不复制规划图冒充实现。
+
+## 调度器与执行者
+
+涉及调度职责时读取 [调度器与执行者](references/workflows/dispatchers.md)。类型/模块 meta 用 roles 标记 dispatcher/executor/tool/data（可兼任）；调度器再记录 dispatcher 与 design_patterns（模式/编排机制及用途）；每条主要流水线独立流程图，跨调度器节点链接对方文档。执行者只简述执行内容，不复制调度结构。
 
 ## 3. 必要专题与核心边界
 

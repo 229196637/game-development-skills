@@ -145,7 +145,7 @@ def check(args):
                         if not resolved.is_relative_to(base) or not resolved.exists():
                             fail(file, 'SOURCE_PATH', 'missing/outside project source: ' + source)
         if kind == 'documentation':
-            extra = set(meta) - set(SCHEMAS[kind]) - {'version'} - set(args.allow_meta_field)
+            extra = set(meta) - set(SCHEMAS[kind]) - {'version', 'roles', 'dispatcher', 'design_patterns'} - set(args.allow_meta_field)
             if extra:
                 fail(file, 'COMPACT_META', 'unexpected fields: ' + ', '.join(sorted(extra)))
             sides = meta.get('side')
@@ -169,10 +169,46 @@ def check(args):
                 if re.search('测试|验收|验证结果|核对与缺口|执行记录|(?i:testing|test results)', heading):
                     fail(file, 'TEST_SECTION', 'test content must be in a separate report: ' + heading)
             graphs = re.findall('```mermaid\\s*\\n(.*?)\\n```', body, re.S)
-            if not args.topic and (not graphs) and (not re.search('!\\[[^\\]]*\\]\\([^)]*\\.(?:svg|png)\\)', body)):
+            if not args.topic and not (isinstance(meta.get('roles'), list) and meta['roles'] and set(meta['roles']) <= {'executor', 'tool', 'data'}) and (not graphs) and (not re.search('!\\[[^\\]]*\\]\\([^)]*\\.(?:svg|png)\\)', body)):
                 fail(file, 'ARCHITECTURE', 'formal system document requires its actual architecture diagram')
-            if re.search('(?m)^\\s*(?:sequenceDiagram|stateDiagram)', body):
+            if not meta.get('dispatcher') and re.search('(?m)^\\s*(?:sequenceDiagram|stateDiagram)', body):
                 fail(file, 'FORMAL_DIAGRAM', 'formal system document should retain architecture, not copied planning diagrams')
+        if kind != 'skill' and 'roles' in meta:
+            roles = meta['roles']
+            if not isinstance(roles, list) or not roles or any(not isinstance(r, str) or r not in {'dispatcher', 'executor', 'tool', 'data'} for r in roles):
+                fail(file, 'ROLES', 'roles must contain dispatcher/executor/tool/data')
+        if kind != 'skill' and ('dispatcher' in meta or 'design_patterns' in meta or isinstance(meta.get('roles'), list) and 'dispatcher' in meta['roles']):
+            if not isinstance(meta.get('roles'), list) or 'dispatcher' not in meta['roles']:
+                fail(file, 'ROLES', 'dispatcher meta requires roles: [dispatcher]')
+            if not isinstance(meta.get('dispatcher'), str) or not meta['dispatcher'].strip():
+                fail(file, 'DISPATCHER', 'dispatcher must name the actual/proposed type')
+            patterns = meta.get('design_patterns')
+            if not isinstance(patterns, list) or not patterns:
+                fail(file, 'DESIGN_PATTERNS', 'dispatcher requires nonempty design_patterns')
+            elif any(not isinstance(p, dict) or not isinstance(p.get('name'), str) or not p['name'].strip() or not isinstance(p.get('uses'), str) or not p['uses'].strip() for p in patterns):
+                fail(file, 'DESIGN_PATTERNS', 'each pattern requires nonempty name and uses')
+            section = re.search(r'^## 调度流水线\s*\n(.*?)(?=^## |\Z)', body, re.S | re.M)
+            pipelines = re.findall(r'^### ([^\n]+)\n(.*?)(?=^### |\Z)', section[1], re.S | re.M) if section else []
+            if not pipelines:
+                fail(file, 'DISPATCH_PIPELINES', 'dispatcher requires named pipelines under ## 调度流水线')
+            for title, content in pipelines:
+                if not re.search(r'```mermaid\s*\n(?:(?!```)[\s\S])*?\bflowchart\s+(?:TD|TB|LR|RL|BT)\b', content):
+                    fail(file, 'DISPATCH_FLOW', 'pipeline lacks flowchart: ' + title)
+            refs = meta.get('links', []) if kind == 'planning' else [d.get('document', '') for d in meta.get('dependencies', []) if isinstance(d, dict)]
+            for ref in refs if isinstance(refs, list) else []:
+                if not isinstance(ref, str):
+                    continue
+                target = (file.parent / ref.split('#')[0]).resolve()
+                if target == file.resolve() or not target.is_file():
+                    continue
+                try:
+                    other, _, _ = yaml_meta(target.read_text(encoding='utf-8-sig'))
+                except Exception:
+                    continue
+                if other.get('dispatcher') and other.get('dispatcher') != meta.get('dispatcher'):
+                    clicks = re.findall(r'click\s+\w+\s+"([^"\n]+)"', section[1] if section else '')
+                    if not any((file.parent / c.split('#')[0]).resolve() == target for c in clicks):
+                        fail(file, 'DISPATCH_LINK', 'cross-dispatcher dependency needs clickable pipeline node: ' + ref)
         for match in re.finditer('\\]\\(([^)]+)\\)', body):
             link(file, match[1], text[:offset + match.start()].count('\n') + 1)
         for graph in re.findall('```mermaid\\s*\\n(.*?)\\n```', body, re.S):
@@ -206,7 +242,7 @@ def main():
  args.kind='documentation'
  try:
   if args.command=='rules':
-   output({'kind':args.kind,'required_meta':SCHEMAS[args.kind],'read_only':True})
+   output({'kind':args.kind,'required_meta':SCHEMAS[args.kind],'read_only':True,'optional_dispatcher_meta':['roles','dispatcher','design_patterns']})
    return 0
   if args.command=='check':return check(args)
   raise ValueError('unsupported command')

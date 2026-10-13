@@ -24,7 +24,8 @@ flowchart TD
   Plan --> Layout["目录与元数据协议<br/>document-layout.md"]
   Layout --> Task["统一入口与路由<br/>task-routing.md"]
   Task --> Graph["每个模块必须有图<br/>module-diagrams.md"]
-  Graph --> Api["查阅 API<br/>snapshots.md"]
+  Graph --> Dispatch["调度器与执行者<br/>dispatchers.md"]
+  Dispatch --> Api["查阅 API<br/>snapshots.md"]
   Api --> Framework["已有框架能力与重写选择<br/>framework-reuse.md"]
   Framework --> Existing{"已有相关能力？"}
   Existing -->|没有| Extensions
@@ -40,6 +41,7 @@ flowchart TD
   click Layout "references/contracts/document-layout.md"
   click Task "references/workflows/task-routing.md"
   click Graph "references/workflows/module-diagrams.md"
+  click Dispatch "references/workflows/dispatchers.md"
   click Api "../game-system-development-documentation/references/api/snapshots.md"
   click Framework "references/workflows/framework-reuse.md"
   click Details "references/workflows/framework-reuse.md"
@@ -108,6 +110,10 @@ flowchart TD
 ```
 
 根据已有授权判断范围，不为流程图重复索取确认。每次实现同步同一套 API、契约注释、版本及 Markdown；全部函数核对后由文档技能移交正式位置，planned/mixed 文件留在任务内。规划保留设计意图，不作为实现证据。只有必需 TODO、相关验证与文档/API 同步均完成才报告整项完成；未运行不能标验证通过。
+
+## 调度器与执行者
+
+涉及调度职责时读取 [调度器与执行者](references/workflows/dispatchers.md)。类型/模块 meta 用 roles 标记 dispatcher/executor/tool/data（可兼任）；调度器再记录 dispatcher 与 design_patterns（模式/编排机制及用途）；每条主要流水线独立流程图，跨调度器节点链接对方文档。执行者只简述执行内容，不复制调度结构。
 
 ## 工作约束
 

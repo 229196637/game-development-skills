@@ -1,4 +1,5 @@
 ---
+roles: [<dispatcher/executor/tool/data，可兼任>]
 system: <模块标识>
 side: [<实际端>]
 updated: '<YYYY-MM-DD HH:mm:ss ±HH:MM>'
@@ -32,3 +33,5 @@ dependencies: []
 <直接链接 api/client|server|shared/<模块>/ 的原语言公开函数声明；少量文件用链接，多端/类型才用表。不重复详细签名。>
 
 <!-- 生成后删除本注释及所有占位提示。上述是阅读路径而非固定章节清单，可按模块重命名、合并和调整。UI/配置/网络确需独立查阅时链接专题，不在主体复制其全文。依赖文档只在 meta，规划/TODO/测试/验收/扫描记录不进入正文。 -->
+
+<!-- 如为调度器：meta 加 dispatcher 与 design_patterns；正文设“## 调度流水线”，以“### <流水线名称>”分图，外部调度器节点 click 到对方 MD/流水线锚点并附普通链接。执行者只列执行职责。不适用时删除本提示，不能生成空流水线。 -->

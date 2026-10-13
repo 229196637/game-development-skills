@@ -1,6 +1,7 @@
 ---
 id: plan.<task>.<system>.<topic>
 kind: plan
+roles: [<dispatcher/executor/tool/data，可兼任>]
 system: <system>
 title: <标题>
 status: draft
