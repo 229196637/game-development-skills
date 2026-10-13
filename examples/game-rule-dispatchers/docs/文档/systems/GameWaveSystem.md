@@ -8,7 +8,7 @@ dispatcher: GameWaveSystem
 design_patterns:
 - name: 优先队列调度
   uses: 以到期有效时间和稳定次序排序普通链及信号触发链
-updated: '2026-10-13 17:55:46 +08:00'
+updated: '2026-10-13 19:41:51 +08:00'
 code_revision: working-tree
 sources:
 - src/client/Mod/GameWave/GameWaveSystem.cs
@@ -95,3 +95,7 @@ flowchart TD
 ```
 
 已出生实体由关卡所有者回收，本模块不销毁借用关卡。
+
+## API
+
+[公开函数声明](../api/client/waves/GameWaveSystem.api.cs)。

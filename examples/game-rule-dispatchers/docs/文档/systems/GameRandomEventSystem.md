@@ -10,7 +10,7 @@ design_patterns:
   uses: 注册表提供事件实例，宿主调用统一行为接口
 - name: 完成请求延迟提交
   uses: 实例完成请求进入集合，在 Update 中释放并发出完成信号
-updated: '2026-10-13 17:55:46 +08:00'
+updated: '2026-10-13 19:41:51 +08:00'
 code_revision: working-tree
 sources:
 - src/client/Mod/GameRandomEvent/GameRandomEventSystem.cs
@@ -115,3 +115,7 @@ flowchart TD
 ```
 
 停止不发送完成信号；借用注册表与随机源不由本模块释放。
+
+## API
+
+[公开函数声明](../api/client/random-events/GameRandomEventSystem.api.cs)。

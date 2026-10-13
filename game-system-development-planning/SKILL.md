@@ -56,7 +56,7 @@ flowchart TD
 | 调查 | [规划流程](references/workflows/planning.md) | 先读系统 Markdown / API；缺失、过期、冲突或需核对实现时才查相关源码 |
 | 路由 | [目录与元数据协议](references/contracts/document-layout.md)、[统一入口与路由](references/workflows/task-routing.md) | docs/规划/<任务>/index.md 保存需求、模块关系、唯一 TODO、优先级/前置与验收；优化优先更新已有规划 |
 | 分模块 | [每个模块必须有图](references/workflows/module-diagrams.md) | 每模块规划目录、职责、接口/关系、架构图和关键流程；不写具体实现、算法或伪代码 |
-| 框架选择 | [已有框架能力与重写选择](references/workflows/framework-reuse.md) | 有现成能力先给准确接口、用法、生命周期/持有及差距，再询问复用或重写；已有选择不重复问，未确定不规划替代实现 |
+| 框架选择 | [已有框架能力与重写选择](references/workflows/framework-reuse.md) | 任务 index 同时维护类/角色/简短职责/API/MD 类索引并写“已有框架与复用”，有现成能力先给准确接口、用法、生命周期/持有及差距，再询问复用或重写；已有选择不重复问，未确定不规划替代实现 |
 | 定接口 | [查阅 API](../game-system-development-documentation/references/api/snapshots.md) | 本任务 api/client|server|shared/<模块>/ 生成原语言公开函数声明，标 planned/mixed；不冒充已实现接口 |
 | 检查 | [统一入口与路由](references/workflows/task-routing.md) | 模块/API/专题完成后最后编排 TODO：先满足依赖，再比较就绪项优先级；给执行链、顺序与稳定前置 ID，核对链接和验收门槛 |
 

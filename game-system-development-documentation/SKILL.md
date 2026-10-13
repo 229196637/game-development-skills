@@ -50,7 +50,8 @@ flowchart TD
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 360}}}%%
 flowchart TD
   Git["独立文档 Git<br/>docs-git.md"] --> Facts["增量同步<br/>sync.md<br/>核对本次实现事实"]
-  Facts --> Style["SDK 式系统说明<br/>document-layout.md<br/>阅读相关 SDK，确定使用场景"]
+  Facts --> Index["文档总入口<br/>document-layout.md<br/>维护已实现系统导航，无 TODO"]
+  Index --> Style["SDK 式系统说明<br/>document-layout.md<br/>阅读相关 SDK，确定使用场景"]
   Style --> Body["正式文档边界<br/>document-layout.md<br/>用途、架构、调用示例与生命周期"]
   Body --> Dispatch["调度器与执行者<br/>dispatchers.md"]
   Dispatch --> Api["查阅 API<br/>snapshots.md<br/>公开函数与真实契约"]
@@ -64,6 +65,7 @@ flowchart TD
   Pass -->|通过| Deliver["增量同步<br/>sync.md<br/>交付范围、证据和已知缺口"]
   click Git "references/contracts/docs-git.md"
   click Facts "references/workflows/sync.md"
+  click Index "references/contracts/document-layout.md#文档总入口"
   click Style "references/contracts/document-layout.md#sdk-式系统说明"
   click Body "references/contracts/document-layout.md"
   click Dispatch "references/workflows/dispatchers.md"
@@ -92,6 +94,8 @@ flowchart TD
 涉及调度职责时读取 [调度器与执行者](references/workflows/dispatchers.md)。类型/模块 meta 用 roles 标记 dispatcher/executor/tool/data（可兼任）；调度器再记录 dispatcher 与 design_patterns（模式/编排机制及用途）；每条主要流水线先写简短用途再画图；文档文件名、类名与图节点名一致，同调度器和跨调度器调用都链接到目标流水线。执行者只简述执行内容，不复制调度结构。
 
 ## 3. 必要专题与核心边界
+
+使用 [文档总入口](references/contracts/document-layout.md#文档总入口) 与 [入口模板](assets/templates/index.md) 维护 docs/文档/index.md，正式入口用类/角色/简短职责/API/MD 类索引导航，不放 TODO。
 
 正式系统文档及其 UI/配置/网络专题不设测试、验收或执行记录章节，也不放简短测试总结。测试方案/用例、验收矩阵、命令与结果、截图/日志证据、扫描/实验记录统一保存在任务的 verification.md 或既有独立测试报告；无需复制进正文或 meta.dependencies。文档操作流程仍要核对正确性，核对动作不代表把报告放进产物。
 

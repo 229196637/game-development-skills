@@ -4,7 +4,7 @@ kind: index
 system: catalog
 title: GameRule 调度核对
 status: implemented
-updated: '2026-10-13 19:18:51 +08:00'
+updated: '2026-10-13 19:40:40 +08:00'
 sources: []
 links:
 - GameRuleSystem.md
@@ -18,9 +18,31 @@ code_revision: working-tree
 
 [规则](GameRuleSystem.md) · [波次](GameWaveSystem.md) · [随机事件](GameRandomEventSystem.md)
 
+## 已有框架与复用
+
+本例基于项目已实现的客户端玩法模块（不是声称 SDK 内置这些规则模块），代码基线为 working-tree。当前任务只核对技能与文档，沿用现有实现，不安排生产重写。
+
+| 来源/已有能力 | 接口/文档入口 | 端与使用前提 | 本次复用与缺口 | 决定及范围 |
+| --- | --- | --- | --- | --- |
+| 项目规则及阶段框架 | [GameRuleSystem](../../文档/systems/GameRuleSystem.md)、[GameRuleStep](../../文档/systems/GameRuleStep.md)；Start/Update/Observe/ObserveBatch | client；开战上下文已准备，有效帧后驱动；阶段由调度器拥有 | 复用实际规则、死亡优先和队列语义；仅补说明与跳转 | 沿用本次技能/文档工作范围，不改生产实现 |
+| 项目波次与事件框架 | [GameWaveSystem](GameWaveSystem.md)、[GameRandomEventSystem](GameRandomEventSystem.md)；Start/Update/RequestWave/Observe | client；共享本局有效时间，Rules 持有实例，完成回调入队 | 复用排期、机会及完成机制；补各流水线入口说明 | 沿用现有能力，未提出重写 |
+
+具体调用、生命周期和限制见上述文档；不能把示例的复用决定套用到新的开发需求。后续新任务有相关现成能力时，给真实接口细节，再按已有会话选择复用/适配或明确范围重写。
+
 ## 开发前置与运行时通信
 
 本样例是已实现模块的文档核对工序，不重新开发生产代码。先核对共同信号与执行者契约，再分别整理提供能力，之后完善依赖它们的 GameRuleSystem，最后集成查阅、检查与报告。事件回调 Rules 是运行时通信，不让随机事件文档反过来等待规则文档全部写完。
+
+## 类索引
+
+| 类 | 角色 | 职责 | API | 文档 |
+| --- | --- | --- | --- | --- |
+| GameRuleSystem | dispatcher | 推进规则 | [公开函数](../../文档/api/client/game-rules/GameRuleSystem.api.cs) | [GameRuleSystem](../../文档/systems/GameRuleSystem.md) |
+| GameWaveSystem | dispatcher | 调度波次 | [公开函数](../../文档/api/client/waves/GameWaveSystem.api.cs) | [GameWaveSystem](../../文档/systems/GameWaveSystem.md) |
+| GameRandomEventSystem | dispatcher | 调度事件 | [公开函数](../../文档/api/client/random-events/GameRandomEventSystem.api.cs) | [GameRandomEventSystem](../../文档/systems/GameRandomEventSystem.md) |
+| GameRuleStep | executor | 执行规则 | [公开函数](../../文档/api/client/game-rules/GameRuleStep.api.cs) | [GameRuleStep](../../文档/systems/GameRuleStep.md) |
+| GameplayWeightedChoice | tool | 加权选择 | 无公开函数 | [GameplayWeightedChoice](../../文档/systems/GameplayWeightedChoice.md) |
+| RuleChainSnapshot | data | 保存规则快照 | 无公开函数 | [RuleChainSnapshot](../../文档/systems/RuleChainSnapshot.md) |
 
 ## TODO 与执行顺序
 

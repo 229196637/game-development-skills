@@ -160,6 +160,10 @@ def check(args):
                         link(file, ref)
                     else:
                         fail(file, 'LINKS', 'link must be a string')
+            if file.name == 'index.md' and meta.get('kind') == 'index' and meta.get('system') == 'catalog':
+                framework = re.search(r'^## 已有框架与复用\s*\n(.*?)(?=^## |\Z)', body, re.S | re.M)
+                if not framework or not framework[1].strip():
+                    fail(file, 'TASK_FRAMEWORK', 'task index must summarize existing framework capabilities and reuse decisions')
             todo_section = re.search(r'^## TODO 与执行顺序\s*\n(.*?)(?=^## |\Z)', body, re.S | re.M)
             if todo_section:
                 rows = [line.strip() for line in todo_section[1].splitlines() if line.strip().startswith('|')]
@@ -289,6 +293,41 @@ def check(args):
                     clicks = re.findall(r'click\s+\w+\s+"([^"\n]+)"', section[1] if section else '')
                     if not any((file.parent / c.split('#')[0]).resolve() == target for c in clicks):
                         fail(file, 'DISPATCH_LINK', 'cross-dispatcher dependency needs clickable pipeline node: ' + ref)
+        is_class_entry = file.name == 'index.md' and meta.get('system') == 'catalog' and kind != 'skill'
+        if is_class_entry:
+            class_index = re.search(r'^## 类索引\s*\n(.*?)(?=^## |\Z)', body, re.S | re.M)
+            table = [line.strip() for line in class_index[1].splitlines() if line.strip().startswith('|')] if class_index else []
+            split_cells = lambda row: [c.strip() for c in re.split(r'(?<!\\)\|', row.strip('|'))]
+            columns = ['类', '角色', '职责', 'API', '文档']
+            if len(table) < 3 or any(c not in split_cells(table[0]) for c in columns):
+                fail(file, 'CLASS_INDEX', 'entry requires class/role/brief responsibility/API/document table')
+            else:
+                headers = split_cells(table[0])
+                seen_classes = set()
+                for row in table[2:]:
+                    values = split_cells(row)
+                    if len(values) != len(headers):
+                        fail(file, 'CLASS_COLUMNS', 'class index row/header counts differ')
+                        continue
+                    item = dict(zip(headers, values))
+                    if any(not item[c] for c in columns):
+                        fail(file, 'CLASS_INDEX', 'class index cells must not be empty')
+                    if item['类'] in seen_classes:
+                        fail(file, 'CLASS_DUPLICATE', 'duplicate class index entry: ' + item['类'])
+                    seen_classes.add(item['类'])
+                    roles = re.split(r'[,，、/\s]+', item['角色'])
+                    if any(v not in {'dispatcher', 'executor', 'tool', 'data'} for v in roles):
+                        fail(file, 'CLASS_ROLE', 'invalid class index role: ' + item['角色'])
+                    doc_refs = re.findall(r'\[[^\]]+\]\(([^)]+)\)', item['文档'])
+                    if any(Path(ref.split('#')[0]).suffix.lower() != '.md' for ref in doc_refs):
+                        fail(file, 'CLASS_DOCUMENT', 'class document link must point to Markdown')
+                    api_refs = re.findall(r'\[[^\]]+\]\(([^)]+)\)', item['API'])
+                    if any('api' not in Path(ref.split('#')[0]).parts or Path(ref.split('#')[0]).suffix.lower() in {'.md', '.json', '.yaml', '.yml'} for ref in api_refs):
+                        fail(file, 'CLASS_API', 'API must directly link a language declaration under api/')
+                    if not re.search(r'\[[^\]]+\]\([^)]+\)', item['文档']):
+                        fail(file, 'CLASS_DOCUMENT', 'class entry must link its Markdown document')
+                    if item['API'] not in {'无公开函数', '待补齐'} and not re.search(r'\[[^\]]+\]\([^)]+\)', item['API']):
+                        fail(file, 'CLASS_API', 'API must be a direct declaration link or explicit absence/gap')
         for match in re.finditer('\\]\\(([^)]+)\\)', body):
             link(file, match[1], text[:offset + match.start()].count('\n') + 1)
         for graph in re.findall('```mermaid\\s*\\n(.*?)\\n```', body, re.S):

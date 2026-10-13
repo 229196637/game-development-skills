@@ -71,6 +71,8 @@ def check(args):
             headers = re.findall('^#{1,6}\\s+(.+)$', target.read_text(encoding='utf-8-sig'), re.M)
             if anchor not in {slug(h) for h in headers}:
                 fail(file, 'ANCHOR', 'missing Markdown heading: ' + ref, line)
+    if path.is_dir() and path.name == '文档' and not (path / 'index.md').is_file():
+        fail(path, 'DOC_INDEX', 'formal documentation root requires index.md')
     for file in candidates:
         if not file.is_file() or '.git' in file.parts:
             continue
@@ -168,8 +170,14 @@ def check(args):
             for heading in headings:
                 if re.search('测试|验收|验证结果|核对与缺口|执行记录|(?i:testing|test results)', heading):
                     fail(file, 'TEST_SECTION', 'test content must be in a separate report: ' + heading)
+            is_navigation = file.name == 'index.md' and meta.get('system') == 'catalog'
+            if is_navigation:
+                if any(re.search(r'(?i:todo)|待办|执行顺序|任务进度', h) for h in headings) or re.search(r'^\s*[-*] \[[ xX]\]', body, re.M):
+                    fail(file, 'INDEX_TASKS', 'formal index is navigation only; no TODO/task execution state')
+                if 'roles' in meta or 'dispatcher' in meta or 'design_patterns' in meta:
+                    fail(file, 'INDEX_ROLE', 'navigation index is not a runtime role or dispatcher')
             graphs = re.findall('```mermaid\\s*\\n(.*?)\\n```', body, re.S)
-            if not args.topic and not (isinstance(meta.get('roles'), list) and meta['roles'] and set(meta['roles']) <= {'executor', 'tool', 'data'}) and (not graphs) and (not re.search('!\\[[^\\]]*\\]\\([^)]*\\.(?:svg|png)\\)', body)):
+            if not is_navigation and not args.topic and not (isinstance(meta.get('roles'), list) and meta['roles'] and set(meta['roles']) <= {'executor', 'tool', 'data'}) and (not graphs) and (not re.search('!\\[[^\\]]*\\]\\([^)]*\\.(?:svg|png)\\)', body)):
                 fail(file, 'ARCHITECTURE', 'formal system document requires its actual architecture diagram')
             if not meta.get('dispatcher') and re.search('(?m)^\\s*(?:sequenceDiagram|stateDiagram)', body):
                 fail(file, 'FORMAL_DIAGRAM', 'formal system document should retain architecture, not copied planning diagrams')
@@ -227,6 +235,41 @@ def check(args):
                     clicks = re.findall(r'click\s+\w+\s+"([^"\n]+)"', section[1] if section else '')
                     if not any((file.parent / c.split('#')[0]).resolve() == target for c in clicks):
                         fail(file, 'DISPATCH_LINK', 'cross-dispatcher dependency needs clickable pipeline node: ' + ref)
+        is_class_entry = file.name == 'index.md' and meta.get('system') == 'catalog' and kind != 'skill'
+        if is_class_entry:
+            class_index = re.search(r'^## 类索引\s*\n(.*?)(?=^## |\Z)', body, re.S | re.M)
+            table = [line.strip() for line in class_index[1].splitlines() if line.strip().startswith('|')] if class_index else []
+            split_cells = lambda row: [c.strip() for c in re.split(r'(?<!\\)\|', row.strip('|'))]
+            columns = ['类', '角色', '职责', 'API', '文档']
+            if len(table) < 3 or any(c not in split_cells(table[0]) for c in columns):
+                fail(file, 'CLASS_INDEX', 'entry requires class/role/brief responsibility/API/document table')
+            else:
+                headers = split_cells(table[0])
+                seen_classes = set()
+                for row in table[2:]:
+                    values = split_cells(row)
+                    if len(values) != len(headers):
+                        fail(file, 'CLASS_COLUMNS', 'class index row/header counts differ')
+                        continue
+                    item = dict(zip(headers, values))
+                    if any(not item[c] for c in columns):
+                        fail(file, 'CLASS_INDEX', 'class index cells must not be empty')
+                    if item['类'] in seen_classes:
+                        fail(file, 'CLASS_DUPLICATE', 'duplicate class index entry: ' + item['类'])
+                    seen_classes.add(item['类'])
+                    roles = re.split(r'[,，、/\s]+', item['角色'])
+                    if any(v not in {'dispatcher', 'executor', 'tool', 'data'} for v in roles):
+                        fail(file, 'CLASS_ROLE', 'invalid class index role: ' + item['角色'])
+                    doc_refs = re.findall(r'\[[^\]]+\]\(([^)]+)\)', item['文档'])
+                    if any(Path(ref.split('#')[0]).suffix.lower() != '.md' for ref in doc_refs):
+                        fail(file, 'CLASS_DOCUMENT', 'class document link must point to Markdown')
+                    api_refs = re.findall(r'\[[^\]]+\]\(([^)]+)\)', item['API'])
+                    if any('api' not in Path(ref.split('#')[0]).parts or Path(ref.split('#')[0]).suffix.lower() in {'.md', '.json', '.yaml', '.yml'} for ref in api_refs):
+                        fail(file, 'CLASS_API', 'API must directly link a language declaration under api/')
+                    if not re.search(r'\[[^\]]+\]\([^)]+\)', item['文档']):
+                        fail(file, 'CLASS_DOCUMENT', 'class entry must link its Markdown document')
+                    if item['API'] not in {'无公开函数', '待补齐'} and not re.search(r'\[[^\]]+\]\([^)]+\)', item['API']):
+                        fail(file, 'CLASS_API', 'API must be a direct declaration link or explicit absence/gap')
         for match in re.finditer('\\]\\(([^)]+)\\)', body):
             link(file, match[1], text[:offset + match.start()].count('\n') + 1)
         for graph in re.findall('```mermaid\\s*\\n(.*?)\\n```', body, re.S):

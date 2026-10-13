@@ -10,7 +10,7 @@ design_patterns:
   uses: 以 GameRuleStep 多态接口处理不同规则条件
 - name: 队列化事件分派
   uses: 子模块回调入队，再由 _drainSignals 串行消费，避免递归推进
-updated: '2026-10-13 17:55:46 +08:00'
+updated: '2026-10-13 19:41:51 +08:00'
 code_revision: working-tree
 sources:
 - src/client/Mod/GameRule/GameRuleSystem.cs
@@ -157,3 +157,7 @@ GameRunSession 先解除批次/帧回调再 Dispose Rules；Rules 不销毁借�
 ## 执行者
 
 见 [GameRuleStep](GameRuleStep.md)，只负责具体完成条件；激活顺序、有效时间、累计计数和终局由本调度器控制。
+
+## API
+
+[公开函数声明](../api/client/game-rules/GameRuleSystem.api.cs)。
