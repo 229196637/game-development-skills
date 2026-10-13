@@ -48,7 +48,7 @@ flowchart TD
 | 配置缺失 | 先写模块 config.md，列字段与导出/读取契约 | 按 [字段与导出规范](references/contracts/fields-and-export.md) 和 [配置模板](assets/templates/config.md) 规划，不先写生产配置 |
 | 需新建/修改 | 按已明确任务授权写表并验证 | 纯规划不导出、不安装工具；实际修改才运行已查阅的项目链路 |
 
-具体定位、读取与决策遵循 [配置流程](references/workflows/config.md)。已有框架读取能力先列准确接口、用法和差距；涉及替代读取器时遵循规划技能的 [已有框架能力与重写选择](../game-system-development-planning/references/workflows/framework-reuse.md)，询问复用还是重写，已有明确选择沿用。
+具体定位、读取与决策遵循 [配置流程](references/workflows/config.md)。已有框架读取能力先列准确接口、用法和差距；涉及替代读取器时遵循文档技能的 [已有框架能力与重写选择](../game-system-development-documentation/references/workflows/framework-reuse.md)，询问复用还是重写，已有明确选择沿用。
 
 ## 2. 规划完成后编写、导出与核对
 

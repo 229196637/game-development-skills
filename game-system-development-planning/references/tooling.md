@@ -1,41 +1,15 @@
 ---
-name: game-system-development-planning-tool
-description: 开发规划工具的只读专用命令和固定约束。
+name: planning-task-tool
+description: 统一任务工具调用文档工具并校验 TODO。
 ---
 # 开发规划工具
 
-工具：本技能 scripts/planning_tool.py。独立安装即可使用，不依赖其他技能的脚本。
-
-## 调用
-m_tool 指上面的脚本路径，其余变量是已确认目标；保留路径空格/中文的正确引用。
+本技能 scripts/planning_tool.py 是任务检查入口。check 先调用同级 game-system-development-documentation/scripts/documentation_tool.py，文档生成/结构/schema/角色/API/目录 README 由文档技能负责；本工具只额外校验 TODO ID、顺序、前置、状态及依赖循环，不保留另一套文档规则。
 
 ~~~powershell
-python $m_tool rules
-python $m_tool check $m_taskDir --project-root $m_projectRoot
+python $m_planningTool rules
+python $m_planningTool check $m_taskDir --mode planning --project-root $m_projectRoot
+python $m_planningTool check $m_actualDocumentDir --mode implemented --project-root $m_projectRoot
 ~~~
 
-## 专用范围
-检查规划必填字段、日期/来源、Markdown 和 Mermaid 跳转名称、API 端/模块目录、配置字段字典与处理清单。模板不当作已完成产物，输出跳过数量。只检查结构，接口语义、依赖顺序和业务优先级仍人工核对。
-
-## 输出与限制
-仅返回 JSON，不写或自动修复文件。check 返回 0 为结构通过、1 为规则错误、2 为参数/读取错误；inspect/read 返回 0 仅代表读取完成，issues/limits 仍需查看，不能当业务验收通过。缺依赖时报错，不自动安装。
-
-依赖：Python 3.10+；PyYAML。工具不会承担业务含义、完整语言解析或 Mermaid 渲染。测试不随技能分发，测试结果另存隔离目录。
-
-## 更新时间
-更新产物时使用带秒与时区的可读时间，例如 updated: '2026-10-12 17:19:55 +08:00'；原语言 API 头部 Updated 同格式。YAML 必须为带引号的字符串。历史记录没有时分秒时不补造，实际更新才填写本次真实时间。日志原始时间保留原样，不能用报告更新时间替换事件时间。
-
-## 调度器约束
-有 dispatcher/design_patterns 时校验类型名、模式用途、调度流水线下每条 Mermaid flowchart，以及指向其他已标注调度器文档的图节点跳转。实际类型是否遗漏调度职责、流程正确性及未登记依赖不能靠结构推断，仍人工核对；执行者不强制调度结构。
-
-角色仅 dispatcher/executor/tool/data，允许兼任；data 的独立简短说明不强制流水线或架构图。
-
-检查调度器文件名/H1 与类型名一致、每流水线图前用途说明，以及以其他本地流水线标题命名的节点跳转。工具不会从任意标签自动识别隐藏的调用关系，仍需人工核对。
-
-## 有序 TODO
-任务 README.md 或拆出的 todo.md 使用“## TODO 与执行顺序”表时，检查稳定 ID、正整数顺序、未知/取消的前置、依赖循环和前置早于消费者。工具检查显式前置关系，不自动从运行时调用推断开发依赖或替用户确认交付门槛；开发前仍须核对模块关系。
-
-## 任务入口中的已有框架
-任务 README.md（kind: index、system: catalog）必须有非空“## 已有框架与复用”。工具检查章节存在，具体框架能力、接口真实性、决定与授权范围仍需依据现有文档/API核对。
-
-入口类索引检查“类/角色/职责/API/文档”列、角色值、非空职责和链接；职责是否简短准确仍人工核对，不能只凭字数判定。
+planning 检查任务文档及 TODO，implemented 可检查正式产物；完整任务检查仍需对任务目录再用 planning 模式。工具只读，0 为通过、1 为约束问题、2 为参数/工具缺失。文档技能缺失明确报错，不退回旧的独立 schema。显式前置正确不代表模块依赖完整或交付门槛满足，仍人工核对。

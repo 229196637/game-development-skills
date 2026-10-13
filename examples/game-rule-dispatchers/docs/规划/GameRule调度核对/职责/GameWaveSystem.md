@@ -4,7 +4,7 @@ kind: plan
 system: game-wave
 title: GameWaveSystem
 status: implemented
-updated: '2026-10-13 19:46:44 +08:00'
+updated: '2026-10-13 20:08:21 +08:00'
 sources:
 - src/client/Mod/GameWave/GameWaveSystem.cs
 links: []
@@ -18,7 +18,22 @@ design_patterns:
 ---
 # GameWaveSystem
 
+## 职责
+
 波次调度器，由 GameRuleSystem 持有；普通链和信号链独立排期，共用本局有效时间。不判定规则胜负。
+
+## 目录架构与脚本位置
+
+当前位置已存在，样例只核对目录与脚本位置，不迁移生产代码。
+
+```text
+src/client/Mod/GameWave/
+  GameWaveSystem.cs
+```
+
+| 类/模块 | 角色 | 代码文件路径 | 命名空间/模块 | 放置理由与装配者 |
+| --- | --- | --- | --- | --- |
+| GameWaveSystem | dispatcher | src/client/Mod/GameWave/GameWaveSystem.cs | GameEntry.Client.Mod.GameWave | GameRuleSystem 创建/持有，波次能力留在现有模块 |
 
 ## 架构
 
@@ -97,3 +112,7 @@ flowchart TD
 ```
 
 已出生实体由关卡所有者回收，本模块不销毁借用关卡。
+
+## API
+
+[已有公开函数声明](../../../文档/api/client/waves/GameWaveSystem.api.cs)。本例参考已实现接口，不冒充新增 planned 功能。

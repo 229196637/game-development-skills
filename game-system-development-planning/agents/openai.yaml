@@ -1,4 +1,4 @@
 interface:
   display_name: "游戏系统开发规划"
-  short_description: "规划游戏系统架构、职责、接口及调用关系，衔接 Excel 配置与开发同步流程"
-  default_prompt: "使用 $game-system-development-planning，规划当前任务的接口、职责和关系，并生成待实现的原语言 API 文档，不展开具体实现。"
+  short_description: "统一进入设计与已实现任务，调用文档能力并按依赖安排 TODO"
+  default_prompt: "使用 $game-system-development-planning，调用文档技能确定目录架构、脚本位置与文档，再按模块依赖安排 TODO 并协调授权工作。"

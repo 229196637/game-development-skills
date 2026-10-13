@@ -15,7 +15,7 @@ metadata:
 
 # 文件与目录
 参照项目已有 docs/api 的声明风格：真实 namespace/package/module → 必要类型外壳 → 公开函数注释及签名。C# 只是其中一种语言，不限定项目技术。
-已实现并核对的正式文件放 docs/文档/api/client/<模块>/、server/<模块>/ 或 shared/<模块>/；规划期文件先存于 docs/规划/<任务>/api/ 的同样端/模块结构。每个模块内按实际类型或模块分声明文件，不产生额外清单、Markdown、索引或 YAML。由单独系统 Markdown 直接映射查找。保留既有 SDK/API 资料。
+已实现并核对的正式文件放 docs/文档/api/client/<模块>/、server/<模块>/ 或 shared/<模块>/；规划期文件先存于 docs/规划/<任务>/api/ 的同样端/模块结构。每个模块内按实际类型或模块分声明文件，每级目录提供用途和直接入口摘要 README.md；除此不产生额外清单、Markdown/索引或 YAML。README 不复制函数签名，也不替代声明文件。由单独系统 Markdown 直接映射查找。保留既有 SDK/API 资料。
 扩展名采用 .api.cs、.api.d.ts、.api.pyi 或原语言声明文件扩展名。没有独立声明形式的语言，也用原语言文件与签名表示，注明仅供查阅，可能并非完整可编译代码；不补造可执行实现、不改用 Markdown。
 
 # 仅收录公开函数

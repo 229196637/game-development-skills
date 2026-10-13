@@ -4,6 +4,10 @@ import datetime as dt
 import json
 import re
 import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+import os
+import subprocess
 from collections import deque
 from pathlib import Path
 from urllib.parse import unquote
@@ -73,6 +77,13 @@ def check(args):
                 fail(file, 'ANCHOR', 'missing Markdown heading: ' + ref, line)
     if path.is_dir() and path.name == '文档' and not (path / 'README.md').is_file():
         fail(path, 'DOC_INDEX', 'formal documentation root requires README.md')
+    if path.is_dir() and not (path / 'SKILL.md').is_file():
+        directories = [path] + [p for p in candidates if p.is_dir()]
+        for directory in directories:
+            if any(part.startswith('.') for part in directory.relative_to(path).parts):
+                continue
+            if not (directory / 'README.md').is_file():
+                fail(directory, 'DIRECTORY_README', 'each managed document directory requires a summary README.md')
     for file in candidates:
         if not file.is_file() or '.git' in file.parts:
             continue
@@ -80,7 +91,7 @@ def check(args):
             skipped.append(str(file))
             continue
         in_api = 'api' in file.parts and 'references' not in file.parts
-        if in_api and file.suffix.lower() in {'.md', '.json', '.yaml', '.yml'}:
+        if in_api and file.name != 'README.md' and file.suffix.lower() in {'.md', '.json', '.yaml', '.yml'}:
             fail(file, 'API_DIRECTORY', 'API directory contains a non-declaration file')
             continue
         if in_api and re.search('\\.api\\.(cs|d\\.ts|pyi)$', file.name):
@@ -170,7 +181,7 @@ def check(args):
             for heading in headings:
                 if re.search('测试|验收|验证结果|核对与缺口|执行记录|(?i:testing|test results)', heading):
                     fail(file, 'TEST_SECTION', 'test content must be in a separate report: ' + heading)
-            is_navigation = file.name == 'README.md' and meta.get('system') == 'catalog'
+            is_navigation = file.name == 'README.md'
             if is_navigation:
                 if any(re.search(r'(?i:todo)|待办|执行顺序|任务进度', h) for h in headings) or re.search(r'^\s*[-*] \[[ xX]\]', body, re.M):
                     fail(file, 'INDEX_TASKS', 'formal index is navigation only; no TODO/task execution state')
@@ -191,6 +202,18 @@ def check(args):
                 refs = re.findall(r'\[[^\]]+\]\(([^)]+)\)', api_section[1])
                 if not refs or any('api' not in Path(ref.split('#')[0]).parts or Path(ref.split('#')[0]).suffix.lower() in {'.md', '.json', '.yaml', '.yml'} for ref in refs):
                     fail(file, 'API_CODE', 'API section must directly link original-language declarations under api/')
+        if kind != 'skill' and meta.get('roles'):
+            placement = re.search(r'^## 目录架构与脚本位置\s*\n(.*?)(?=^## |\Z)', body, re.S | re.M)
+            if not placement or not placement[1].strip():
+                fail(file, 'SCRIPT_LAYOUT', 'type document requires its directory architecture and script placement')
+            else:
+                lines = [x.strip() for x in placement[1].splitlines() if x.strip().startswith('|')]
+                columns = ['类/模块', '角色', '代码文件路径', '命名空间/模块', '放置理由与装配者']
+                if len(lines) < 3 or any(c not in lines[0] for c in columns):
+                    fail(file, 'SCRIPT_PLACEMENT', 'placement table requires source path, namespace, rationale and assembly owner')
+                if not re.search(r'```(?:text|plaintext)\s*\n', placement[1]):
+                    fail(file, 'SCRIPT_TREE', 'placement requires a readable source directory tree')
+
         if kind != 'skill' and 'roles' in meta:
             roles = meta['roles']
             if not isinstance(roles, list) or not roles or any(not isinstance(r, str) or r not in {'dispatcher', 'executor', 'tool', 'data'} for r in roles):
@@ -302,14 +325,22 @@ def check(args):
 def main():
  parser=argparse.ArgumentParser(description=__doc__)
  sub=parser.add_subparsers(dest='command',required=True)
- sub.add_parser('rules')
+ rules_parser=sub.add_parser('rules')
+ rules_parser.add_argument('--mode',choices=['implemented','planning'],default='implemented')
  check_parser=sub.add_parser('check')
  check_parser.add_argument('path')
+ check_parser.add_argument('--mode',choices=['implemented','planning'],default='implemented')
  check_parser.add_argument('--project-root')
  check_parser.add_argument('--allow-meta-field',action='append',default=[])
  check_parser.add_argument('--topic',action='store_true')
 
  args=parser.parse_args()
+ if args.mode == 'planning':
+  forwarded=[args.command]
+  if args.command == 'check':
+   forwarded.append(args.path)
+   if args.project_root:forwarded.extend(['--project-root',args.project_root])
+  return subprocess.run([sys.executable,str(Path(__file__).with_name('planning_documents_tool.py'))]+forwarded,env={**os.environ,"PYTHONUTF8":"1","PYTHONIOENCODING":"utf-8"}).returncode
  args.kind='documentation'
  try:
   if args.command=='rules':

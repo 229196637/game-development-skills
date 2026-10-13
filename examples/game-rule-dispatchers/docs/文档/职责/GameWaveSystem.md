@@ -8,7 +8,7 @@ dispatcher: GameWaveSystem
 design_patterns:
 - name: 优先队列调度
   uses: 以到期有效时间和稳定次序排序普通链及信号触发链
-updated: '2026-10-13 19:46:44 +08:00'
+updated: '2026-10-13 20:07:45 +08:00'
 code_revision: working-tree
 sources:
 - src/client/Mod/GameWave/GameWaveSystem.cs
@@ -19,6 +19,19 @@ dependencies: []
 ## 职责
 
 波次调度器，由 GameRuleSystem 持有；普通链和信号链独立排期，共用本局有效时间。不判定规则胜负。
+
+## 目录架构与脚本位置
+
+当前文件位置已存在；本样例只补录路径，不新增或迁移生产脚本。
+
+```text
+src/client/Mod/GameWave/
+  GameWaveSystem.cs
+```
+
+| 类/模块 | 角色 | 代码文件路径 | 命名空间/模块 | 放置理由与装配者 |
+| --- | --- | --- | --- | --- |
+| GameWaveSystem | dispatcher | src/client/Mod/GameWave/GameWaveSystem.cs | GameEntry.Client.Mod.GameWave | 波次模块独立能力；GameRuleSystem 创建/持有并请求排期 |
 
 ## 架构
 

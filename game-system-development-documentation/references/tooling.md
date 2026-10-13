@@ -39,3 +39,9 @@ README.md 且 system: catalog 识别为纯导航，检查精简 meta 和链接�
 入口类索引检查“类/角色/职责/API/文档”列、角色值、非空职责和链接；职责是否简短准确仍人工核对，不能只凭字数判定。
 
 职责目录的类型文档校验“职责”“API”两节；API 必须指向代码声明或明确写无公开函数/待补齐。正式根目录需 README.md，规划入口同名，无双入口。
+
+## 目录摘要覆盖
+check 目录时检查每级文档文件夹存在 README.md（Git/隐藏目录跳过；技能根的自检不要求技能内部目录摘要）。API 允许 README 导航摘要，仍拒绝其他 Markdown/manifest；README 使用所属技能 meta，链接正常校验，不能冒充代码 API。
+
+## 单一文档生成检查入口
+统一 scripts/documentation_tool.py check <目标> --mode planning|implemented；planning profile 的实现位于本技能 scripts/planning_documents_tool.py，文档规则都在本技能。本工具不解析/排序 TODO，统一任务规划负责该部分。类型文档必须有目录架构与脚本位置，明确代码路径、命名空间和装配归属。

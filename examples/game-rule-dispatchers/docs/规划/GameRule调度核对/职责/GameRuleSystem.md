@@ -4,7 +4,7 @@ kind: plan
 system: game-rule
 title: GameRuleSystem
 status: implemented
-updated: '2026-10-13 19:46:44 +08:00'
+updated: '2026-10-13 20:08:21 +08:00'
 sources:
 - src/client/Mod/GameRule/GameRuleSystem.cs
 links:
@@ -22,7 +22,22 @@ design_patterns:
 ---
 # GameRuleSystem
 
+## 职责
+
 本局规则调度器。借用关卡上下文与随机源，拥有当前 GameRuleStep、波次和随机事件子模块；只锁存结果，不在规则回调中释放世界。GameRunSession 在有效帧结束后驱动 Update。以下各条链均来自当前实现。
+
+## 目录架构与脚本位置
+
+当前位置已存在，样例只核对目录与脚本位置，不迁移生产代码。
+
+```text
+src/client/Mod/GameRule/
+  GameRuleSystem.cs
+```
+
+| 类/模块 | 角色 | 代码文件路径 | 命名空间/模块 | 放置理由与装配者 |
+| --- | --- | --- | --- | --- |
+| GameRuleSystem | dispatcher | src/client/Mod/GameRule/GameRuleSystem.cs | GameEntry.Client.Mod.GameRule | GameRunSession 创建/持有，有效帧后驱动 |
 
 ## 架构
 
@@ -36,10 +51,10 @@ flowchart TD
   Events -->|完成回调入队| Rule
   click Waves "GameWaveSystem.md"
   click Events "GameRandomEventSystem.md"
-  click Step "../../文档/职责/GameRuleStep.md"
+  click Step "../../../文档/职责/GameRuleStep.md"
 ```
 
-[波次调度](GameWaveSystem.md) · [随机事件调度](GameRandomEventSystem.md) · [执行者](../../文档/职责/GameRuleStep.md)
+[波次调度](GameWaveSystem.md) · [随机事件调度](GameRandomEventSystem.md) · [执行者](../../../文档/职责/GameRuleStep.md)
 
 ## 调度流水线
 
@@ -103,7 +118,7 @@ flowchart TD
   Step --> Waves["GameWaveSystem<br/>匹配触发后 RequestWave"]
   Waves --> Events["GameRandomEventSystem<br/>Observe(signal)"]
   Events -->|EventStarted / Completed<br/>回调入队，随后消费| Drain
-  click Step "../../文档/职责/GameRuleStep.md"
+  click Step "../../../文档/职责/GameRuleStep.md"
   click Waves "GameWaveSystem.md#信号触发排期"
   click Events "GameRandomEventSystem.md#机会分派"
   click Convert "GameRuleSystem.md#tick"
@@ -128,7 +143,7 @@ flowchart TD
   Next --> Has{"仍有阶段？"}
   Has -->|是| Step
   Has -->|否| Win["Tick<br/>回 Tick 锁存胜利"]
-  click Step "../../文档/职责/GameRuleStep.md"
+  click Step "../../../文档/职责/GameRuleStep.md"
   click Emit "GameRuleSystem.md#信号消费"
   click Win "GameRuleSystem.md#tick"
 ```
@@ -156,4 +171,8 @@ GameRunSession 先解除批次/帧回调再 Dispose Rules；Rules 不销毁借�
 
 ## 执行者
 
-见 [GameRuleStep](../../文档/职责/GameRuleStep.md)，只负责具体完成条件；激活顺序、有效时间、累计计数和终局由本调度器控制。
+见 [GameRuleStep](../../../文档/职责/GameRuleStep.md)，只负责具体完成条件；激活顺序、有效时间、累计计数和终局由本调度器控制。
+
+## API
+
+[已有公开函数声明](../../../文档/api/client/game-rules/GameRuleSystem.api.cs)。本例参考已实现接口，不冒充新增 planned 功能。

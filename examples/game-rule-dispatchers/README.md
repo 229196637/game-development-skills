@@ -7,3 +7,9 @@
 这是技能验证用文档样例，只读提炼当前项目，没有改动生产源码。规划部分为已实现结构的逆向整理，未增加新业务或重构方案。Mermaid 不支持点击时使用图下普通链接。
 
 [核对结果](review.md) · [Tick 图片预览](preview/tick.png) · [信号消费图片预览](preview/signals.png)
+
+[文档目录摘要](docs/README.md) · [预览目录摘要](preview/README.md)
+
+统一入口为游戏系统开发规划：设计与已实现补录/更新均调用文档技能（planning/implemented）；先定目录/脚本位置，生成文档后按依赖补唯一 TODO。
+
+[独立子代理试用摘要](independent-review.md)

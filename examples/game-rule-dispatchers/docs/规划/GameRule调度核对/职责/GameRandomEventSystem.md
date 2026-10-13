@@ -4,7 +4,7 @@ kind: plan
 system: random-event
 title: GameRandomEventSystem
 status: implemented
-updated: '2026-10-13 19:46:44 +08:00'
+updated: '2026-10-13 20:08:21 +08:00'
 sources:
 - src/client/Mod/GameRandomEvent/GameRandomEventSystem.cs
 links: []
@@ -20,7 +20,22 @@ design_patterns:
 ---
 # GameRandomEventSystem
 
+## 职责
+
 随机事件实例调度器，借用注册表、随机源及回调，拥有活动事件实例。开始和完成消息交回 GameRuleSystem 的队列；不直接推进规则或销毁世界。
+
+## 目录架构与脚本位置
+
+当前位置已存在，样例只核对目录与脚本位置，不迁移生产代码。
+
+```text
+src/client/Mod/GameRandomEvent/
+  GameRandomEventSystem.cs
+```
+
+| 类/模块 | 角色 | 代码文件路径 | 命名空间/模块 | 放置理由与装配者 |
+| --- | --- | --- | --- | --- |
+| GameRandomEventSystem | dispatcher | src/client/Mod/GameRandomEvent/GameRandomEventSystem.cs | GameEntry.Client.Mod.GameRandomEvent | GameRuleSystem 创建/持有，借用事件注册表和随机源 |
 
 ## 架构
 
@@ -117,3 +132,7 @@ flowchart TD
 ```
 
 停止不发送完成信号；借用注册表与随机源不由本模块释放。
+
+## API
+
+[已有公开函数声明](../../../文档/api/client/random-events/GameRandomEventSystem.api.cs)。本例参考已实现接口，不冒充新增 planned 功能。

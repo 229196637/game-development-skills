@@ -1,13 +1,13 @@
 ---
 name: game-system-development-documentation
-description: 专门为游戏系统通过系统 Markdown 映射查阅公开函数 API，扫描已有项目补齐分系统文档，或在实现、修复、优化系统后同步架构、使用编程说明与按实际语言生成仅含公开函数的 API 声明，维护 YAML meta 和独立 docs Git 仓库。仅设计尚未实现的功能时使用 game-system-development-planning。
+description: 由游戏系统开发规划统一调用，生成或同步设计态和已实现态游戏文档、目录架构与脚本位置、角色职责、调度流水线、原语言公开函数 API 及各目录 README。文档生成收敛在本技能，不排序任务 TODO。
 metadata:
   short-description: 扫描现状并同步系统说明、编程指南和 API
   schema-version: "1"
 ---
 # 游戏系统开发文档
 
-个人级游戏系统文档技能，跨项目、跨语言使用。正式文档参照项目 SDK 的系统说明：先讲用途，再按实际使用场景给短调用示例，说明生命周期与限制；不把扫描结果和检查清单堆成正文。图中操作节点可点击对应规范，名称与文件相对应；图下保留同目标 Markdown 链接。
+个人级游戏文档生成技能，跨项目、跨语言使用。设计、已实现补录和修改更新都由 game-system-development-planning 统一进入，本技能作为文档生成/同步能力被调用；直接收到文档任务时也接入该任务流程，而非绕过规划产生另一份任务状态。正式文档参照项目 SDK 的系统说明：先讲用途，再按实际使用场景给短调用示例，说明生命周期与限制；不把扫描结果和检查清单堆成正文。图中操作节点可点击对应规范，名称与文件相对应；图下保留同目标 Markdown 链接。
 
 ## 系统文档工具（优先执行）
 
@@ -25,7 +25,7 @@ flowchart TD
   Enough -->|否| Check["查阅 API<br/>snapshots.md<br/>只查相关源码后回答"]
   Task -->|补已有系统文档| Baseline["老工程补录<br/>baseline.md"]
   Task -->|开发后修改同步| Sync["增量同步<br/>sync.md"]
-  Task -->|尚未实现的设计| Plan["游戏系统开发规划<br/>SKILL.md"]
+  Task -->|设计态文档| Plan["规划文档生成<br/>planning-documents.md"]
   Baseline --> Emit["正式文档边界<br/>document-layout.md<br/>继续第 2 步"]
   Sync --> Emit
   click Api "references/api/snapshots.md"
@@ -33,7 +33,7 @@ flowchart TD
   click Check "references/api/snapshots.md"
   click Baseline "references/workflows/baseline.md"
   click Sync "references/workflows/sync.md"
-  click Plan "../game-system-development-planning/SKILL.md"
+  click Plan "references/workflows/planning-documents.md"
   click Emit "references/contracts/document-layout.md"
 ```
 
@@ -42,7 +42,7 @@ flowchart TD
 | 查阅接口 | [查阅 API](references/api/snapshots.md) | 系统 Markdown → 原语言声明；足够且无冲突不扫描源码，planned 不当已实现 API |
 | 老工程缺文档 | [老工程补录](references/workflows/baseline.md) | 专项追踪创建/运行/释放和公开契约，不补造历史规划 |
 | 实现/修复/优化后 | [增量同步](references/workflows/sync.md) | 对照此次实现差异，更新系统及受影响消费者，不覆盖其他改动 |
-| 仅设计 | [游戏系统开发规划](../game-system-development-planning/SKILL.md) | 保持规划与正式现状分开，不将未实现设计写入正式说明 |
+| 设计态 | [规划文档生成](references/workflows/planning-documents.md) | 同一生成器使用规划 meta 与 planned API；TODO 交回统一任务规划 |
 
 ## 2. 生成或同步实际系统文档
 
@@ -50,7 +50,8 @@ flowchart TD
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 360}}}%%
 flowchart TD
   Git["独立文档 Git<br/>docs-git.md"] --> Facts["增量同步<br/>sync.md<br/>核对本次实现事实"]
-  Facts --> Index["文档总入口<br/>document-layout.md<br/>维护已实现系统导航，无 TODO"]
+  Facts --> Placement["目录架构与脚本位置<br/>script-layout.md"]
+  Placement --> Index["文档总入口<br/>document-layout.md<br/>维护已实现系统导航，无 TODO"]
   Index --> Style["SDK 式系统说明<br/>document-layout.md<br/>阅读相关 SDK，确定使用场景"]
   Style --> Body["正式文档边界<br/>document-layout.md<br/>用途、架构、调用示例与生命周期"]
   Body --> Dispatch["调度器与执行者<br/>dispatchers.md"]
@@ -65,6 +66,7 @@ flowchart TD
   Pass -->|通过| Deliver["增量同步<br/>sync.md<br/>交付范围、证据和已知缺口"]
   click Git "references/contracts/docs-git.md"
   click Facts "references/workflows/sync.md"
+  click Placement "references/workflows/script-layout.md"
   click Index "references/contracts/document-layout.md#文档总入口"
   click Style "references/contracts/document-layout.md#sdk-式系统说明"
   click Body "references/contracts/document-layout.md"
@@ -100,11 +102,21 @@ flowchart TD
 正式系统文档及其 UI/配置/网络专题不设测试、验收或执行记录章节，也不放简短测试总结。测试方案/用例、验收矩阵、命令与结果、截图/日志证据、扫描/实验记录统一保存在任务的 verification.md 或既有独立测试报告；无需复制进正文或 meta.dependencies。文档操作流程仍要核对正确性，核对动作不代表把报告放进产物。
 
 
-- UI：读取 [有 UI 时的模块规划](../game-system-development-planning/references/workflows/ui.md)；正式独立 UI 说明与 HTML 设计稿按实际实现维护，客户端业务放模块 View/view，服务端业务的客户端 UI 直接放模块根目录，不复制规划或强制补流程图。
+- UI：读取 [有 UI 时的模块规划](references/workflows/ui.md)；正式独立 UI 说明与 HTML 设计稿按实际实现维护，客户端业务放模块 View/view，服务端业务的客户端 UI 直接放模块根目录，不复制规划或强制补流程图。
 - Excel：读取 [游戏 Excel 配置表](../game-excel-config/SKILL.md)；同步字段注释、表关系、端归属、导出与读取。网络事件等专题按 [正式文档边界](references/contracts/document-layout.md) 独立说明。无需求不补空文件。
 - API 仅公开函数/方法，保留真实模块/命名空间与必要类型壳；不收字段、属性、事件、非公开函数或实现体。核对方法体，不照抄可能不完整的 XML；按真实语言输出，不限定 C#。
 - 精简不删关键行为；不能将 owned 集合当成底层完整所有权，或把 Dispose 保留/不重试写成“释放全部资源”。不把 planned/mixed 提前移交，不保留双份正式声明。
 - 不改 SDK 缓存、自动生成源码/API。不复制规划 TODO、设计推演、伪代码、验收矩阵或历史流水。提交/推送以用户授权为准，交付说明代码/docs 仓库状态。
 
+## 目录摘要
+
+每个本次维护的文档目录（包括 API 根/端/模块）都提供用途与导航摘要 README.md；不复制正文、API 或第二份 TODO。参照 [每个目录的摘要 README](references/contracts/document-layout.md#每个目录的摘要-readme) 与 [目录摘要模板](assets/templates/directory-readme.md)。
+
 ## 临时 Python 脚本
 为扫描、生成或验证本次任务临时编写的 .py 可以保留，但不得加入 Git。优先放在仓库外的临时目录；需要保存在代码或 docs 工作树中时，使用各仓库本地 .git/info/exclude 精确忽略临时目录或文件，不使用全局 *.py 规则，以免隐藏正式源码。分别检查所属仓库的 git check-ignore 和暂存差异，确保临时脚本没有进入提交。发现本任务误暂存的临时脚本，仅撤销其暂存并保留文件，不影响用户已有暂存内容。项目正式 Python 源码、可复用工具和技能自带模板不属于临时脚本，不强制删除。
+
+## 调用接口与两种模式
+
+调用者是 [游戏系统开发规划](../game-system-development-planning/SKILL.md)，提供任务范围、已有决定和模式：planning 生成设计态产物，implemented 补录/同步实际实现。先按 [目录架构与脚本位置](references/workflows/script-layout.md) 确定每个类/模块的代码位置，再完成职责、API、流水线和各级 README。
+
+设计态完整流程与模板见 [规划文档生成](references/workflows/planning-documents.md)、[规划目录与元数据](references/contracts/planning-layout.md)；工具统一 scripts/documentation_tool.py，check --mode planning 或 --mode implemented。返回文档入口、源码路径表、模块依赖/交付门槛、框架决定和未决项，由调用者补充有序 TODO。生成器不擅自实现业务、不排序任务、不另存第二份 TODO；开发后更新仍由规划技能调用本技能。

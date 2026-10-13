@@ -1,4 +1,4 @@
 interface:
   display_name: "游戏系统开发文档"
-  short_description: "扫描老工程或同步系统改动，维护分系统编程说明、真实 API 快照及文档版本"
-  default_prompt: "使用 $game-system-development-documentation，扫描当前实现并更新独立 docs 仓库中的系统说明、编程指南与 API 快照。"
+  short_description: "统一生成设计态和现状态文档、目录架构、职责与代码 API"
+  default_prompt: "由 $game-system-development-planning 统一进入任务，调用本技能生成 planning 或 implemented 模式的目录架构、职责、代码 API 和 README；将依赖交回规划补 TODO。"
