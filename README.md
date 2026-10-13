@@ -4,7 +4,7 @@
 
 | 技能 | 用途 |
 | --- | --- |
-| game-system-development-planning | 游戏系统开发规划：任务入口、模块职责与目录、接口关系、流程图、TODO、开发与验收 |
+| game-system-development-planning | 游戏系统开发规划：读取文档，按类记录目标、任务、依赖、状态及底部测试过程 |
 | game-system-development-documentation | 游戏系统开发文档：扫描现状、增量同步、原语言公开函数 API、独立 docs Git |
 | game-excel-config | 游戏 Excel 配置表：字段注释、表关系、端归属、导出与读取契约 |
 | log-reading | 日志阅读技能：定位构建/运行日志，关联会话、双端及异常链；含 SCE 可选适配 |
@@ -15,10 +15,10 @@
 
 ## 使用
 
-调用“游戏系统开发规划”或“游戏系统开发文档”，配置需求由“游戏 Excel 配置表”协作处理；日志排查调用“日志阅读技能”。
+先调用“游戏系统开发文档”，再调用“游戏系统开发规划”驱动实现；配置需求由“游戏 Excel 配置表”协作处理；日志排查调用“日志阅读技能”。
 
 - 规划查阅 API 时，已有框架能力须先给出准确接口、调用/生命周期细节与差距，再询问复用还是重写；已明确选择沿用。
-- 开发任务入口：`docs/规划/<任务>/index.md`，每模块单独存储规划，docs 由独立 Git 仓库维护。
+- 开发任务入口：`docs/规划/<任务>/README.md`，每个类独立任务 MD，只引用文档，不复制设计，docs 由独立 Git 仓库维护。
 - API 先分 client/server/shared，再按模块存储原语言公开函数声明，由 Markdown 映射；实现完成后同步到正式文档位置。
 - 需要 UI 的模块独立写 `ui.md`，链接可直接打开的 HTML 设计稿。客户端业务逻辑的 UI 放模块 View/view；服务端业务逻辑的客户端 UI 直接放对应模块目录，遵循项目实际 UI 框架。
 - 配置字段需要完整注释，说明用途、单位、缺省、范围与引用关系。
@@ -29,11 +29,17 @@
 
 | 技能 | 工具 | 命令与范围 |
 | --- | --- | --- |
-| 开发规划 | scripts/planning_tool.py | rules/check：规划 meta、跳转和任务配置清单 |
+| 开发规划 | scripts/planning_tool.py | init/status/record-test/complete/check/list：逐类任务与完成门槛 |
 | 开发文档 | scripts/documentation_tool.py | rules/check：精简 meta、文档依赖、API 和测试分离 |
 | Excel 配置 | scripts/config_tool.py | inspect/check：配置读取与字段处理清单 |
 | 日志阅读 | scripts/log_tool.py | read：日志标识过滤、行号和上下文 |
 
-每个工具只随对应技能安装，使用说明在该技能 references/tooling.md。工具只读、结果为 JSON；结构通过不代表业务/运行验证通过。测试代码不随技能或本仓库分发，分别在隔离目录验证。
+每个工具只随对应技能安装，使用说明在该技能 references/tooling.md。规划工具可以在显式任务根内记录任务，其余工具只读；结果为 JSON，结构通过不代表业务/运行验证通过。测试代码不随技能或本仓库分发，分别在隔离目录验证。
 
 更新时间使用便于阅读的 `YYYY-MM-DD HH:mm:ss ±HH:MM`，例如 `2026-10-12 17:19:55 +08:00`；YAML 用带引号字符串。新更新记录与 API 头部按此格式，旧历史不补造时分秒。日志事件的原始时间保持原样。
+
+## 文档先行，规划驱动执行
+
+文档技能继续维护已认可的系统说明、角色、生命周期、调度图及原语言公开函数 API；本次只补独立 `目录架构.md`，用于定位文件夹和脚本。规划不复制这些内容；每类任务引用对应文档，写目标与勾选工作项，底部保存真实测试过程，所有必需测试与前置完成后才设 completed。Python 工具辅助记录，不执行测试，不替代业务验证。
+
+重构前认可版本已保存为 Git 标签 `backup/before-planning-driver-20261013-204919`，对应提交 `a7864d91ba47c776ce94260a1aa8c2859b4570dd`。

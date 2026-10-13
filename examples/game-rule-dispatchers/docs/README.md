@@ -2,7 +2,7 @@
 system: directory
 side:
 - client
-updated: '2026-10-13 19:54:48 +08:00'
+updated: '2026-10-13 21:07:44 +08:00'
 code_revision: working-tree
 sources: []
 dependencies: []
@@ -18,6 +18,6 @@ dependencies: []
 
 ## 阅读顺序
 
-先选择规划或正式文档；开发任务进入规划，查阅已实现系统进入文档。
+先阅读系统文档与目录架构，再进入规划逐类执行；查阅现状直接进入文档。
 
 [返回上级](../README.md)

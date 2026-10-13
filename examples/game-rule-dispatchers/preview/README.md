@@ -21,3 +21,5 @@ dependencies: []
 先看 Tick 顺序，再看信号消费；完整说明从上级样例 README 进入。
 
 [返回上级](../README.md)
+
+[规划技能操作流程](planning-flow.png)：实测约 20px；可点击节点见技能 SKILL.md。

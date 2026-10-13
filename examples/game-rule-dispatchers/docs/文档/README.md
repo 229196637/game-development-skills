@@ -2,7 +2,7 @@
 system: catalog
 side:
 - client
-updated: '2026-10-13 19:54:48 +08:00'
+updated: '2026-10-13 21:07:44 +08:00'
 code_revision: working-tree
 sources: []
 dependencies: []
@@ -29,3 +29,5 @@ dependencies: []
 ## 子目录
 
 [职责摘要](职责/README.md) · [API 摘要](api/README.md) · [返回文档总目录](../README.md)
+
+[目录架构](目录架构.md)：查看脚本与文档层级及类映射。

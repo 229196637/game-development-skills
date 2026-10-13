@@ -1,3 +1,5 @@
+> 本文件保留前一版验证历史；当前“先文档后规划”与逐类执行记录的结果见 [规划驱动重构验证](planning-driver-review.md)。
+
 # 隔离样例核对
 
 样例只读参考当前 GameRuleSystem、GameRuleStep、GameWaveSystem、GameRandomEventSystem、GameRunSession 和 GameplayWeightedChoice；未改生产代码、配置、运行状态或生产 docs。

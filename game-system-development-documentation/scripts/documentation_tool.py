@@ -181,7 +181,10 @@ def check(args):
             for heading in headings:
                 if re.search('测试|验收|验证结果|核对与缺口|执行记录|(?i:testing|test results)', heading):
                     fail(file, 'TEST_SECTION', 'test content must be in a separate report: ' + heading)
-            is_navigation = file.name == 'README.md'
+            is_directory_map = file.name == '目录架构.md' and meta.get('system') == 'directory'
+            if is_directory_map and not re.search(r'```text\s*\n', body):
+                fail(file, 'DIRECTORY_TREE', 'directory architecture requires a readable folder tree')
+            is_navigation = file.name == 'README.md' or is_directory_map
             if is_navigation:
                 if any(re.search(r'(?i:todo)|待办|执行顺序|任务进度', h) for h in headings) or re.search(r'^\s*[-*] \[[ xX]\]', body, re.M):
                     fail(file, 'INDEX_TASKS', 'formal index is navigation only; no TODO/task execution state')

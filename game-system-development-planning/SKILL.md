@@ -1,43 +1,54 @@
 ---
 name: game-system-development-planning
-description: 游戏设计、开发及已实现系统补录/更新的统一任务入口。调用游戏系统开发文档生成目录架构、脚本位置、职责、调度图、API和各级README，再按模块依赖编排唯一TODO，协调授权开发、测试、验收和实现后文档同步。
+description: 在游戏系统文档具备后驱动代码实现；按类维护目标、任务内容、文档引用、依赖、状态和底部测试过程，用 Python 辅助记录。规划不复制系统文档、架构图或 API。
 metadata:
-  short-description: 统一进入游戏任务，调用文档能力并按依赖安排 TODO
+  short-description: 先文档后规划，逐类驱动实现与测试
+  schema-version: "2"
 ---
 # 游戏系统开发规划
 
-无论尚未开发、已有工程补录还是开发后的文档更新，都从本技能进入同一任务流程。文档生成全部调用 game-system-development-documentation，不在本技能保留第二套目录、meta、职责、API或流程图模板；本技能负责范围/模式、依赖和唯一 TODO，以及按已有授权协调开发与验证。
+先文档，后规划。先由 [游戏系统开发文档](../game-system-development-documentation/SKILL.md) 明确系统、接口及脚本位置；本技能读取这些成果，把它们变成按类执行的任务。文档不足时先补对应文档，不在规划里另写一套设计。已有系统的改动也先核对并更新相关文档，再安排确实需要的实现工作；纯补录文档不制造代码任务。
 
-## 操作流程
+## 执行流程
 
 ```mermaid
-%%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 340}}}%%
+%%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 360}}}%%
 flowchart TD
-  Task["统一入口与路由<br/>task-routing.md<br/>确定需求、范围和已有决定"] --> Mode{"文档模式？"}
-  Mode -->|尚未实现的设计| Planned["游戏系统开发文档<br/>SKILL.md<br/>planning：目录、脚本位置、职责与拟定 API"]
-  Mode -->|已有实现补录或更新| Actual["游戏系统开发文档<br/>SKILL.md<br/>implemented：按实现维护同类文档"]
-  Planned --> Todo["统一入口与路由<br/>task-routing.md<br/>文档交回依赖后，最后编排 TODO"]
-  Actual --> Todo
-  Todo --> Scope{"授权范围包含开发？"}
-  Scope -->|仅规划或文档| Check["开发规划工具<br/>tooling.md<br/>文档结构与 TODO 检查"]
-  Scope -->|包含开发| Work["统一入口与路由<br/>task-routing.md<br/>按前置实现、测试、验收"]
-  Work --> Sync["游戏系统开发文档<br/>SKILL.md<br/>实现后仍由本任务调用同步"]
-  Sync --> Check
-  Check --> Done["统一入口与路由<br/>task-routing.md<br/>核对范围、证据及未完成项后交付"]
-  click Task "references/workflows/task-routing.md"
-  click Planned "../game-system-development-documentation/SKILL.md"
-  click Actual "../game-system-development-documentation/SKILL.md"
-  click Todo "references/workflows/task-routing.md"
-  click Check "references/tooling.md"
-  click Work "references/workflows/task-routing.md"
+  Docs["游戏系统开发文档<br/>SKILL.md<br/>先完成或核对文档"] --> Read["任务路由与执行<br/>task-routing.md<br/>读取类 MD、API、目录架构"]
+  Read --> Ready{"文档与接口明确？"}
+  Ready -->|否| Docs
+  Ready -->|是| Task["逐类任务记录<br/>class-task.md<br/>目标、内容、文档引用"]
+  Task --> Order["任务路由与执行<br/>task-routing.md<br/>按依赖确定先后"]
+  Order --> Code["任务路由与执行<br/>task-routing.md<br/>读取对应文档后实现代码"]
+  Code --> Test["开发规划工具<br/>tooling.md<br/>执行测试，记录到任务底部"]
+  Test --> Pass{"必需测试与任务全部通过？"}
+  Pass -->|否| Code
+  Pass -->|是| Sync["游戏系统开发文档<br/>SKILL.md<br/>同步真实实现差异"]
+  Sync --> Done["开发规划工具<br/>tooling.md<br/>检查前置并设置完成"]
+  click Docs "../game-system-development-documentation/SKILL.md"
+  click Read "references/workflows/task-routing.md"
+  click Task "references/contracts/class-task.md"
+  click Order "references/workflows/task-routing.md"
+  click Code "references/workflows/task-routing.md"
+  click Test "references/tooling.md"
   click Sync "../game-system-development-documentation/SKILL.md"
-  click Done "references/workflows/task-routing.md"
+  click Done "references/tooling.md"
 ```
 
-1. 按 [统一入口与路由](references/workflows/task-routing.md) 保存需求与范围，沿用用户已确认选择，不重复索取已有授权。
-2. 调用 [游戏系统开发文档](../game-system-development-documentation/SKILL.md)，传 planning 或 implemented 模式；文档技能先查已有能力、决定目录架构与脚本位置，再生成职责、API、调度/通信和各级 README。设计与现状不能混写，API 状态必须真实。
-3. 文档返回依赖、交付门槛和未决项后，本技能最后补充唯一 TODO：先满足开发前置，再在就绪项中比较优先级；按 [TODO 模板](assets/templates/todo.md) 写清先做什么、再做什么和理由。已实现文档任务只安排本次核对/同步工作，不重新开发现成系统。
-4. 按已有授权推进开发/测试/验收；每次实现变化仍调用同一文档技能更新，不回到旧的另一条文档入口。任务状态和证据只维护一份，正式文档不放 TODO/测试记录。
-5. 使用 [开发规划工具](references/tooling.md) 检查：文档约束委托文档工具，规划工具只补查 TODO。未完成或未验证如实说明。
+图中节点对应 [任务路由与执行](references/workflows/task-routing.md)、[逐类任务记录](references/contracts/class-task.md)、[开发规划工具](references/tooling.md)。没有执行条件则记录缺口，不把未运行的测试标成通过。
 
-本技能不自动授权多代理、生产改造或推送；当前会话已有授权沿用。临时扫描/验证脚本放仓库外或精确本地忽略，不加入 Git；正式可复用工具仍放所属技能 scripts/，不分发测试代码。
+## 开始实现的门槛
+
+首次写本次业务代码之前，必须已有对应类任务 MD，执行 `check/list` 核对前置与顺序，并将本类状态设为 doing；之后才能实现和测试。不能先实现再补任务并声称规划驱动。已有代码补录任务须如实写明是补录，不编造过去的执行过程。工具不会监控源码写入时间，执行者负责遵守这个顺序。
+
+## 规划产物
+
+任务入口 `docs/规划/<任务>/README.md`，各类任务放 `<client|server|shared>/<模块>/<类名>.md`，每目录都有 README。无类的语言按真实模块/脚本单元命名。入口只说明任务范围、文档入口和依赖执行顺序，链接各类任务；状态只存每类 MD，不维护第二份 TODO 表。
+
+类任务只写目标、任务内容、对应文档、完成状态；必要的前置任务与必需测试写入精简 meta。文件底部 `## 测试过程` 记录真实命令/步骤、预期、实际、结果和证据。类职责、持有关系、生命周期、程序设计模式、流程图、接口声明、配置字段、UI 稿均链接文档，不复制。
+
+实现前每次读对应 MD，沿链接查公开函数 API、目录架构与适用项目规范。现有框架已经提供能力时，给出准确接口、调用契约与差距，再确认是否重写；已有选择继续沿用，不重复询问。实现遵守文档规定的脚本位置和实际语言，不猜接口。
+
+按 [开发规划工具](references/tooling.md) 使用 `scripts/planning_tool.py` 创建任务、记录测试、排序检查和设置完成。工具只修改显式指定任务根下的任务/README，不实现代码、不运行测试、不修改系统文档；结构通过不等于行为通过。
+
+文档及规划由 docs 独立 Git 维护。测试过程只在规划类任务底部或链接的独立证据中；不进入正式文档。临时 Python 留仓库外或精确本地忽略，不提交；本技能的正式可复用工具可提交。发布或生产改动依用户授权，规划本身不扩大范围。
