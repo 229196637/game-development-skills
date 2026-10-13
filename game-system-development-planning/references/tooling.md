@@ -29,3 +29,5 @@ python $m_tool check $m_taskDir --project-root $m_projectRoot
 有 dispatcher/design_patterns 时校验类型名、模式用途、调度流水线下每条 Mermaid flowchart，以及指向其他已标注调度器文档的图节点跳转。实际类型是否遗漏调度职责、流程正确性及未登记依赖不能靠结构推断，仍人工核对；执行者不强制调度结构。
 
 角色仅 dispatcher/executor/tool/data，允许兼任；data 的独立简短说明不强制流水线或架构图。
+
+检查调度器文件名/H1 与类型名一致、每流水线图前用途说明，以及以其他本地流水线标题命名的节点跳转。工具不会从任意标签自动识别隐藏的调用关系，仍需人工核对。

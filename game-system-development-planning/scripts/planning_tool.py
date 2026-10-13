@@ -191,6 +191,11 @@ def check(args):
                 fail(file, 'ROLES', 'dispatcher meta requires roles: [dispatcher]')
             if not isinstance(meta.get('dispatcher'), str) or not meta['dispatcher'].strip():
                 fail(file, 'DISPATCHER', 'dispatcher must name the actual/proposed type')
+            dispatcher_name = meta.get('dispatcher')
+            if isinstance(dispatcher_name, str) and dispatcher_name.strip():
+                type_name = dispatcher_name.rsplit('.', 1)[-1]
+                if file.stem != type_name or not re.search(r'^# ' + re.escape(type_name) + r'\s*$', body, re.M):
+                    fail(file, 'DISPATCH_NAME', 'filename and H1 must match dispatcher type: ' + type_name)
             patterns = meta.get('design_patterns')
             if not isinstance(patterns, list) or not patterns:
                 fail(file, 'DESIGN_PATTERNS', 'dispatcher requires nonempty design_patterns')
@@ -201,6 +206,19 @@ def check(args):
             if not pipelines:
                 fail(file, 'DISPATCH_PIPELINES', 'dispatcher requires named pipelines under ## 调度流水线')
             for title, content in pipelines:
+                before_graph = content.split('```', 1)[0]
+                if not re.search(r'^用途：\S', before_graph, re.M):
+                    fail(file, 'PIPELINE_PURPOSE', 'pipeline needs a brief purpose before its diagram: ' + title)
+                nodes = dict(re.findall(r'(\w+)\["([^"]+)"\]', content))
+                clicks = dict(re.findall(r'click\s+(\w+)\s+"([^"\n]+)"', content))
+                names = {t.strip() for t, _ in pipelines}
+                for node, label in nodes.items():
+                    first = label.split('<br/>')[0]
+                    if first in names and first != title.strip():
+                        ref = clicks.get(node, '')
+                        target_part, _, anchor = ref.partition('#')
+                        if not ref or (file.parent / target_part).resolve() != file.resolve() or anchor != slug(first):
+                            fail(file, 'PIPELINE_LINK', 'internal pipeline node needs its heading link: ' + first)
                 if not re.search(r'```mermaid\s*\n(?:(?!```)[\s\S])*?\bflowchart\s+(?:TD|TB|LR|RL|BT)\b', content):
                     fail(file, 'DISPATCH_FLOW', 'pipeline lacks flowchart: ' + title)
             refs = meta.get('links', []) if kind == 'planning' else [d.get('document', '') for d in meta.get('dependencies', []) if isinstance(d, dict)]

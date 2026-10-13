@@ -1,7 +1,14 @@
 ---
+id: plan.rule-review.random-event
+kind: plan
 system: random-event
-side:
-- client
+title: GameRandomEventSystem
+status: implemented
+updated: '2026-10-13 17:55:46 +08:00'
+sources:
+- src/client/Mod/GameRandomEvent/GameRandomEventSystem.cs
+links: []
+code_revision: working-tree
 roles:
 - dispatcher
 dispatcher: GameRandomEventSystem
@@ -10,11 +17,6 @@ design_patterns:
   uses: 注册表提供事件实例，宿主调用统一行为接口
 - name: 完成请求延迟提交
   uses: 实例完成请求进入集合，在 Update 中释放并发出完成信号
-updated: '2026-10-13 17:33:09 +08:00'
-code_revision: working-tree
-sources:
-- src/client/Mod/GameRandomEvent/GameRandomEventSystem.cs
-dependencies: []
 ---
 # GameRandomEventSystem
 
@@ -29,14 +31,16 @@ flowchart TD
   Events -->|工厂创建与行为调用| Instance["GameRandomEvent 实例"]
   Instance -->|完成请求| Events
   Events -->|回调入队| Rule
-  click Rule "game-rule.md#信号消费"
+  click Rule "GameRuleSystem.md#信号消费"
 ```
 
-[规则信号消费](game-rule.md#信号消费)
+[规则信号消费](GameRuleSystem.md#信号消费)
 
 ## 调度流水线
 
 ### 启动
+
+用途：启动时绑定一次本局上下文，为后续机会选择和实例推进准备依赖。
 
 ```mermaid
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 300}}}%%
@@ -49,6 +53,8 @@ flowchart TD
 
 ### 机会分派
 
+用途：接收规则信号，通知现有事件并从合格候选中选择一个新事件启动。
+
 ```mermaid
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 300}}}%%
 flowchart TD
@@ -59,14 +65,16 @@ flowchart TD
   Select -->|否| Exit["释放候选并返回"]
   Select -->|是| Begin["选中实例 Begin<br/>释放未选候选"]
   Begin --> Rule["GameRuleSystem<br/>EventStarted 回调入队"]
-  click Rule "game-rule.md#信号消费"
+  click Rule "GameRuleSystem.md#信号消费"
 ```
 
 新实例不回溯消费触发它的机会。Begin 失败移除并释放实例，再抛出；Start 只绑定一次上下文。
 
-[开始信号接收方](game-rule.md#信号消费)
+[开始信号接收方](GameRuleSystem.md#信号消费)
 
 ### 活动实例推进
+
+用途：逐帧推进活动事件，并提交已登记的完成请求给规则调度器。
 
 ```mermaid
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 300}}}%%
@@ -75,14 +83,16 @@ flowchart TD
   Instances --> Pending["读取待完成集合"]
   Pending --> Release["移除并释放仍活动的实例<br/>完成计数加一"]
   Release --> Rule["GameRuleSystem<br/>EventCompleted 回调入队"]
-  click Rule "game-rule.md#信号消费"
+  click Rule "GameRuleSystem.md#信号消费"
 ```
 
 实例完成回调只登记请求，Update 才提交完成消息。暂停时调用方不推进。
 
-[完成信号接收方](game-rule.md#信号消费)
+[完成信号接收方](GameRuleSystem.md#信号消费)
 
 ### 手动完成输入
+
+用途：将外部完成输入交给匹配的手动事件，等待有效帧统一提交结果。
 
 ```mermaid
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 300}}}%%
@@ -96,6 +106,8 @@ flowchart TD
 这个输入不直接推进时间或规则，也不将接受输入当成完成消息已提交。
 
 ### 停止
+
+用途：结束所有活动实例并清空完成请求，不发出完成消息。
 
 ```mermaid
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 300}}}%%

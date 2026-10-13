@@ -4,7 +4,7 @@ side:
 - client
 roles:
 - executor
-updated: '2026-10-13 17:33:09 +08:00'
+updated: '2026-10-13 17:55:46 +08:00'
 code_revision: working-tree
 sources:
 - src/client/Mod/GameRule/GameRuleStep.cs
@@ -20,4 +20,4 @@ dependencies: []
 |SurviveSecondsRule|按阶段或本局有效时钟判断坚持时间|
 |DefeatBossRule|请求 Boss 出生并绑定实际目标，依据已提交死亡批次确认完成|
 
-目标实体由关卡回收；Boss 阶段释放取消未出生票号，不伪造死亡。执行者不控制下一规则或终局。[调度入口](game-rule.md#规则推进)。
+目标实体由关卡回收；Boss 阶段释放取消未出生票号，不伪造死亡。执行者不控制下一规则或终局。[调度入口](GameRuleSystem.md#规则推进)。

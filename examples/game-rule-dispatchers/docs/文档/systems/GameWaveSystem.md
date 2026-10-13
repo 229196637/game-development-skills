@@ -1,20 +1,18 @@
 ---
-id: plan.rule-review.game-wave
-kind: plan
 system: game-wave
-title: GameWaveSystem
-status: implemented
-updated: '2026-10-13 17:33:09 +08:00'
-sources:
-- src/client/Mod/GameWave/GameWaveSystem.cs
-links: []
-code_revision: working-tree
+side:
+- client
 roles:
 - dispatcher
 dispatcher: GameWaveSystem
 design_patterns:
 - name: 优先队列调度
   uses: 以到期有效时间和稳定次序排序普通链及信号触发链
+updated: '2026-10-13 17:55:46 +08:00'
+code_revision: working-tree
+sources:
+- src/client/Mod/GameWave/GameWaveSystem.cs
+dependencies: []
 ---
 # GameWaveSystem
 
@@ -28,14 +26,16 @@ flowchart TD
   Rule["GameRuleSystem"] -->|Start / RequestWave / Update| Wave["GameWaveSystem"]
   Wave -->|提交出生请求与取消票号| Port["关卡 Spawn 端口"]
   Port -->|实际出生回调| Wave
-  click Rule "game-rule.md#tick"
+  click Rule "GameRuleSystem.md#tick"
 ```
 
-[规则 Tick](game-rule.md#tick)
+[规则 Tick](GameRuleSystem.md#tick)
 
 ## 调度流水线
 
 ### 启动排期
+
+用途：启动时为普通波次链计算累计到期时间，只排期而不立即刷怪。
 
 ```mermaid
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 300}}}%%
@@ -48,20 +48,24 @@ flowchart TD
 
 ### 信号触发排期
 
+用途：接收规则调度器的触发信号，校验去重后为额外波次排期。
+
 ```mermaid
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 300}}}%%
 flowchart TD
   Rule["GameRuleSystem"] -->|RequestWave| Validate["校验本局信号与触发行"]
   Validate --> Dedupe["按信号号和触发行去重"]
   Dedupe --> Queue["按信号时刻加延迟入队"]
-  click Rule "game-rule.md#信号消费"
+  click Rule "GameRuleSystem.md#信号消费"
 ```
 
 旧局忽略；配置与来源不匹配报错。触发链不改普通链位置。
 
-[信号消费入口](game-rule.md#信号消费)
+[信号消费入口](GameRuleSystem.md#信号消费)
 
 ### 到期出生
+
+用途：随有效时间推进提交到期波次的出生请求，并在实际出生完成后记录出现。
 
 ```mermaid
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 300}}}%%
@@ -72,14 +76,16 @@ flowchart TD
   Complete --> Next{"还有到期项？"}
   Next -->|是| Due
   Next -->|否| Return["返回规则 Tick"]
-  click Rule "game-rule.md#tick"
+  click Rule "GameRuleSystem.md#tick"
 ```
 
 重复模板有不同出现号；未到期返回。场景失效时停止并抛异常，不能把请求已提交写成实际已出生。
 
-[规则 Tick](game-rule.md#tick)
+[规则 Tick](GameRuleSystem.md#tick)
 
 ### 停止
+
+用途：取消未到期波次和待出生票号，停止继续生成。
 
 ```mermaid
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 300}}}%%

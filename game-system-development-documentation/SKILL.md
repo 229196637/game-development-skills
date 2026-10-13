@@ -89,7 +89,7 @@ flowchart TD
 
 ## 调度器与执行者
 
-涉及调度职责时读取 [调度器与执行者](references/workflows/dispatchers.md)。类型/模块 meta 用 roles 标记 dispatcher/executor/tool/data（可兼任）；调度器再记录 dispatcher 与 design_patterns（模式/编排机制及用途）；每条主要流水线独立流程图，跨调度器节点链接对方文档。执行者只简述执行内容，不复制调度结构。
+涉及调度职责时读取 [调度器与执行者](references/workflows/dispatchers.md)。类型/模块 meta 用 roles 标记 dispatcher/executor/tool/data（可兼任）；调度器再记录 dispatcher 与 design_patterns（模式/编排机制及用途）；每条主要流水线先写简短用途再画图；文档文件名、类名与图节点名一致，同调度器和跨调度器调用都链接到目标流水线。执行者只简述执行内容，不复制调度结构。
 
 ## 3. 必要专题与核心边界
 
