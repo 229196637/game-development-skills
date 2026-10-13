@@ -4,7 +4,7 @@
 
 | 技能 | 用途 |
 | --- | --- |
-| game-system-development-planning | 游戏系统开发规划：读取文档，按类记录目标、任务、依赖、状态及底部测试过程 |
+| game-system-development-planning | 游戏系统开发规划：读取文档，按类填写具体工单、文档索引、验收标准及底部测试/验收记录 |
 | game-system-development-documentation | 游戏系统开发文档：扫描现状、增量同步、原语言公开函数 API、独立 docs Git |
 | game-excel-config | 游戏 Excel 配置表：字段注释、表关系、端归属、导出与读取契约 |
 | log-reading | 日志阅读技能：定位构建/运行日志，关联会话、双端及异常链；含 SCE 可选适配 |
@@ -29,7 +29,7 @@
 
 | 技能 | 工具 | 命令与范围 |
 | --- | --- | --- |
-| 开发规划 | scripts/planning_tool.py | init/status/record-test/complete/check/list：逐类任务与完成门槛 |
+| 开发规划 | scripts/planning_tool.py | init/update/set-item/status/record-test/record-acceptance/complete/check/list：具体工单、测试和验收门槛 |
 | 开发文档 | scripts/documentation_tool.py | rules/check：精简 meta、文档依赖、API 和测试分离 |
 | Excel 配置 | scripts/config_tool.py | inspect/check：配置读取与字段处理清单 |
 | 日志阅读 | scripts/log_tool.py | read：日志标识过滤、行号和上下文 |
@@ -43,3 +43,5 @@
 文档技能继续维护已认可的系统说明、角色、生命周期、调度图及原语言公开函数 API；本次只补独立 `目录架构.md`，用于定位文件夹和脚本。规划不复制这些内容；每类任务引用对应文档，写目标与勾选工作项，底部保存真实测试过程，所有必需测试与前置完成后才设 completed。Python 工具辅助记录，不执行测试，不替代业务验证。
 
 重构前认可版本已保存为 Git 标签 `backup/before-planning-driver-20261013-204919`，对应提交 `a7864d91ba47c776ce94260a1aa8c2859b4570dd`。
+
+规划工单先填写当前情况与改动、具体工作项和验收标准；执行后追加测试过程与验收情况。文档入口 README.md 与目录架构.md 同级且直接相连。[工单功能验证](examples/game-rule-dispatchers/work-order-review.md)。

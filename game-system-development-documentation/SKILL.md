@@ -110,6 +110,8 @@ flowchart TD
 
 ## 目录摘要
 
+文档总入口 README.md 与独立目录架构.md 必须放在同一个目录；README 直接提供目录架构链接，设计态也遵循对应文档根的同级放置。
+
 每个本次维护的文档目录（包括 API 根/端/模块）都提供用途与导航摘要 README.md；不复制正文、API 或第二份 TODO。参照 [每个目录的摘要 README](references/contracts/document-layout.md#每个目录的摘要-readme) 与 [目录摘要模板](assets/templates/directory-readme.md)。
 
 ## 临时 Python 脚本
