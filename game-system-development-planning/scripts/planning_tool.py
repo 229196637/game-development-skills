@@ -46,6 +46,20 @@ def location(root, relative):
     return target
 
 
+def mirrored_file(document):
+    require("文档" in document.parts, "对应类文档必须位于 docs/文档 树内")
+    prefix = document.parts.index("文档")
+    relative = Path(*document.parts[prefix + 1:])
+    require(len(relative.parts) >= 3 and "职责" in relative.parts[:-1], "对应文档应为 <模块>/职责/.../<类名>.md")
+    require(relative.suffix == ".md" and relative.name != "README.md", "必须指向具体类/脚本文档")
+    return relative
+
+
+def check_mirror(root, path, document, class_name):
+    expected = mirrored_file(document)
+    require(path.relative_to(root) == expected, f"规划必须镜像文档层级，--file 应为 {expected.as_posix()}")
+    require(path.stem == document.stem == class_name, "规划文件名、文档文件名与类/脚本名必须一致")
+
 def write(path, text):
     path.parent.mkdir(parents=True, exist_ok=True)
     descriptor, temporary = tempfile.mkstemp(prefix=".planning-", dir=path.parent)
@@ -211,7 +225,7 @@ def save(task):
     write(task["path"], "---\n" + front + "\n---\n" + task["body"].rstrip() + "\n")
 
 
-def scan(root):
+def scan(root, enforce_layout=True):
     tasks = {}
     for path in sorted(root.rglob("*.md")):
         if path.name.lower() == "readme.md" or any(part.startswith(".") for part in path.relative_to(root).parts):
@@ -219,6 +233,8 @@ def scan(root):
         require(path.resolve().is_relative_to(root), "任务文件链接越界")
         task = read(path)
         require(not task["document"].is_relative_to(root), "对应文档必须位于执行任务根之外，只引用不复制")
+        if enforce_layout:
+            check_mirror(root, path, task["document"], task["meta"]["class"])
         identifier = task["meta"]["task_id"]
         require(identifier not in tasks, f"重复任务 ID：{identifier}")
         tasks[identifier] = task
@@ -285,7 +301,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="action", required=True)
     sub.add_parser("rules")
-    for name in ("init", "update", "check", "list", "status", "set-item", "record-test", "record-acceptance", "complete"):
+    for name in ("init", "update", "relocate", "check", "list", "status", "set-item", "record-test", "record-acceptance", "complete"):
         command = sub.add_parser(name)
         command.add_argument("--root", required=True, type=Path)
         if name in ("check", "list"):
@@ -334,25 +350,25 @@ def main():
         require(not document.is_relative_to(root), "对应文档必须在执行任务根之外")
         identifier = nonempty(args.id)
         require(re.fullmatch(r"[\w.-]+", identifier), "task_id 格式错误")
-        tasks, _ = scan(root)
+        tasks, _ = scan(root, enforce_layout=False)
         require(identifier not in tasks, "任务 ID 已存在")
         require(len(args.depends_on) == len(set(args.depends_on)), "前置 ID 重复")
         for dependency in args.depends_on:
             require(dependency in tasks, f"请先登记前置任务：{dependency}")
         class_name = nonempty(args.class_name)
-        require(path.stem == class_name, "文件名必须与类/脚本名一致")
+        check_mirror(root, path, document, class_name)
         tests = [nonempty(x) for x in args.required_test]
         require(len(tests) == len(set(tests)) and all("|" not in x for x in tests), "测试 ID 重复或含 |")
         goal = nonempty(args.goal)
         items = [nonempty(x) for x in args.item]
-        reference = os.path.relpath(document, path.parent).replace("\\", "/")
+        document_ref = os.path.relpath(document, path.parent).replace("\\", "/")
         brief, items, criteria, index, standards = specification(args, path, document)
-        meta = dict(zip(KEYS, (identifier, class_name, reference, "todo", args.depends_on, tests, [x[0] for x in criteria], now())))
+        meta = dict(zip(KEYS, (identifier, class_name, document_ref, "todo", args.depends_on, tests, [x[0] for x in criteria], now())))
         body = work_order(class_name, goal, brief, items, index, standards)
         save({"path": path, "meta": meta, "body": body})
         directories(root, path)
         return {"created": str(path), "status": "todo"}
-    tasks, order = scan(root)
+    tasks, order = scan(root, enforce_layout=args.action not in ("relocate", "update"))
     if args.action in ("check", "list"):
         if args.action == "check":
             for task in tasks.values():
@@ -366,6 +382,41 @@ def main():
     path = location(root, args.file)
     task = next((task for task in tasks.values() if task["path"] == path), None)
     require(task, "任务文件不存在或未纳入任务根")
+    if args.action == "relocate":
+        modern(task)
+        destination = location(root, mirrored_file(task["document"]).as_posix())
+        if destination == path:
+            return {"file": str(path), "action": "relocate", "changed": False}
+        require(not destination.exists(), "镜像目标已存在，拒绝覆盖")
+        def remap(match):
+            ref = match[1]
+            if re.match(r"[a-z]+://", ref) or ref.startswith("#"):
+                return ref
+            raw, separator, anchor = ref.partition("#")
+            target = (path.parent / raw).resolve()
+            return reference(destination, target) + (separator + anchor if separator else "")
+        task["body"] = re.sub(r"(?<=\]\()([^)]*)(?=\))", remap, task["body"])
+        task["meta"]["document"] = reference(destination, task["document"])
+        task["path"] = destination
+        save(task)
+        directories(root, destination)
+        # 将原各级 README 的直接类链接改到新位置，保留手写说明。
+        for readme in root.rglob("README.md"):
+            require(readme.resolve().is_relative_to(root), "README 链接越界")
+            original = readme.read_text(encoding="utf-8-sig")
+            def nav(match):
+                raw = match[1]
+                if not raw or re.match(r"[a-z]+://", raw):
+                    return raw
+                part, separator, anchor = raw.partition("#")
+                if (readme.parent / part).resolve() != path:
+                    return raw
+                return reference(readme, destination) + (separator + anchor if separator else "")
+            updated = re.sub(r"(?<=\]\()([^)]*)(?=\))", nav, original)
+            if updated != original:
+                write(readme, updated)
+        path.unlink()
+        return {"from": str(path), "file": str(destination), "action": "relocate", "status": task["meta"]["status"], "records_preserved": True}
     if args.action == "update":
         brief, items, criteria, index, standards = specification(args, path, task["document"])
         task["body"] = work_order(task["meta"]["class"], args.goal or section(task["body"], "目标").strip(), brief, items, index, standards, section(task["body"], "测试过程") or HEADER, section(task["body"], "验收情况") or ACCEPTANCE_HEADER)

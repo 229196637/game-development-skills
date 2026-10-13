@@ -6,7 +6,7 @@ status: "todo"
 depends_on: []
 required_tests: ["document-structure"]
 required_acceptance: ["contract", "navigation"]
-updated: "2026-10-13 21:36:11 +08:00"
+updated: "2026-10-14 00:15:16 +08:00"
 ---
 # GameplayWeightedChoice
 

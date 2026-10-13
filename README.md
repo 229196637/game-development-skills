@@ -49,3 +49,5 @@
 ## 模块文档布局
 
 当前文档目录为 `docs/文档/<模块>/`，模块内部保存 README、同级目录架构、职责、api/client|server|shared 和需要的专题。根目录只汇总模块/类导航及总目录架构；不再有顶层职责/api。设计资料也归模块的设计任务目录，规划工单引用对应模块入口与类说明。[模块布局验证](examples/game-rule-dispatchers/module-layout-review.md)。
+
+规划类工单镜像文档相对 docs/文档 的路径与文件名，例如文档 GameRule/职责/GameRuleSystem.md 对应规划 <任务>/GameRule/职责/GameRuleSystem.md；只复制目录/命名约定，正文保存工单与测试/验收记录。工具支持 relocate 保留历史迁移。[同层级规划验证](examples/game-rule-dispatchers/planning-mirror-review.md)。

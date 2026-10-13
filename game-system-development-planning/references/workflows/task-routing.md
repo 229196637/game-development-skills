@@ -9,16 +9,16 @@
 ## 任务目录和顺序
 
 ```text
-docs/规划/<任务>/
-  README.md
-  client/
-    README.md
-    <模块>/
-      README.md
-      <类名>.md
-  server/                         # 按实际范围建立
-  shared/                         # 真实共享单元
+docs/文档/                       docs/规划/<任务>/
+  README.md                        README.md
+  <模块>/                          <模块>/
+    README.md                        README.md
+    职责/                            职责/
+      README.md                        README.md
+      <类名>.md                        <类名>.md
 ```
+
+相对文档根的职责类 MD 路径必须一致；已有职责子目录也原样镜像。API、目录架构及专题通过工单索引查阅文档，不复制到规划。
 
 每类任务文件名与实际类/脚本名对应，用稳定 task_id 标识任务；同类不同开发任务分属不同任务目录。README 链接文档入口、目录架构和任务；写清“先谁、再谁、最后谁”及必要理由，不复制类索引/职责/API或任务状态。
 

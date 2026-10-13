@@ -1,34 +1,34 @@
 ---
-task_id: "GameWaveSystem"
-class: "GameWaveSystem"
-document: "../../../../文档/GameWave/职责/GameWaveSystem.md"
+task_id: "GameRandomEventSystem"
+class: "GameRandomEventSystem"
+document: "../../../../文档/GameRandomEvent/职责/GameRandomEventSystem.md"
 status: "todo"
-depends_on: ["GameRuleStep"]
+depends_on: ["GameplayWeightedChoice"]
 required_tests: ["document-structure"]
 required_acceptance: ["contract", "navigation"]
-updated: "2026-10-13 21:36:12 +08:00"
+updated: "2026-10-14 00:15:16 +08:00"
 ---
-# GameWaveSystem
+# GameRandomEventSystem
 
 ## 目标
 
-核对 GameWaveSystem 文档导航
+核对 GameRandomEventSystem 文档导航
 
 ## 当前情况与改动
 
-当前 GameWaveSystem 已有实际系统说明与脚本路径；旧工单只有笼统导航核对，没有列出检查内容和验收标准。本次补全本工单并核对下述文档行为，范围只限技能样例的静态文档核对，不修改生产代码、不宣称游戏动态验证。
+当前 GameRandomEventSystem 已有实际系统说明与脚本路径；旧工单只有笼统导航核对，没有列出检查内容和验收标准。本次补全本工单并核对下述文档行为，范围只限技能样例的静态文档核对，不修改生产代码、不宣称游戏动态验证。
 
 ## 文档索引
 
-- [对应类文档](../../../../文档/GameWave/职责/GameWaveSystem.md)
-- [文档入口](../../../../文档/GameWave/README.md)
-- [目录架构](../../../../文档/GameWave/目录架构.md)
-- [公开函数 API](../../../../文档/GameWave/api/client/GameWaveSystem.api.cs)
+- [对应类文档](../../../../文档/GameRandomEvent/职责/GameRandomEventSystem.md)
+- [文档入口](../../../../文档/GameRandomEvent/README.md)
+- [目录架构](../../../../文档/GameRandomEvent/目录架构.md)
+- [公开函数 API](../../../../文档/GameRandomEvent/api/client/GameRandomEventSystem.api.cs)
 
 ## 任务内容
 
-- [ ] 读取 docs/文档/GameWave/职责/GameWaveSystem.md：核对波次排期、触发去重、实际生成单位与释放边界；确认请求波次与结束回调有文档入口，清理范围符合持有关系。
-- [ ] 比对 docs/文档/GameWave/目录架构.md 中 GameWaveSystem 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
+- [ ] 读取 docs/文档/GameRandomEvent/职责/GameRandomEventSystem.md：核对事件机会、有效时间更新、完成回调进入规则队列的关系；确认事件不直接递归推进规则，并链接接收流水线。
+- [ ] 比对 docs/文档/GameRandomEvent/目录架构.md 中 GameRandomEventSystem 的脚本与类 MD 映射，并检查本文档索引能直达类说明、文档入口、目录架构及适用 API。
 
 ## 验收标准
 

@@ -6,7 +6,7 @@ status: "todo"
 depends_on: ["GameRuleStep", "RuleChainSnapshot", "GameWaveSystem", "GameRandomEventSystem"]
 required_tests: ["document-structure"]
 required_acceptance: ["contract", "navigation"]
-updated: "2026-10-13 21:36:12 +08:00"
+updated: "2026-10-14 00:15:17 +08:00"
 ---
 # GameRuleSystem
 

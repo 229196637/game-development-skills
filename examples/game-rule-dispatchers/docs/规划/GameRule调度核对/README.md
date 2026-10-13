@@ -13,6 +13,10 @@
 
 <!-- planning-tool:begin -->
 
-- [client](client/README.md)
+- [GameRandomEvent](GameRandomEvent/README.md)
+- [GameRule](GameRule/README.md)
+- [GameWave](GameWave/README.md)
 
 <!-- planning-tool:end -->
+
+类工单的相对层级与文档一致，例如 [GameRuleSystem](GameRule/职责/GameRuleSystem.md) 对应文档 [GameRuleSystem](../../文档/GameRule/职责/GameRuleSystem.md)。测试与验收保留在工单底部，不复制类职责正文。

@@ -5,7 +5,6 @@
 
 <!-- planning-tool:begin -->
 
-- [GameplayWeightedChoice](GameplayWeightedChoice.md)
-- [GameRandomEventSystem](GameRandomEventSystem.md)
+- [职责](职责/README.md)
 
 <!-- planning-tool:end -->

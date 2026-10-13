@@ -1,4 +1,4 @@
 interface:
   display_name: "游戏系统开发规划"
-  short_description: "先文档后规划，逐类填写具体开发工单，记录测试与验收并检查完成门槛"
-  default_prompt: "使用 $game-system-development-planning，先读取已准备的系统文档、API 和目录架构，再按类填写改动说明、文档索引、具体工作项和验收标准，再按依赖实现和测试，用工具记录过程并检查完成。"
+  short_description: "先文档后规划，按文档同层级同类名填写工单，记录测试与验收并检查完成门槛"
+  default_prompt: "使用 $game-system-development-planning，先读取已准备的系统文档、API 和目录架构，再按文档相同文件层级与类名建立工单，填写改动说明、文档索引、具体工作项和验收标准，再按依赖实现和测试，用工具记录过程并检查完成。"
