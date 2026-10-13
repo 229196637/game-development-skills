@@ -160,6 +160,59 @@ def check(args):
                         link(file, ref)
                     else:
                         fail(file, 'LINKS', 'link must be a string')
+            todo_section = re.search(r'^## TODO 与执行顺序\s*\n(.*?)(?=^## |\Z)', body, re.S | re.M)
+            if todo_section:
+                rows = [line.strip() for line in todo_section[1].splitlines() if line.strip().startswith('|')]
+                cells = lambda row: [c.strip() for c in re.split(r'(?<!\\)\|', row.strip('|'))]
+                required = ['顺序', 'ID', '前置 ID', '状态']
+                if len(rows) < 3 or any(h not in cells(rows[0]) for h in required):
+                    fail(file, 'TODO_TABLE', 'TODO requires order, ID, dependencies, status and data rows')
+                else:
+                    headers = cells(rows[0])
+                    tasks = {}
+                    previous_order = 0
+                    for row in rows[2:]:
+                        values = cells(row)
+                        if len(values) != len(headers):
+                            fail(file, 'TODO_COLUMNS', 'TODO row/header column counts differ')
+                            continue
+                        item = dict(zip(headers, values))
+                        task_id = item['ID']
+                        if not task_id or task_id in tasks:
+                            fail(file, 'TODO_ID', 'empty or duplicate TODO ID: ' + task_id)
+                            continue
+                        try:
+                            order = int(item['顺序'])
+                            if order < 1:
+                                raise ValueError()
+                        except ValueError:
+                            fail(file, 'TODO_ORDER', 'order must be a positive integer: ' + task_id)
+                            continue
+                        if order < previous_order:
+                            fail(file, 'TODO_ORDER', 'table must follow ascending execution order: ' + task_id)
+                        previous_order = order
+                        deps = [] if item['前置 ID'] in {'—', '-', '无', ''} else re.split(r'[,，、\s]+', item['前置 ID'])
+                        if item['状态'] not in {'todo', 'doing', 'implemented', 'verified', 'accepted', 'blocked', 'cancelled'}:
+                            fail(file, 'TODO_STATUS', 'invalid task state: ' + task_id)
+                        tasks[task_id] = (order, deps, item['状态'])
+                    edges = {task_id: set() for task_id in tasks}
+                    for task_id, (order, deps, state) in tasks.items():
+                        for dep in deps:
+                            if dep not in tasks:
+                                fail(file, 'TODO_DEPENDENCY', 'unknown predecessor: ' + task_id + ' -> ' + dep)
+                                continue
+                            edges[task_id].add(dep)
+                            if tasks[dep][0] >= order:
+                                fail(file, 'TODO_ORDER', 'predecessor must have lower order: ' + task_id + ' -> ' + dep)
+                            if state not in {'cancelled', 'blocked'} and tasks[dep][2] == 'cancelled':
+                                fail(file, 'TODO_DEPENDENCY', 'active task depends on cancelled predecessor: ' + task_id + ' -> ' + dep)
+                    remaining = {key: set(value) for key, value in edges.items()}
+                    while remaining:
+                        ready = {key for key, deps in remaining.items() if not deps}
+                        if not ready:
+                            fail(file, 'TODO_CYCLE', 'cyclic TODO dependencies: ' + ', '.join(sorted(remaining)))
+                            break
+                        remaining = {key: deps - ready for key, deps in remaining.items() if key not in ready}
             if file.name == 'config.md':
                 section = re.search('(?m)^##\\s+(?:Excel\\s*)?字段字典\\s*\\n(.*?)(?=^##\\s|\\Z)', body, re.S | re.M)
                 if not section:
