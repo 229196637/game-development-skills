@@ -1,20 +1,20 @@
 ---
 name: game-system-development-planning
-description: 在游戏系统文档具备后驱动代码实现；按类维护具体开发工单、文档索引、验收标准、依赖、状态及底部测试/验收记录，用 Python 辅助记录。规划不复制系统文档、架构图或 API。
+description: 可直接作为游戏开发入口，先研究相关代码与需求，调用文档技能增补同步文档，再驱动代码实现；按类维护具体开发工单、文档索引、验收标准、依赖、状态及底部测试/验收记录，用 Python 辅助记录。规划不复制系统文档、架构图或 API。
 metadata:
   short-description: 先文档后规划，逐类驱动实现与测试
   schema-version: "4"
 ---
 # 游戏系统开发规划
 
-先文档，后规划。先由 [游戏系统开发文档](../game-system-development-documentation/SKILL.md) 明确系统、接口及脚本位置；本技能读取这些成果，把它们变成按类执行的任务。文档不足时先补对应文档，不在规划里另写一套设计。已有系统的改动也先核对并更新相关文档，再安排确实需要的实现工作；纯补录文档不制造代码任务。
+可以直接调用本技能开始游戏开发，不要求用户事先手动生成文档。收到需求后先按 [需求研究与文档准备](references/workflows/preparation.md) 研究当前架构、相关代码及已有文档/API，再调用 [游戏系统开发文档](../game-system-development-documentation/SKILL.md)，根据需求新增、修改或清理文档并修复引用；文档明确后才建立同层级同类名的执行工单、安排依赖及授权实现。先文档后工单是内部顺序，不是要求用户分别调用两个技能。纯文档任务可单独调用文档技能，不制造代码任务。
 
 ## 执行流程
 
 ```mermaid
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 360}}}%%
 flowchart TD
-  Docs["游戏系统开发文档<br/>SKILL.md<br/>先完成或核对文档"] --> Read["任务路由与执行<br/>task-routing.md<br/>读取类 MD、API、目录架构"]
+  Research["需求研究与文档准备<br/>preparation.md<br/>先研究相关代码、架构与需求"] --> Docs["游戏系统开发文档<br/>SKILL.md<br/>先完成或核对文档"] --> Read["任务路由与执行<br/>task-routing.md<br/>读取类 MD、API、目录架构"]
   Read --> Ready{"文档与接口明确？"}
   Ready -->|否| Docs
   Ready -->|是| Task["逐类任务记录<br/>class-task.md<br/>具体改动、工作项、文档索引"]
@@ -26,6 +26,7 @@ flowchart TD
   Pass -->|否| Code
   Pass -->|是| Sync["游戏系统开发文档<br/>SKILL.md<br/>同步真实实现差异"]
   Sync --> Done["开发规划工具<br/>tooling.md<br/>检查前置并设置完成"]
+  click Research "references/workflows/preparation.md"
   click Docs "../game-system-development-documentation/SKILL.md"
   click Read "references/workflows/task-routing.md"
   click Task "references/contracts/class-task.md"
@@ -37,7 +38,7 @@ flowchart TD
   click Done "references/tooling.md"
 ```
 
-图中节点对应 [任务路由与执行](references/workflows/task-routing.md)、[逐类任务记录](references/contracts/class-task.md)、[开发规划工具](references/tooling.md)。没有执行条件则记录缺口，不把未运行的测试标成通过。
+图中节点对应 [需求研究与文档准备](references/workflows/preparation.md)、[任务路由与执行](references/workflows/task-routing.md)、[逐类任务记录](references/contracts/class-task.md)、[开发规划工具](references/tooling.md)。没有执行条件则记录缺口，不把未运行的测试标成通过。
 
 ## 开始实现的门槛
 
