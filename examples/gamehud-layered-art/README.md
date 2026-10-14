@@ -2,7 +2,9 @@
 
 这是美术资源生产与管理示例。展示效果图分析、可复用文字风格、已有素材复用、缺失素材独立生图、公共底座引用和资源交付。UI 布局、控件与交互由后续技能负责。
 
-当前推荐：[主体与底座美术修正版 v3](art-library/productions/gamehud-v3/README.md)。五主体以实际底座参考重绘，已通过组合视觉检查；[复验报告](verification-v3.md)。旧例作为不协调问题的对照保留。
+当前风格讨论：[六版仙侠候选比较](art-library/productions/xianxia-style-exploration/README.md)。从 [美术方向入口](art-library/art-direction.md) 查看状态，目前没有选定新风格。
+
+历史制作示例：[主体与底座美术修正版 v3](art-library/productions/gamehud-v3/README.md)。五主体以实际底座参考重绘，已通过组合视觉检查；[复验报告](verification-v3.md)。旧例作为不协调问题的对照保留，不代表新风格已定稿。
 
 新增 [1920×1080 名称与原大小检查](art-library/productions/gamehud-v2/README.md)：每项下方显示中文名称、PNG 原尺寸与设计目标，含独立原图 1:1 检查区；精确尺寸导出状态如实标注。[子代理复验](verification-v2.md)。
 

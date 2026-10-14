@@ -1,0 +1,89 @@
+{
+  "task_id": "xianxia-style-exploration",
+  "stage": "style-candidates",
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "candidates": [
+    {
+      "id": "ink",
+      "name": "水墨淡彩",
+      "style_id": "xianxia-ink-wash",
+      "style_version": "v1",
+      "reference": "styles/xianxia-ink-wash/v1/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-style-exploration/prompts/ink-v1.txt",
+      "status": "candidate"
+    },
+    {
+      "id": "gongbi",
+      "name": "国风工笔",
+      "style_id": "xianxia-gongbi",
+      "style_version": "v1",
+      "reference": "styles/xianxia-gongbi/v1/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-style-exploration/prompts/gongbi-v1.txt",
+      "status": "candidate"
+    },
+    {
+      "id": "cartoon",
+      "name": "清新卡通",
+      "style_id": "xianxia-fresh-cartoon",
+      "style_version": "v1",
+      "reference": "styles/xianxia-fresh-cartoon/v1/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-style-exploration/prompts/cartoon-v1.txt",
+      "status": "candidate"
+    },
+    {
+      "id": "expressive",
+      "name": "写意水墨",
+      "style_id": "xianxia-expressive-ink",
+      "style_version": "v1",
+      "reference": "styles/xianxia-expressive-ink/v1/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-style-exploration/prompts/expressive-v1.txt",
+      "status": "candidate"
+    },
+    {
+      "id": "qcartoon",
+      "name": "Q版二维卡通",
+      "style_id": "xianxia-chibi-2d",
+      "style_version": "v1",
+      "reference": "styles/xianxia-chibi-2d/v1/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-style-exploration/prompts/qcartoon-v1.txt",
+      "status": "candidate"
+    },
+    {
+      "id": "faceted",
+      "name": "块面风格化3D",
+      "style_id": "xianxia-faceted-3d",
+      "style_version": "v1",
+      "reference": "styles/xianxia-faceted-3d/v1/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-style-exploration/prompts/faceted-v1.txt",
+      "status": "candidate"
+    }
+  ],
+  "selected": null
+}

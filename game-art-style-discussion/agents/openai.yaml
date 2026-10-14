@@ -1,0 +1,4 @@
+interface:
+  display_name: "美术风格讨论与定稿"
+  short_description: "讨论并确定游戏美术方向，保存文字风格和认可参考图，再交给规划与美术制作"
+  default_prompt: "使用 $game-art-style-discussion 讨论游戏美术方向，比较候选并保存明确确认的风格与参考图。"

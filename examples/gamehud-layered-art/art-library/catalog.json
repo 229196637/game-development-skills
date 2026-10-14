@@ -5,6 +5,42 @@
       "id": "xianxia-jade-gold",
       "version": "v1",
       "path": "styles/xianxia-jade-gold/v1/style.md"
+    },
+    {
+      "id": "xianxia-ink-wash",
+      "version": "v1",
+      "status": "candidate",
+      "path": "styles/xianxia-ink-wash/v1/style.md"
+    },
+    {
+      "id": "xianxia-gongbi",
+      "version": "v1",
+      "status": "candidate",
+      "path": "styles/xianxia-gongbi/v1/style.md"
+    },
+    {
+      "id": "xianxia-fresh-cartoon",
+      "version": "v1",
+      "status": "candidate",
+      "path": "styles/xianxia-fresh-cartoon/v1/style.md"
+    },
+    {
+      "id": "xianxia-expressive-ink",
+      "version": "v1",
+      "status": "candidate",
+      "path": "styles/xianxia-expressive-ink/v1/style.md"
+    },
+    {
+      "id": "xianxia-chibi-2d",
+      "version": "v1",
+      "status": "candidate",
+      "path": "styles/xianxia-chibi-2d/v1/style.md"
+    },
+    {
+      "id": "xianxia-faceted-3d",
+      "version": "v1",
+      "status": "candidate",
+      "path": "styles/xianxia-faceted-3d/v1/style.md"
     }
   ],
   "assets": [

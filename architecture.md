@@ -2,17 +2,26 @@
 
 ## 美术资源支线
 
-[分层美术资源](game-layered-art/SKILL.md) 使用外部内置 imagegen 技能生产位图；持久记录风格 ID/版本、文字描述、参考图和实际提示词。它可独立使用，开发执行也可在授权的美术工单中调用。规划只描述资源需求，不自动生图。
+[美术风格讨论](game-art-style-discussion/SKILL.md) 使用现有 imagegen 生成请求的候选，保存文字描述、真实参考图与反馈，只有用户明确选择后才更新 `art-library/art-direction.md`。默认全游戏统一方向；更换已使用风格建立新版本，保留旧资料。
+
+[分层美术资源](game-layered-art/SKILL.md) 制作前通过只读 `direction_tool.py handoff` 检查定稿，实际阅读完整描述并查看认可参考图，再使用 imagegen 生产和修正位图。美术工单引用同一份定稿与精确版本，素材局部搭配问题在制作中修正，全局风格改变回到讨论。纯规划不自动生图，未定风格时可继续无关代码规划。
 
 ```mermaid
 flowchart LR
-  N[效果图与美术需求] --> A[game-layered-art]
-  A --> S[版本化文字风格档案]
+  N[需求与已有方向] --> V{适用定稿检查}
+  V -->|未定| D[game-art-style-discussion]
+  D --> C[保存候选与用户反馈]
+  C -->|明确确认| S[版本化文字档案与认可图]
+  S --> F[art-direction.md 定稿入口]
+  F --> V
+  V -->|通过| P[规划引用精确版本与参考图]
+  P --> A[game-layered-art]
+  A -->|全局方向改变| D
   A --> R[分层资源与 catalog.json]
-  S --> UI[其它 UI 技能读取资源]
-  R --> UI
+  R --> UI[其它 UI 技能读取资源]
   A --> BG[可选背景独立管理]
   click A "game-layered-art/SKILL.md"
+  click D "game-art-style-discussion/SKILL.md"
   click S "game-layered-art/references/style.md"
   click R "game-layered-art/references/resources.md"
 ```
@@ -43,6 +52,8 @@ flowchart TD
 | [文档](game-system-development-documentation/SKILL.md) | 研究代码/需求，按 SDK 风格增删改系统文档和原语言公开函数 API | 可独立安装使用 |
 | [规划](game-system-development-planning/SKILL.md) | 先完成文档，填写具体目标/改动/工作项/标准，按依赖生成入口 TODO | 相邻文档技能 |
 | [执行](game-system-development-execution/SKILL.md) | 按 TODO 领取与恢复任务，读取对应 MD，实现、真实测试/报告、验收、完成 | 相邻规划技能的 task_store.py；文档技能用于同步 |
+| [风格讨论](game-art-style-discussion/SKILL.md) | 讨论候选、保存参考图、记录用户定稿；只读检查交付入口 | 生图时使用现有 imagegen；与美术技能相邻 |
+| [美术制作](game-layered-art/SKILL.md) | 读取定稿、独立素材生成、搭配修正与资源归档 | 相邻风格讨论技能的 direction_tool.py；现有 imagegen |
 
 配置需求按需调用 game-excel-config，日志排查按需调用 log-reading，项目客户端/服务端/UI/单元测试规范按该项目路由加载；不是每次读取全部技能。
 

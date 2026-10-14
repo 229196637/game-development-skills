@@ -6,7 +6,18 @@ metadata:
 ---
 # 游戏系统开发执行
 
-执行已授权美术工单时使用 [分层美术资源](../game-layered-art/SKILL.md)，交付风格档案、分层 PNG 和资源索引。UI 工单读取资源清单，由项目 UI 技能拼装；美术技能不修改控件或发布。默认不把场景背景叠到 UI 素材预览。
+执行已授权美术工单时先用 [风格讨论工具](../game-art-style-discussion/references/tooling.md) 的handoff检查工单引用的定稿，实际读取风格文字并查看认可图；未确认或缺失时交回风格讨论，无关工单可继续。通过后使用 [分层美术资源](../game-layered-art/SKILL.md) 生成、修正和归档素材，不在执行中猜新画风。UI 工单由项目 UI 技能拼装；默认不把背景叠到素材预览。
+
+```mermaid
+flowchart LR
+  Art[已授权美术工单] --> Direction[检查定稿文件与参考]
+  Direction --> Ready{ready？}
+  Ready -->|否| Talk[美术风格讨论]
+  Ready -->|是| Production[美术资源生产]
+  click Direction "../game-art-style-discussion/references/tooling.md"
+  click Talk "../game-art-style-discussion/SKILL.md"
+  click Production "../game-layered-art/SKILL.md"
+```
 
 以 `docs/规划/<任务>/README.md` 为执行入口。用户明确要求落实该任务才执行；规划交付不会自动启动本技能。先读 [领取与实现](references/workflows/implementation.md)，使用 [执行工具](references/tooling.md) 定位并领取任务。脚本管理顺序、领取、状态及证据；实际代码由执行者按文档编写，不由脚本猜测业务。
 

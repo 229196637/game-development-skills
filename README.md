@@ -9,6 +9,7 @@
 | game-system-development-documentation | 游戏系统开发文档：扫描现状、增量同步、原语言公开函数 API、独立 docs Git |
 | game-excel-config | 游戏 Excel 配置表：字段注释、表关系、端归属及项目固定路径一键导表，独立适配不同语言 |
 | log-reading | 日志阅读技能：定位构建/运行日志，关联会话、双端及异常链；含 SCE 可选适配 |
+| [game-art-style-discussion](game-art-style-discussion/SKILL.md) | 美术风格讨论与定稿：比较候选、记录反馈、保存完整风格描述与认可参考图 |
 | [game-layered-art](game-layered-art/SKILL.md) | 美术资源：效果图分析、文字风格档案、分层生图与复用、资源索引；交付给 UI 技能，不实现界面 |
 
 ## 技能协作流程
@@ -16,7 +17,12 @@
 ```mermaid
 flowchart TD
   P[游戏开发规划] --> D[游戏开发文档]
-  P --> T[具体工单与资源需求]
+  P --> V{美术方向已定稿？}
+  V -->|否| S[美术风格讨论与定稿]
+  S -->|用户明确确认| V
+  V -->|是| T
+  S --> I
+  P -->|无关代码规划可继续| T[具体工单与资源需求]
   T --> E[游戏开发执行]
   E -->|授权美术任务| A[分层美术资源]
   A --> I[外部 imagegen 生图技能]
@@ -26,6 +32,7 @@ flowchart TD
   E --> C[游戏 Excel 配置]
   E --> L[日志阅读]
   click P "game-system-development-planning/SKILL.md"
+  click S "game-art-style-discussion/SKILL.md"
   click D "game-system-development-documentation/SKILL.md"
   click E "game-system-development-execution/SKILL.md"
   click A "game-layered-art/SKILL.md"
@@ -33,7 +40,9 @@ flowchart TD
   click L "log-reading/SKILL.md"
 ```
 
-[技能架构](architecture.md) · [分层美术示例](examples/gamehud-layered-art/README.md)。UI 素材默认不需要背景；背景独立存放和展示。新技能只处理美术，布局与交互由消费技能负责。各技能流程图位于对应 SKILL.md。
+[技能架构](architecture.md) · [分层美术示例](examples/gamehud-layered-art/README.md)。UI 素材默认不需要背景；背景独立存放和展示。美术技能只处理资源，布局与交互由消费技能负责。各技能流程图位于对应 SKILL.md。
+
+美术制作从 `art-library/art-direction.md` 读取定稿，引用 `styles/<风格ID>/<版本>/style.md` 和同版本 `references/` 中实际保存的图片。未定稿时先讨论风格，无关代码规划继续；纯规划不自动生图。[六版仙侠候选比较](examples/gamehud-layered-art/art-library/productions/xianxia-style-exploration/README.md) 当前为讨论中，等待用户选择。
 
 ## 安装
 
@@ -60,6 +69,7 @@ flowchart TD
 | 开发文档 | scripts/documentation_tool.py | rules/check：精简 meta、文档依赖、API 和测试分离 |
 | Excel 配置 | scripts/config_tool.py、scripts/export_config.py | inspect/check：配置读取与字段处理清单；export_config：按项目配置导出并检查 |
 | 日志阅读 | scripts/log_tool.py | read：日志标识过滤、行号和上下文 |
+| 风格讨论 | scripts/direction_tool.py | check/handoff：只读检查状态、版本化描述、参考图与摘要；不代替用户定稿 |
 
 每个工具随对应技能安装；执行工具复用相邻规划技能的共享工单模块，使用说明在该技能 references/tooling.md。规划工具可以在显式任务根内记录任务，配置导出工具按项目 profile 写生成产物，--check 调用已核对的检查器，--describe 只读显示路线；文档、配置盘点和日志工具只读。结果为 JSON，结构通过不代表业务/运行验证通过。测试代码不随技能或本仓库分发，分别在隔离目录验证。
 

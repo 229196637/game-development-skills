@@ -7,7 +7,7 @@ metadata:
 ---
 # 游戏系统开发规划
 
-涉及美术时引用 [分层美术资源](../game-layered-art/SKILL.md) 的风格和资源契约，把已有资源、缺口、目标用途写入需求；规划阶段不调用生图。UI 素材默认不需要背景，背景需求单独说明。具体素材制作由已授权执行任务落实。
+涉及美术时先检查 art-library/art-direction.md；已有适用定稿则沿用，未定时先进入 [美术风格讨论](../game-art-style-discussion/SKILL.md)，再确定美术制作工单。无关代码规划继续，未确定部分只记录需求和缺口，不假定某版风格或细化素材生产。工单引用定稿路径、style_id/version、style_file与认可图，再引用 [分层美术资源](../game-layered-art/SKILL.md) 的资源契约。纯规划不自动生图，用户请求看效果时由风格讨论按授权生成候选；正式素材制作留给执行。UI默认不需要背景。
 
 先研究需求和相关已有代码，调用 [游戏系统开发文档](../game-system-development-documentation/SKILL.md) 完成文档，再编写具体工单；校验交付后停止。本技能只规划，用户明确要求落实时使用独立 [游戏系统开发执行](../game-system-development-execution/SKILL.md)，不在本技能实现、构建、业务测试或记录实际验收。文档中的原语言 API 声明属于文档。
 
@@ -16,7 +16,14 @@ metadata:
 ```mermaid
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 340}}}%%
 flowchart TD
-  Research["需求研究与文档准备<br/>preparation.md<br/>研究需求和相关架构"] --> Docs["游戏系统开发文档<br/>SKILL.md<br/>先完成所需文档"]
+  Research["需求研究与文档准备<br/>preparation.md<br/>研究需求和相关架构"] --> ArtNeed{涉及美术方向或资源需求？}
+  ArtNeed -->|否| Docs["游戏系统开发文档<br/>SKILL.md<br/>先完成所需文档"]
+  ArtNeed -->|是| Direction[检查美术定稿与认可图]
+  Direction --> ArtReady{有适用的已确认定稿？}
+  ArtReady -->|是| Docs
+  ArtReady -->|否| ArtTalk[美术风格讨论]
+  ArtTalk --> Split[待定美术先不细化，无关规划继续]
+  Split --> Docs
   Docs --> Ready{"接口与文档明确？"}
   Ready -->|否| Docs
   Ready -->|是| Task["逐类任务记录<br/>class-task.md<br/>具体改动、工作项和验收条件"]
@@ -24,6 +31,8 @@ flowchart TD
   Route --> Check["开发规划工具<br/>tooling.md<br/>order、check、list"]
   Check --> Deliver["需求研究与文档准备<br/>preparation.md<br/>交付文档与工单，停止"]
   click Research "references/workflows/preparation.md"
+  click Direction "../game-art-style-discussion/references/tooling.md"
+  click ArtTalk "../game-art-style-discussion/SKILL.md"
   click Docs "../game-system-development-documentation/SKILL.md"
   click Task "references/contracts/class-task.md"
   click Route "references/workflows/task-routing.md"
