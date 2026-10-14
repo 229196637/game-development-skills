@@ -72,6 +72,12 @@ def _style(m_root, m_data, m_id, m_version):
     return m_matches[0]
 
 
+def _size(m_value, m_label):
+    if not isinstance(m_value, dict) or any(type(m_value.get(m_key)) is not int or m_value[m_key] <= 0 for m_key in ("width", "height")):
+        raise ValueError(f"{m_label} 必须包含正整数 width/height")
+    return m_value
+
+
 def _validateAsset(m_root, m_data, m_asset, m_imagePath):
     m_required = ("id", "version", "category", "purpose", "tags", "style_id", "style_version",
                   "path", "requires_alpha", "source", "production")
@@ -108,6 +114,21 @@ def _validateAsset(m_root, m_data, m_asset, m_imagePath):
         if m_source.get(m_key) and not _resolve(m_root, m_source[m_key]).is_file():
             raise ValueError(f"来源文件缺失: {m_key}")
     m_actual = _inspect(m_imagePath)
+    if "name" in m_asset and (not isinstance(m_asset["name"], str) or not m_asset["name"].strip()):
+        raise ValueError("name 必须是非空素材名字")
+    if "native_size_required" in m_asset and not isinstance(m_asset["native_size_required"], bool):
+        raise ValueError("native_size_required 必须为布尔值")
+    if "design_canvas" in m_asset:
+        _size(m_asset["design_canvas"], "design_canvas")
+        if "design_canvas" in m_manifest and m_asset["design_canvas"] != m_manifest["design_canvas"]:
+            raise ValueError("资源与任务设计基准不一致")
+    m_matchesDesign = None
+    if "design_size" in m_asset:
+        m_design = _size(m_asset["design_size"], "design_size")
+        m_matchesDesign = (m_actual["width"], m_actual["height"]) == (m_design["width"], m_design["height"])
+    if m_asset.get("native_size_required"):
+        if not m_asset.get("name") or not m_asset.get("design_canvas") or not m_manifest.get("design_canvas") or not m_matchesDesign:
+            raise ValueError("按设计原大小交付必须记录名称、设计基准，并使 PNG 实测尺寸等于 design_size")
     if m_actual["format"] != "PNG" or not m_actual["has_visible_pixels"]:
         raise ValueError("正式素材必须为包含可见像素的 PNG")
     if m_asset["requires_alpha"] and not m_actual["has_transparent_pixels"]:
@@ -115,7 +136,7 @@ def _validateAsset(m_root, m_data, m_asset, m_imagePath):
     for m_key in ("format", "width", "height", "sha256"):
         if m_key in m_asset and m_asset[m_key] != m_actual[m_key]:
             raise ValueError(f"实测 {m_key} 不匹配")
-    return {**m_asset, **m_actual}
+    return {**m_asset, **m_actual, "size_matches_design": m_matchesDesign}
 
 
 def _register(m_root, m_args):
@@ -171,6 +192,8 @@ def _check(m_root):
     for m_file in sorted((m_root / "productions").glob("*/manifest.json")):
         try:
             m_manifest = _readJson(m_file)
+            if "design_canvas" in m_manifest:
+                _size(m_manifest["design_canvas"], "design_canvas")
             m_styleRef = m_manifest["style"]
             _style(m_root, m_data, m_styleRef["id"], m_styleRef["version"])
             m_taskKeys = {(m_a["id"], m_a["version"]) for m_a in m_manifest["assets"]}
@@ -180,6 +203,8 @@ def _check(m_root):
                 m_ref = next(m_a for m_a in m_data["assets"] if (m_a["id"], m_a["version"]) == m_key)
                 if (m_ref["style_id"], m_ref["style_version"]) != (m_styleRef["id"], m_styleRef["version"]):
                     raise ValueError(f"组合任务混用了其它风格版本: {m_key}")
+                if "design_canvas" in m_manifest and "design_canvas" in m_ref and m_ref["design_canvas"] != m_manifest["design_canvas"]:
+                    raise ValueError("任务引用了不同设计基准的素材")
             for m_composition in m_manifest["compositions"]:
                 for m_layer in m_composition["layers"]:
                     if (m_layer["asset_id"], m_layer["version"]) not in m_taskKeys:
@@ -191,6 +216,10 @@ def _check(m_root):
                         raise ValueError("搭配位置必须为数值")
                     if m_place["width"] <= 0 or m_place["height"] <= 0:
                         raise ValueError("搭配尺寸必须为正数")
+                    if m_manifest.get("preview_mode") == "native-design":
+                        m_ref = next(m_a for m_a in m_data["assets"] if (m_a["id"], m_a["version"]) == (m_layer["asset_id"], m_layer["version"]))
+                        if (m_place["width"], m_place["height"]) != (m_ref["width"], m_ref["height"]):
+                            raise ValueError("原大小预览不得缩放单项 PNG")
         except (OSError, KeyError, TypeError, ValueError) as m_error:
             m_errors.append(f"{m_file.relative_to(m_root)}: {m_error}")
     return {"ok": not m_errors, "assets": len(m_data["assets"]), "styles": len(m_data["styles"]), "errors": m_errors}
@@ -238,7 +267,10 @@ def Main():
                 m_assets = [m_a for m_a in m_assets if m_a["id"] == m_args.id and m_a["version"] == m_args.version]
                 if len(m_assets) != 1:
                     raise ValueError("资源版本缺失或重复")
-            m_result = {"assets": [{**m_a, "style_path": _style(m_root, m_data, m_a["style_id"], m_a["style_version"])["path"]} for m_a in m_assets]}
+                # 消费前实测文件，避免将已变化或缺失的 PNG 当成登记时仍合格的资源。
+                m_assets = [_validateAsset(m_root, m_data, m_a, _resolve(m_root, m_a["path"])) for m_a in m_assets]
+            m_result = {"inspection": "live-file" if m_args.command == "get" else "registered-metadata",
+                        "assets": [{**m_a, "name": m_a.get("name", m_a["purpose"]), "style_path": _style(m_root, m_data, m_a["style_id"], m_a["style_version"])["path"]} for m_a in m_assets]}
         print(json.dumps(m_result, ensure_ascii=False, indent=2))
         return 1 if m_result.get("ok") is False else 0
     except (OSError, KeyError, TypeError, ValueError, ImportError) as m_error:

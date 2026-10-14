@@ -1,0 +1,103 @@
+{
+  "board": [
+    1920,
+    1080
+  ],
+  "names": [
+    {
+      "name": "商店主体",
+      "captionY": 820,
+      "belowImages": true
+    },
+    {
+      "name": "任务卷轴",
+      "captionY": 820,
+      "belowImages": true
+    },
+    {
+      "name": "副本传送门",
+      "captionY": 820,
+      "belowImages": true
+    },
+    {
+      "name": "好友双鹤",
+      "captionY": 820,
+      "belowImages": true
+    },
+    {
+      "name": "邮件主体",
+      "captionY": 820,
+      "belowImages": true
+    }
+  ],
+  "native": [
+    {
+      "name": "公共浮岛底座原大小",
+      "actual": [
+        1254,
+        1254
+      ],
+      "display": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "name": "商店主体原大小",
+      "actual": [
+        1254,
+        1254
+      ],
+      "display": [
+        1254,
+        1254
+      ]
+    },
+    {
+      "name": "任务卷轴原大小",
+      "actual": [
+        128,
+        128
+      ],
+      "display": [
+        128,
+        128
+      ]
+    },
+    {
+      "name": "副本传送门原大小",
+      "actual": [
+        128,
+        128
+      ],
+      "display": [
+        128,
+        128
+      ]
+    },
+    {
+      "name": "好友双鹤原大小",
+      "actual": [
+        128,
+        128
+      ],
+      "display": [
+        128,
+        128
+      ]
+    },
+    {
+      "name": "邮件主体原大小",
+      "actual": [
+        1254,
+        1254
+      ],
+      "display": [
+        1254,
+        1254
+      ]
+    }
+  ],
+  "backgrounds": 0,
+  "loaded": true
+}
