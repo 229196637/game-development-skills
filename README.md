@@ -63,3 +63,5 @@
 [技能架构与依赖](architecture.md) 说明文档、规划、执行边界、脚本位置、TODO 领取与测试报告归属。执行工具复用规划工单格式，安装时保持三个技能文件夹相邻。
 
 [执行技能实际验证与流程预览](examples/execution-workflow/README.md)。
+
+含类索引的文档 README 同时提供职责架构图与系统依赖图；[补充与验证](examples/game-rule-dispatchers/readme-diagram-review.md)。

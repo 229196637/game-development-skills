@@ -32,3 +32,5 @@ docs/文档/<模块>/设计/<任务>/
 模板由文档技能维护：[任务 README](../../assets/templates/planning-task.md)、[类说明](../../assets/templates/planning-class.md)、[目录摘要](../../assets/templates/planning-directory-readme.md)、[UI](../../assets/templates/planning-ui.md)；API 用本技能原语言模板。设计态 API 头标 planned/mixed，实现核对后经同一能力移交正式位置，不留双份。
 
 文档就绪后，规划按模块依赖生成逐类执行工单；文档技能不写或排序 TODO，不覆盖既有工作项。已实现补录或更新也可独立调用文档技能。
+
+含类索引的 README 同时维护职责架构图与系统依赖图，见 [职责架构与系统依赖图](readme-diagrams.md)；索引/角色/依赖及跳转同步更新。

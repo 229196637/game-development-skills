@@ -10,7 +10,7 @@ import os
 import subprocess
 from collections import deque
 from pathlib import Path
-from module_layout import validate_layout
+from module_layout import validate_layout, validate_class_diagrams
 from urllib.parse import unquote
 SCHEMAS = {'skill': ['name', 'description'], 'documentation': ['system', 'side', 'updated', 'code_revision', 'sources', 'dependencies']}
 SIDES = {'client', 'server', 'shared'}
@@ -274,8 +274,9 @@ def check(args):
                     clicks = re.findall(r'click\s+\w+\s+"([^"\n]+)"', section[1] if section else '')
                     if not any((file.parent / c.split('#')[0]).resolve() == target for c in clicks):
                         fail(file, 'DISPATCH_LINK', 'cross-dispatcher dependency needs clickable pipeline node: ' + ref)
-        is_class_entry = file.name == 'README.md' and meta.get('system') == 'catalog' and kind != 'skill'
+        is_class_entry = file.name == 'README.md' and kind != 'skill' and (meta.get('system') == 'catalog' or re.search(r'^## 类索引\s*$', body, re.M))
         if is_class_entry:
+            validate_class_diagrams(file, body, fail)
             class_index = re.search(r'^## 类索引\s*\n(.*?)(?=^## |\Z)', body, re.S | re.M)
             table = [line.strip() for line in class_index[1].splitlines() if line.strip().startswith('|')] if class_index else []
             split_cells = lambda row: [c.strip() for c in re.split(r'(?<!\\)\|', row.strip('|'))]

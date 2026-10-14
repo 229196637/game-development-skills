@@ -4,7 +4,7 @@ kind: "index"
 system: "inventory"
 title: "批量入库设计"
 status: "ready"
-updated: "2026-10-14 09:13:06 +08:00"
+updated: '2026-10-14 10:44:27 +08:00'
 sources: ["shared/inventory/item_store.py", "server/inventory/inventory_service.py"]
 links: []
 code_revision: "working-tree; read-only input SHA256 in verification.json"
@@ -31,3 +31,35 @@ ItemStore.add 已完成单项数量校验与累加；不能逐项调用它组成
 | --- | --- | --- | --- | --- |
 | ItemStore | executor | 保存数量并提交整批累加 | [声明](../../api/shared/ItemStore.api.pyi) | [职责](职责/ItemStore.md) |
 | InventoryService | executor | 转发服务端批量奖励 | [声明](../../api/server/InventoryService.api.pyi) | [职责](职责/InventoryService.md) |
+
+## 职责架构图
+
+本图展示设计态类职责与协作，实际实现请查模块入口。
+
+```mermaid
+%%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 300}}}%%
+flowchart TD
+  N0["InventoryService<br/>executor：转发服务端批量奖励"]
+  N1["ItemStore<br/>executor：保存数量并提交整批累加"]
+  N0 -->|借用注入引用并转发| N1
+  click N0 "职责/InventoryService.md"
+  click N1 "职责/ItemStore.md"
+```
+
+[InventoryService](职责/InventoryService.md) · [ItemStore](职责/ItemStore.md)
+
+## 系统依赖图
+
+消费者指向提供者；关系来自类文档依赖与已确认契约，未将开发顺序当作运行依赖。
+
+```mermaid
+%%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 300}}}%%
+flowchart TD
+  D0["InventoryService"]
+  D1["ItemStore"]
+  D0 -->|add/add_many 保存奖励数量| D1
+  click D0 "职责/InventoryService.md"
+  click D1 "职责/ItemStore.md"
+```
+
+[InventoryService](职责/InventoryService.md) · [ItemStore](职责/ItemStore.md)

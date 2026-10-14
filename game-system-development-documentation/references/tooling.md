@@ -34,7 +34,7 @@ python $m_tool check $m_topicMd --topic
 检查调度器文件名/H1 与类型名一致、每流水线图前用途说明，以及以其他本地流水线标题命名的节点跳转。工具不会从任意标签自动识别隐藏的调用关系，仍需人工核对。
 
 ## 正式文档入口
-README.md 且 system: catalog 识别为纯导航，检查精简 meta 和链接，不强制架构图；拒绝 TODO/任务状态和运行时角色 meta。入口模板不放 api/。
+README.md 且 system: catalog 识别为纯导航，检查精简 meta 和链接；含类索引时强制职责架构图与系统依赖图；拒绝 TODO/任务状态和运行时角色 meta。入口模板不放 api/。
 
 入口类索引检查“类/角色/职责/API/文档”列、角色值、非空职责和链接；职责是否简短准确仍人工核对，不能只凭字数判定。
 
@@ -45,3 +45,5 @@ check 目录时检查每级文档文件夹存在 README.md（Git/隐藏目录跳
 
 ## 单一文档生成检查入口
 统一 scripts/documentation_tool.py check <目标> --mode planning|implemented；planning profile 的实现位于本技能 scripts/planning_documents_tool.py，文档规则都在本技能。本工具不解析/排序 TODO，统一任务规划负责该部分。类型文档必须有目录架构与脚本位置，明确代码路径、命名空间和装配归属。
+
+含类索引的所有文档 README（不限 system: catalog）检查两张独立 Mermaid 总览、职责图类型覆盖与职责 MD 点击链接。缺图/缺类/坏链接分别输出 ENTRY_* 错误；业务依赖方向和持有语义仍人工核对。

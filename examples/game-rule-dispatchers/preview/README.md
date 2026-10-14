@@ -25,3 +25,5 @@ dependencies: []
 [规划技能操作流程](planning-flow.png)：实测约 20px；可点击节点见技能 SKILL.md。
 
 规划流程现为只读研究 → 文档 → 工单 → 依赖 TODO → 校验 → 交付停止；旧规划内执行分支已抽离。[执行流程预览](../../execution-workflow/README.md)。
+
+[文档入口职责图](readme-responsibilities.png) · [文档入口系统依赖图](readme-dependencies.png)。Mermaid 可点击版本见文档 README；PNG 用于字号和布局预览。
