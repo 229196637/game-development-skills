@@ -56,7 +56,7 @@ flowchart TD
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 360}}}%%
 flowchart TD
   Fields["配置契约<br/>tables.md<br/>主键 / 字段 / 外键 / 端归属"] --> Map["字段与导出规范<br/>fields-and-export.md<br/>注释 / 默认 / 转换 / 读取"]
-  Map --> Layout["排版与导航<br/>formatting.md"]
+  Map --> Layout["排版与导航<br/>formatting.md<br/>数据分类配色 / 可见图例"]
   Layout --> Legacy{"已有标签式 legacy xls 导出器？"}
   Legacy -->|是| Adapter["使用前提<br/>legacy-xls.md"]
   Legacy -->|否| Write["配置流程<br/>config.md<br/>用项目实际格式编写"]
@@ -87,6 +87,8 @@ flowchart TD
 | 实际或拟定名称 | 已有 / 缺失 / 部分缺失；真实路径和端归属 | 读取复用 / 新增规划 / 新建 / 修改 / 保留待确认 | 已实现函数直接映射；新接口标 planned | 兼容影响、字段/外键/端导出及读取验证 |
 
 完整字段字典仍由 [字段与导出规范](references/contracts/fields-and-export.md) 维护：逐字段说明含义、单位、类型/格式、必填/空值/默认/特殊值、Id/外键、client/server 使用方和导出/读取映射。每字段注释必填，同步 config.md、Excel TIPS/说明列和生成原生注释；不能用注释声称未实现的校验。
+
+Excel 数据区按真实业务类别配色，同类同色，并保留可见图例和文字分类；不只给表头上色。配色规则、冲突处理及读回验证见 [排版与导航](references/contracts/formatting.md)。颜色只帮助阅读，不替代字段值或改变导出结果。
 
 ## 同步与交付
 
