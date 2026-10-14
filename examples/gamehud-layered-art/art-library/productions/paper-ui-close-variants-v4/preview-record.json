@@ -1,0 +1,62 @@
+{
+  "task_id": "paper-ui-close-variants-v4",
+  "style": {
+    "id": "xianxia-paper-collage",
+    "version": "v2"
+  },
+  "art_direction": "art-direction.md",
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "references": [
+    "styles/xianxia-paper-collage/v2/references/ui-approved-controls-v1.png",
+    "styles/xianxia-paper-collage/v2/references/ui-approved-inventory-v1.png"
+  ],
+  "approved_ui_baseline": "paper-ui-designed-v3",
+  "user_feedback": "这一套可以 再跑多几个版本 尤其是哪个x按钮的设计 要求有点特色；反正带有中国特色就行",
+  "stage": "close-design-discussion",
+  "selected": null,
+  "previews": [
+    {
+      "id": "cloud-jade-close",
+      "name": "A · 云纹玉扣",
+      "path": "productions/paper-ui-close-variants-v4/cloud-jade-close.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "sha256": "1b59163545fac7814622d9cdd6998d92c35f44e07929125ab15ed5a23d10fece",
+      "prompt": "productions/paper-ui-close-variants-v4/prompts/cloud-jade-close.txt",
+      "observation": "关闭钮改为四瓣如意云形玉扣，奶白X占中部，侧边细云纹和小朱砂点；圆润风格与原UI协调。图中界面小按钮与放大版接近，悬停金边、按下深青仅作状态参考。",
+      "status": "candidate"
+    },
+    {
+      "id": "fangsheng-knot-close",
+      "name": "B · 方胜结扣",
+      "path": "productions/paper-ui-close-variants-v4/fangsheng-knot-close.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "sha256": "15e8c67ed3592543e1bb1b70d9bfd2f2351722018daf8b22f6b83ecd5e49eae3",
+      "prompt": "productions/paper-ui-close-variants-v4/prompts/fangsheng-knot-close.txt",
+      "observation": "关闭钮采用柔角菱形青玉面、两侧朱砂结扣和奶白X，轮廓区别明显。实际两侧结饰略像花瓣卷云，方胜几何表达成立但不是严格绳结示意；仍清楚可识别为关闭。",
+      "status": "candidate"
+    },
+    {
+      "id": "lattice-corner-close",
+      "name": "C · 花窗折角",
+      "path": "productions/paper-ui-close-variants-v4/lattice-corner-close.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "sha256": "9446351cdd078ededc9111ad5ec832887bc736da3043c988352a4ac624c21bee",
+      "prompt": "productions/paper-ui-close-variants-v4/prompts/lattice-corner-close.txt",
+      "observation": "关闭钮为八角花窗折角，朱砂内面、青玉边和四角细回纹，奶白X清楚；几何轮廓更利落。内容区保持原基线，状态效果仍未拆成独立PNG。",
+      "status": "candidate"
+    }
+  ],
+  "runtime_assets_ready": false
+}

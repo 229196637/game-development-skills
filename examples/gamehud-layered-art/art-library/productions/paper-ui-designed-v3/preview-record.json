@@ -10,7 +10,7 @@
     "width": 1920,
     "height": 1080
   },
-  "stage": "revised-ui-art-preview",
+  "stage": "user-approved-ui-baseline",
   "user_feedback": "不行 这个 太简单了 没有设计感。。。 重新来 要求有点游戏的感觉啊 边框可以带一点设计花纹之类的",
   "ui_rule": "窄分层边框、细云纹、折角、标题造型，装饰集中边角，内容区留白",
   "previews": [
@@ -39,5 +39,11 @@
       "observation": "背包采用青绿窄边带、细金云纹、造型标题栏和角部云饰，页签/物品格/按钮共享折角语言；无花枝堆叠，内容区留白。标题周围装饰比控件板略多，等待用户判断该密度。整体图非可编辑UI。"
     }
   ],
-  "runtime_assets_ready": false
+  "runtime_assets_ready": false,
+  "user_approval": "这一套可以",
+  "approved_references": [
+    "styles/xianxia-paper-collage/v2/references/ui-approved-controls-v1.png",
+    "styles/xianxia-paper-collage/v2/references/ui-approved-inventory-v1.png"
+  ],
+  "next_discussion": "productions/paper-ui-close-variants-v4/preview-record.json"
 }
