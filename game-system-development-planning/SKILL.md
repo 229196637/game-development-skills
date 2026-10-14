@@ -1,13 +1,15 @@
 ---
 name: game-system-development-planning
-description: 可直接作为游戏开发入口，先研究相关代码与需求，调用文档技能增补同步文档，再驱动代码实现；按类维护具体开发工单、文档索引、验收标准、依赖、状态及底部测试/验收记录，用 Python 辅助记录。规划不复制系统文档、架构图或 API。
+description: 默认只研究需求并生成文档与规划工单，交付后停止；仅用户明确要求执行时才进入代码实现与测试验收；按类维护具体开发工单、文档索引、验收标准、依赖、状态及底部测试/验收记录，用 Python 辅助记录。规划不复制系统文档、架构图或 API。
 metadata:
-  short-description: 先文档后规划，逐类驱动实现与测试
+  short-description: 默认只交付文档和规划，明确执行后才开发
   schema-version: "4"
 ---
 # 游戏系统开发规划
 
-可以直接调用本技能开始游戏开发，不要求用户事先手动生成文档。收到需求后先按 [需求研究与文档准备](references/workflows/preparation.md) 研究当前架构、相关代码及已有文档/API，再调用 [游戏系统开发文档](../game-system-development-documentation/SKILL.md)，根据需求新增、修改或清理文档并修复引用；文档明确后才建立同层级同类名的执行工单、安排依赖及授权实现。先文档后工单是内部顺序，不是要求用户分别调用两个技能。纯文档任务可单独调用文档技能，不制造代码任务。
+直接调用本技能时，默认只做文档与规划。先研究需求、架构及相关已有代码，再调用 [游戏系统开发文档](../game-system-development-documentation/SKILL.md) 增删改文档，随后建立同层级同类名的具体工单与依赖顺序；校验、交付后停止。**调用规划技能、给出开发需求或规划已写完，都不代表授权执行工单。** 不默认编写或修改业务代码、生成生产实现脚本、运行构建/业务测试、启动游戏/编辑器或落实工单。文档用的原语言 API 声明属于文档，不是生产实现。
+
+只有用户明确要求“开始实现”“执行这份规划”等，或本次明确授权同时规划并实现，才进入执行阶段；纯规划指令优先于泛化的开发意图。过去另一项任务的开发授权不沿用到本次规划。默认交付时可说明下一步执行入口，无需询问批准来完成当前文档任务。
 
 ## 执行流程
 
@@ -19,7 +21,9 @@ flowchart TD
   Ready -->|否| Docs
   Ready -->|是| Task["逐类任务记录<br/>class-task.md<br/>具体改动、工作项、文档索引"]
   Task --> Order["任务路由与执行<br/>task-routing.md<br/>按依赖确定先后"]
-  Order --> Code["任务路由与执行<br/>task-routing.md<br/>读取对应文档后实现代码"]
+  Order --> Gate{"用户明确要求执行本次工单？"}
+  Gate -->|否：默认| Deliver["需求研究与文档准备<br/>preparation.md<br/>交付文档与规划，停止"]
+  Gate -->|是| Code["任务路由与执行<br/>task-routing.md<br/>读取对应文档后实现代码"]
   Code --> Test["开发规划工具<br/>tooling.md<br/>执行测试，记录到任务底部"]
   Test --> Accept["开发规划工具<br/>tooling.md<br/>按预定标准记录验收情况"]
   Accept --> Pass{"工作项、测试和验收全部通过？"}
@@ -31,6 +35,7 @@ flowchart TD
   click Read "references/workflows/task-routing.md"
   click Task "references/contracts/class-task.md"
   click Order "references/workflows/task-routing.md"
+  click Deliver "references/workflows/preparation.md"
   click Code "references/workflows/task-routing.md"
   click Test "references/tooling.md"
   click Accept "references/tooling.md"
@@ -40,7 +45,9 @@ flowchart TD
 
 图中节点对应 [需求研究与文档准备](references/workflows/preparation.md)、[任务路由与执行](references/workflows/task-routing.md)、[逐类任务记录](references/contracts/class-task.md)、[开发规划工具](references/tooling.md)。没有执行条件则记录缺口，不把未运行的测试标成通过。
 
-## 开始实现的门槛
+## 开始实现的门槛（仅明确执行时）
+
+必须先有本次用户明确执行授权。以下步骤不能因规划完成而自动触发。
 
 首次写本次业务代码之前，必须已有内容完整的对应类工单 MD 及任务 README（范围、文档入口、依赖顺序），执行 `check/list` 核对前置与顺序，并将本类状态设为 doing；之后才能实现和测试。不能先实现再补任务并声称规划驱动。已有代码补录任务须如实写明是补录，不编造过去的执行过程。工具不会监控源码写入时间，执行者负责遵守这个顺序。
 
@@ -55,6 +62,8 @@ flowchart TD
 底部依次为 `## 测试过程` 和 `## 验收情况`。规划时提前登记必需测试与验收标准，实际记录表可以暂时无结果，必须明确尚未执行；执行后追加真实测试步骤、预期、实际和证据，再逐条记录验收结果。工作项、必需测试、验收和前置全部满足后才设完成。验收不是新增审批：自动/人工方式按项目与用户已确认要求执行，不能把测试通过直接冒充所有验收标准通过。
 
 实现前每次读对应 MD，沿链接查公开函数 API、目录架构与适用项目规范。现有框架已经提供能力时，给出准确接口、调用契约与差距，再确认是否重写；已有选择继续沿用，不重复询问。实现遵守文档规定的脚本位置和实际语言，不猜接口。
+
+默认只使用工具 init/update/relocate/check/list 维护、校验规划，工作项保持待做，测试与验收保持未执行；文档/规划本身的结构与链接校验可以运行。执行命令的 --execute 仅表示调用者已确认本次用户明确执行授权，不会替代人类授权。
 
 按 [开发规划工具](references/tooling.md) 使用 `scripts/planning_tool.py` 创建/补充工单、迁移到镜像路径、勾选工作项、记录测试与验收、排序检查和设置完成。工具只修改显式指定任务根下的任务/README，不实现代码、不运行测试、不修改系统文档；结构通过不等于行为通过。
 

@@ -307,6 +307,8 @@ def main():
         if name in ("check", "list"):
             continue
         command.add_argument("--file", required=True)
+        if name in ("status", "set-item", "record-test", "record-acceptance", "complete"):
+            command.add_argument("--execute", action="store_true", help="仅在用户明确授权执行本次工单后使用")
         if name in ("init", "update"):
             brief_group = command.add_mutually_exclusive_group(required=True)
             brief_group.add_argument("--brief")
@@ -338,8 +340,10 @@ def main():
             command.add_argument("--result", choices=("passed", "failed", "not-run"), required=True)
     args = parser.parse_args()
     if args.action == "rules":
-        return {"order": "先文档后规划", "owner": "逐类工单", "meta": KEYS,
+        return {"order": "先文档后规划", "owner": "逐类工单", "default_mode": "文档与规划，交付后停止", "execution": "仅本次用户明确要求执行；执行记录操作需 --execute", "meta": KEYS,
                 "completion": "前置完成、工作项勾选、每项必需测试与验收最近 passed；不证明真实测试执行"}
+    execution = args.action in ("record-test", "record-acceptance", "complete") or (args.action == "status" and args.value == "doing") or (args.action == "set-item" and args.value == "done")
+    require(not execution or args.execute, "默认仅文档与规划；此操作须有本次用户明确执行授权并传 --execute")
     root = args.root.resolve()
     require(".git" not in root.parts, "任务根不能是 .git")
     if args.action == "init":
