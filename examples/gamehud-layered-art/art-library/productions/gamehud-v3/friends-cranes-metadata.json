@@ -1,0 +1,45 @@
+{
+  "id": "friends-cranes",
+  "version": "v2",
+  "name": "好友双鹤",
+  "category": "subjects",
+  "purpose": "好友双鹤，与公共浮岛台面匹配",
+  "tags": [
+    "entrance",
+    "subjects",
+    "paired-art"
+  ],
+  "style_id": "xianxia-jade-gold",
+  "style_version": "v1",
+  "path": "assets/xianxia-jade-gold/subjects/friends-cranes-v2.png",
+  "requires_alpha": true,
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "design_size": {
+    "width": 314,
+    "height": 314
+  },
+  "native_size_required": false,
+  "production": "productions/gamehud-v3/manifest.json",
+  "pairing": {
+    "base_id": "entrance-base",
+    "base_version": "v1",
+    "contact_anchor": {
+      "x": 627.5,
+      "y": 1061
+    },
+    "visible_width_at_design": 266
+  },
+  "source": {
+    "kind": "generated",
+    "origin": "imagegen built-in; exec-e19d83ed-557f-4541-b5d9-1e81758c0010.png",
+    "prompt": "productions/gamehud-v3/prompts/friends-v2.txt",
+    "reference": "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+    "references": [
+      "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+      "productions/gamehud-v2/source-images/concept-v2.png"
+    ]
+  }
+}

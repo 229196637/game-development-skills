@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import math
 import os
 from pathlib import Path, PurePosixPath
 import shutil
@@ -113,7 +114,25 @@ def _validateAsset(m_root, m_data, m_asset, m_imagePath):
     for m_key in ("prompt", "reference"):
         if m_source.get(m_key) and not _resolve(m_root, m_source[m_key]).is_file():
             raise ValueError(f"来源文件缺失: {m_key}")
+    if "references" in m_source:
+        if not isinstance(m_source["references"], list):
+            raise ValueError("source.references 必须为库内相对路径列表")
+        for m_reference in m_source["references"]:
+            if not _resolve(m_root, m_reference).is_file():
+                raise ValueError("生成时的参考图缺失")
     m_actual = _inspect(m_imagePath)
+    if "pairing" in m_asset:
+        m_pair = m_asset["pairing"]
+        if not isinstance(m_pair, dict):
+            raise ValueError("pairing 必须为对象")
+        m_baseMatches = [m_a for m_a in m_data["assets"] if (m_a["id"], m_a["version"]) == (m_pair["base_id"], m_pair["base_version"])]
+        if len(m_baseMatches) != 1:
+            raise ValueError("搭配底座版本缺失或重复")
+        m_anchor = m_pair["contact_anchor"]
+        for m_key, m_limit in (("x", m_actual["width"]), ("y", m_actual["height"])):
+            m_value = m_anchor[m_key]
+            if type(m_value) not in (int, float) or not math.isfinite(m_value) or not 0 <= m_value < m_limit:
+                raise ValueError("接触锚点必须为 PNG 原像素范围内的有限数值")
     if "name" in m_asset and (not isinstance(m_asset["name"], str) or not m_asset["name"].strip()):
         raise ValueError("name 必须是非空素材名字")
     if "native_size_required" in m_asset and not isinstance(m_asset["native_size_required"], bool):

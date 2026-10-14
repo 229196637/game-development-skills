@@ -1,0 +1,45 @@
+{
+  "id": "dungeon-portal",
+  "version": "v2",
+  "name": "副本传送门",
+  "category": "subjects",
+  "purpose": "副本传送门，与公共浮岛台面匹配",
+  "tags": [
+    "entrance",
+    "subjects",
+    "paired-art"
+  ],
+  "style_id": "xianxia-jade-gold",
+  "style_version": "v1",
+  "path": "assets/xianxia-jade-gold/subjects/dungeon-portal-v2.png",
+  "requires_alpha": true,
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "design_size": {
+    "width": 380,
+    "height": 380
+  },
+  "native_size_required": false,
+  "production": "productions/gamehud-v3/manifest.json",
+  "pairing": {
+    "base_id": "entrance-base",
+    "base_version": "v1",
+    "contact_anchor": {
+      "x": 627.0,
+      "y": 1134
+    },
+    "visible_width_at_design": 266
+  },
+  "source": {
+    "kind": "generated",
+    "origin": "imagegen built-in; exec-9cc8754a-7598-40c2-83b9-08ec408a6179.png",
+    "prompt": "productions/gamehud-v3/prompts/dungeon-v2.txt",
+    "reference": "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+    "references": [
+      "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+      "productions/gamehud-v2/source-images/concept-v2.png"
+    ]
+  }
+}

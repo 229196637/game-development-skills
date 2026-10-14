@@ -1,0 +1,45 @@
+{
+  "id": "quest-scroll",
+  "version": "v2",
+  "name": "任务卷轴",
+  "category": "subjects",
+  "purpose": "任务卷轴，与公共浮岛台面匹配",
+  "tags": [
+    "entrance",
+    "subjects",
+    "paired-art"
+  ],
+  "style_id": "xianxia-jade-gold",
+  "style_version": "v1",
+  "path": "assets/xianxia-jade-gold/subjects/quest-scroll-v2.png",
+  "requires_alpha": true,
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "design_size": {
+    "width": 294,
+    "height": 294
+  },
+  "native_size_required": false,
+  "production": "productions/gamehud-v3/manifest.json",
+  "pairing": {
+    "base_id": "entrance-base",
+    "base_version": "v1",
+    "contact_anchor": {
+      "x": 636.0,
+      "y": 1100
+    },
+    "visible_width_at_design": 266
+  },
+  "source": {
+    "kind": "generated",
+    "origin": "imagegen built-in; exec-2670d271-8d3e-443f-b279-988028e36dfc.png",
+    "prompt": "productions/gamehud-v3/prompts/quest-v2.txt",
+    "reference": "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+    "references": [
+      "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+      "productions/gamehud-v2/source-images/concept-v2.png"
+    ]
+  }
+}

@@ -1,0 +1,187 @@
+{
+  "task_id": "gamehud-v3",
+  "style": {
+    "id": "xianxia-jade-gold",
+    "version": "v1"
+  },
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "preview_mode": "design-reference",
+  "pairing_review": "visual-passed",
+  "base_support_anchor": {
+    "asset_id": "entrance-base",
+    "version": "v1",
+    "x": 627,
+    "y": 520
+  },
+  "assets": [
+    {
+      "id": "entrance-base",
+      "version": "v1"
+    },
+    {
+      "id": "shop-pavilion",
+      "version": "v2"
+    },
+    {
+      "id": "quest-scroll",
+      "version": "v2"
+    },
+    {
+      "id": "dungeon-portal",
+      "version": "v2"
+    },
+    {
+      "id": "friends-cranes",
+      "version": "v2"
+    },
+    {
+      "id": "mail-frame",
+      "version": "v2"
+    }
+  ],
+  "compositions": [
+    {
+      "id": "shop-pavilion-paired",
+      "name": "商店主体",
+      "layers": [
+        {
+          "asset_id": "entrance-base",
+          "version": "v1",
+          "order": 0,
+          "placement": {
+            "x": 80,
+            "y": 480,
+            "width": 320,
+            "height": 320
+          }
+        },
+        {
+          "asset_id": "shop-pavilion",
+          "version": "v2",
+          "order": 1,
+          "placement": {
+            "x": 78.37,
+            "y": 330.91,
+            "width": 323,
+            "height": 323
+          }
+        }
+      ]
+    },
+    {
+      "id": "quest-scroll-paired",
+      "name": "任务卷轴",
+      "layers": [
+        {
+          "asset_id": "entrance-base",
+          "version": "v1",
+          "order": 0,
+          "placement": {
+            "x": 440,
+            "y": 480,
+            "width": 320,
+            "height": 320
+          }
+        },
+        {
+          "asset_id": "quest-scroll",
+          "version": "v2",
+          "order": 1,
+          "placement": {
+            "x": 450.89,
+            "y": 354.81,
+            "width": 294,
+            "height": 294
+          }
+        }
+      ]
+    },
+    {
+      "id": "dungeon-portal-paired",
+      "name": "副本传送门",
+      "layers": [
+        {
+          "asset_id": "entrance-base",
+          "version": "v1",
+          "order": 0,
+          "placement": {
+            "x": 800,
+            "y": 480,
+            "width": 320,
+            "height": 320
+          }
+        },
+        {
+          "asset_id": "dungeon-portal",
+          "version": "v2",
+          "order": 1,
+          "placement": {
+            "x": 770.0,
+            "y": 269.06,
+            "width": 380,
+            "height": 380
+          }
+        }
+      ]
+    },
+    {
+      "id": "friends-cranes-paired",
+      "name": "好友双鹤",
+      "layers": [
+        {
+          "asset_id": "entrance-base",
+          "version": "v1",
+          "order": 0,
+          "placement": {
+            "x": 1160,
+            "y": 480,
+            "width": 320,
+            "height": 320
+          }
+        },
+        {
+          "asset_id": "friends-cranes",
+          "version": "v2",
+          "order": 1,
+          "placement": {
+            "x": 1162.87,
+            "y": 347.03,
+            "width": 314,
+            "height": 314
+          }
+        }
+      ]
+    },
+    {
+      "id": "mail-frame-paired",
+      "name": "邮件主体",
+      "layers": [
+        {
+          "asset_id": "entrance-base",
+          "version": "v1",
+          "order": 0,
+          "placement": {
+            "x": 1520,
+            "y": 480,
+            "width": 320,
+            "height": 320
+          }
+        },
+        {
+          "asset_id": "mail-frame",
+          "version": "v2",
+          "order": 1,
+          "placement": {
+            "x": 1507.91,
+            "y": 336.83,
+            "width": 332,
+            "height": 332
+          }
+        }
+      ]
+    }
+  ]
+}

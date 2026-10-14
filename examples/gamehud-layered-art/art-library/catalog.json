@@ -279,6 +279,326 @@
         1080
       ],
       "name": "云海场景背景"
+    },
+    {
+      "id": "shop-pavilion",
+      "version": "v2",
+      "name": "商店主体",
+      "category": "subjects",
+      "purpose": "商店主体，与公共浮岛台面匹配",
+      "tags": [
+        "entrance",
+        "subjects",
+        "paired-art"
+      ],
+      "style_id": "xianxia-jade-gold",
+      "style_version": "v1",
+      "path": "assets/xianxia-jade-gold/subjects/shop-pavilion-v2.png",
+      "requires_alpha": true,
+      "design_canvas": {
+        "width": 1920,
+        "height": 1080
+      },
+      "design_size": {
+        "width": 323,
+        "height": 323
+      },
+      "native_size_required": false,
+      "production": "productions/gamehud-v3/manifest.json",
+      "pairing": {
+        "base_id": "entrance-base",
+        "base_version": "v1",
+        "contact_anchor": {
+          "x": 627.5,
+          "y": 1094
+        },
+        "visible_width_at_design": 266
+      },
+      "source": {
+        "kind": "generated",
+        "origin": "imagegen built-in; exec-e57f0d63-baf7-4502-a442-13e12c2ae3d5.png",
+        "prompt": "productions/gamehud-v3/prompts/shop-v2.txt",
+        "reference": "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+        "references": [
+          "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+          "productions/gamehud-v2/source-images/concept-v2.png"
+        ]
+      },
+      "format": "PNG",
+      "width": 1254,
+      "height": 1254,
+      "has_transparent_pixels": true,
+      "has_visible_pixels": true,
+      "content_bounds": [
+        0,
+        22,
+        1224,
+        1254
+      ],
+      "opaque_content_bounds": [
+        111,
+        104,
+        1144,
+        1096
+      ],
+      "sha256": "038bff8c53885c5f4a4ab3fb002f71962ee13e25f63b33a876a2f804d990872a",
+      "size_matches_design": false
+    },
+    {
+      "id": "quest-scroll",
+      "version": "v2",
+      "name": "任务卷轴",
+      "category": "subjects",
+      "purpose": "任务卷轴，与公共浮岛台面匹配",
+      "tags": [
+        "entrance",
+        "subjects",
+        "paired-art"
+      ],
+      "style_id": "xianxia-jade-gold",
+      "style_version": "v1",
+      "path": "assets/xianxia-jade-gold/subjects/quest-scroll-v2.png",
+      "requires_alpha": true,
+      "design_canvas": {
+        "width": 1920,
+        "height": 1080
+      },
+      "design_size": {
+        "width": 294,
+        "height": 294
+      },
+      "native_size_required": false,
+      "production": "productions/gamehud-v3/manifest.json",
+      "pairing": {
+        "base_id": "entrance-base",
+        "base_version": "v1",
+        "contact_anchor": {
+          "x": 636.0,
+          "y": 1100
+        },
+        "visible_width_at_design": 266
+      },
+      "source": {
+        "kind": "generated",
+        "origin": "imagegen built-in; exec-2670d271-8d3e-443f-b279-988028e36dfc.png",
+        "prompt": "productions/gamehud-v3/prompts/quest-v2.txt",
+        "reference": "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+        "references": [
+          "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+          "productions/gamehud-v2/source-images/concept-v2.png"
+        ]
+      },
+      "format": "PNG",
+      "width": 1254,
+      "height": 1254,
+      "has_transparent_pixels": true,
+      "has_visible_pixels": true,
+      "content_bounds": [
+        0,
+        0,
+        1234,
+        1254
+      ],
+      "opaque_content_bounds": [
+        69,
+        146,
+        1203,
+        1102
+      ],
+      "sha256": "84d4e1af6ebe8ebfd5024b1816be1eb8a3397e8236ca669bf85776c0236b25d2",
+      "size_matches_design": false
+    },
+    {
+      "id": "dungeon-portal",
+      "version": "v2",
+      "name": "副本传送门",
+      "category": "subjects",
+      "purpose": "副本传送门，与公共浮岛台面匹配",
+      "tags": [
+        "entrance",
+        "subjects",
+        "paired-art"
+      ],
+      "style_id": "xianxia-jade-gold",
+      "style_version": "v1",
+      "path": "assets/xianxia-jade-gold/subjects/dungeon-portal-v2.png",
+      "requires_alpha": true,
+      "design_canvas": {
+        "width": 1920,
+        "height": 1080
+      },
+      "design_size": {
+        "width": 380,
+        "height": 380
+      },
+      "native_size_required": false,
+      "production": "productions/gamehud-v3/manifest.json",
+      "pairing": {
+        "base_id": "entrance-base",
+        "base_version": "v1",
+        "contact_anchor": {
+          "x": 627.0,
+          "y": 1134
+        },
+        "visible_width_at_design": 266
+      },
+      "source": {
+        "kind": "generated",
+        "origin": "imagegen built-in; exec-9cc8754a-7598-40c2-83b9-08ec408a6179.png",
+        "prompt": "productions/gamehud-v3/prompts/dungeon-v2.txt",
+        "reference": "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+        "references": [
+          "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+          "productions/gamehud-v2/source-images/concept-v2.png"
+        ]
+      },
+      "format": "PNG",
+      "width": 1254,
+      "height": 1254,
+      "has_transparent_pixels": true,
+      "has_visible_pixels": true,
+      "content_bounds": [
+        0,
+        9,
+        1246,
+        1254
+      ],
+      "opaque_content_bounds": [
+        188,
+        97,
+        1066,
+        1136
+      ],
+      "sha256": "7aa98d082c4ee86280fce4299b0d5627f6384723fd3a80fd13c643b4355e49ea",
+      "size_matches_design": false
+    },
+    {
+      "id": "friends-cranes",
+      "version": "v2",
+      "name": "好友双鹤",
+      "category": "subjects",
+      "purpose": "好友双鹤，与公共浮岛台面匹配",
+      "tags": [
+        "entrance",
+        "subjects",
+        "paired-art"
+      ],
+      "style_id": "xianxia-jade-gold",
+      "style_version": "v1",
+      "path": "assets/xianxia-jade-gold/subjects/friends-cranes-v2.png",
+      "requires_alpha": true,
+      "design_canvas": {
+        "width": 1920,
+        "height": 1080
+      },
+      "design_size": {
+        "width": 314,
+        "height": 314
+      },
+      "native_size_required": false,
+      "production": "productions/gamehud-v3/manifest.json",
+      "pairing": {
+        "base_id": "entrance-base",
+        "base_version": "v1",
+        "contact_anchor": {
+          "x": 627.5,
+          "y": 1061
+        },
+        "visible_width_at_design": 266
+      },
+      "source": {
+        "kind": "generated",
+        "origin": "imagegen built-in; exec-e19d83ed-557f-4541-b5d9-1e81758c0010.png",
+        "prompt": "productions/gamehud-v3/prompts/friends-v2.txt",
+        "reference": "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+        "references": [
+          "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+          "productions/gamehud-v2/source-images/concept-v2.png"
+        ]
+      },
+      "format": "PNG",
+      "width": 1254,
+      "height": 1254,
+      "has_transparent_pixels": true,
+      "has_visible_pixels": true,
+      "content_bounds": [
+        0,
+        41,
+        1224,
+        1254
+      ],
+      "opaque_content_bounds": [
+        97,
+        141,
+        1158,
+        1063
+      ],
+      "sha256": "5783d1d5d70da6b2159506c43c343e7dbcb8d6e037eb45d0b637b284499cf182",
+      "size_matches_design": false
+    },
+    {
+      "id": "mail-frame",
+      "version": "v2",
+      "name": "邮件主体",
+      "category": "subjects",
+      "purpose": "邮件主体，与公共浮岛台面匹配",
+      "tags": [
+        "entrance",
+        "subjects",
+        "paired-art"
+      ],
+      "style_id": "xianxia-jade-gold",
+      "style_version": "v1",
+      "path": "assets/xianxia-jade-gold/subjects/mail-frame-v2.png",
+      "requires_alpha": true,
+      "design_canvas": {
+        "width": 1920,
+        "height": 1080
+      },
+      "design_size": {
+        "width": 332,
+        "height": 332
+      },
+      "native_size_required": false,
+      "production": "productions/gamehud-v3/manifest.json",
+      "pairing": {
+        "base_id": "entrance-base",
+        "base_version": "v1",
+        "contact_anchor": {
+          "x": 650.0,
+          "y": 1042
+        },
+        "visible_width_at_design": 266
+      },
+      "source": {
+        "kind": "generated",
+        "origin": "imagegen built-in; exec-83cb6bf2-0c58-403f-8f2e-8c8b5fe9116b.png",
+        "prompt": "productions/gamehud-v3/prompts/mail-v2.txt",
+        "reference": "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+        "references": [
+          "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+          "productions/gamehud-v2/source-images/concept-v2.png"
+        ]
+      },
+      "format": "PNG",
+      "width": 1254,
+      "height": 1254,
+      "has_transparent_pixels": true,
+      "has_visible_pixels": true,
+      "content_bounds": [
+        27,
+        21,
+        1232,
+        1254
+      ],
+      "opaque_content_bounds": [
+        148,
+        160,
+        1152,
+        1044
+      ],
+      "sha256": "dc9f388067b9df9267075c1e9996f4109c5fc4a468b6dd33b64bb557d33044e4",
+      "size_matches_design": false
     }
   ]
 }
