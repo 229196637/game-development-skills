@@ -4,7 +4,8 @@
 
 | 技能 | 用途 |
 | --- | --- |
-| game-system-development-planning | 游戏系统开发规划：读取文档，按类填写具体工单、文档索引、验收标准及底部测试/验收记录 |
+| game-system-development-planning | 游戏系统开发规划：先文档，后逐类工单、验收标准与依赖 TODO，交付后停止 |
+| game-system-development-execution | 游戏系统开发执行：按 TODO 领取、阅读、实现、真实测试报告、验收与完成 |
 | game-system-development-documentation | 游戏系统开发文档：扫描现状、增量同步、原语言公开函数 API、独立 docs Git |
 | game-excel-config | 游戏 Excel 配置表：字段注释、表关系、端归属及项目固定路径一键导表，独立适配不同语言 |
 | log-reading | 日志阅读技能：定位构建/运行日志，关联会话、双端及异常链；含 SCE 可选适配 |
@@ -15,11 +16,11 @@
 
 ## 使用
 
-可以直接调用“游戏系统开发规划”：先研究代码与需求，内部调用文档能力，再建立工单，默认交付后停止；只有明确要求执行本次工单才实现；也可单独调用“游戏系统开发文档”，只做文档增删改；配置需求由“游戏 Excel 配置表”协作处理；日志排查调用“日志阅读技能”。
+可以直接调用“游戏系统开发规划”：先研究代码与需求，内部调用文档能力，再建立工单，默认交付后停止；明确要求落实后由独立执行技能实现；也可单独调用“游戏系统开发文档”，只做文档增删改；配置需求由“游戏 Excel 配置表”协作处理；日志排查调用“日志阅读技能”。
 
 - 规划查阅 API 时，已有框架能力须先给出准确接口、调用/生命周期细节与差距，再询问复用还是重写；已明确选择沿用。
 - 开发任务入口：`docs/规划/<任务>/README.md`，每个类独立任务 MD，只引用文档，不复制设计，docs 由独立 Git 仓库维护。
-- API 先分 client/server/shared，再按模块存储原语言公开函数声明，由 Markdown 映射；实现完成后同步到正式文档位置。
+- API 在 docs/文档/<模块>/api/client|server|shared 中存储原语言公开函数声明，由 Markdown 映射；实现完成后同步到正式文档位置。
 - 需要 UI 的模块独立写 `ui.md`，链接可直接打开的 HTML 设计稿。客户端业务逻辑的 UI 放模块 View/view；服务端业务逻辑的客户端 UI 直接放对应模块目录，遵循项目实际 UI 框架。
 - 配置字段需要完整注释，说明用途、单位、缺省、范围与引用关系。
 - 项目特定框架及 Excel 适配以实际项目为准；技能不授权自动推送项目代码或创建远程仓库。
@@ -29,12 +30,13 @@
 
 | 技能 | 工具 | 命令与范围 |
 | --- | --- | --- |
-| 开发规划 | scripts/planning_tool.py | init/update/set-item/status/record-test/record-acceptance/complete/check/list：具体工单、测试和验收门槛 |
+| 开发规划 | scripts/planning_tool.py、scripts/task_store.py | init/update/relocate/order/check/list：具体工单与依赖 TODO，共享格式 |
+| 开发执行 | scripts/execution_tool.py | next/show/claim/set-item/run-test/record-test/record-acceptance/block/release/reopen/complete：落实与真实报告 |
 | 开发文档 | scripts/documentation_tool.py | rules/check：精简 meta、文档依赖、API 和测试分离 |
 | Excel 配置 | scripts/config_tool.py、scripts/export_config.py | inspect/check：配置读取与字段处理清单；export_config：按项目配置导出并检查 |
 | 日志阅读 | scripts/log_tool.py | read：日志标识过滤、行号和上下文 |
 
-每个工具只随对应技能安装，使用说明在该技能 references/tooling.md。规划工具可以在显式任务根内记录任务，配置导出工具按项目 profile 写生成产物，--check 调用已核对的检查器，--describe 只读显示路线；文档、配置盘点和日志工具只读。结果为 JSON，结构通过不代表业务/运行验证通过。测试代码不随技能或本仓库分发，分别在隔离目录验证。
+每个工具随对应技能安装；执行工具复用相邻规划技能的共享工单模块，使用说明在该技能 references/tooling.md。规划工具可以在显式任务根内记录任务，配置导出工具按项目 profile 写生成产物，--check 调用已核对的检查器，--describe 只读显示路线；文档、配置盘点和日志工具只读。结果为 JSON，结构通过不代表业务/运行验证通过。测试代码不随技能或本仓库分发，分别在隔离目录验证。
 
 更新时间使用便于阅读的 `YYYY-MM-DD HH:mm:ss ±HH:MM`，例如 `2026-10-12 17:19:55 +08:00`；YAML 用带引号字符串。新更新记录与 API 头部按此格式，旧历史不补造时分秒。日志事件的原始时间保持原样。
 
@@ -52,6 +54,12 @@
 
 规划类工单镜像文档相对 docs/文档 的路径与文件名，例如文档 GameRule/职责/GameRuleSystem.md 对应规划 <任务>/GameRule/职责/GameRuleSystem.md；只复制目录/命名约定，正文保存工单与测试/验收记录。工具支持 relocate 保留历史迁移。[同层级规划验证](examples/game-rule-dispatchers/planning-mirror-review.md)。
 
-规划技能默认仅写文档和规划工单，交付即停止；明确要求执行本次工单后才写业务代码、测试及验收。工具执行记录命令需 --execute，此标识不替代用户授权。
+规划技能默认仅写文档和规划工单，交付即停止；实现、测试与验收已抽离至独立执行技能；规划工具不再支持 --execute 或执行记录命令。
 
 [默认只交付文档与规划的验证](examples/game-rule-dispatchers/planning-default-review.md)。
+
+## 三阶段职责与依赖
+
+[技能架构与依赖](architecture.md) 说明文档、规划、执行边界、脚本位置、TODO 领取与测试报告归属。执行工具复用规划工单格式，安装时保持三个技能文件夹相邻。
+
+[执行技能实际验证与流程预览](examples/execution-workflow/README.md)。

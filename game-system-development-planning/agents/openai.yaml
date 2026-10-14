@@ -1,4 +1,4 @@
 interface:
   display_name: "游戏系统开发规划"
-  short_description: "默认只生成文档和同层级工单，明确要求执行后才实现、测试与验收"
-  default_prompt: "使用 $game-system-development-planning，研究需求和相关现有代码，先增补同步文档，再建立同层级同类名的具体规划工单；默认只交付文档与规划并停止，不编写业务代码或执行工单。"
+  short_description: "研究需求后先完成文档，再填写逐类工单、验收条件与依赖 TODO，仅交付规划"
+  default_prompt: "使用 $game-system-development-planning，研究需求、先同步文档，再编写具体逐类工单与依赖 TODO；交付后停止，不实现代码。"

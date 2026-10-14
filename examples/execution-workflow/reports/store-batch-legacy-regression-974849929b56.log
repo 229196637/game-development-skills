@@ -1,0 +1,6 @@
+test_add_get_legacy_contract (tests.shared.inventory.test_item_store_batch.LegacyRegression.test_add_get_legacy_contract) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK

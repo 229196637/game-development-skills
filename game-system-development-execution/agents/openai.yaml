@@ -1,0 +1,4 @@
+interface:
+  display_name: "游戏系统开发执行"
+  short_description: "按规划入口 TODO 领取逐类工单，落实实现、真实测试、独立报告与验收"
+  default_prompt: "使用 $game-system-development-execution，执行指定任务 README：按 TODO 领取工单、阅读关联文档、实现代码、运行测试并记录报告和验收，满足条件后完成任务。"

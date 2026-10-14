@@ -1,0 +1,10 @@
+test_empty_real_store (tests.server.inventory.test_inventory_service_batch.BatchBehavior.test_empty_real_store) ... ok
+test_exception_is_not_swallowed (tests.server.inventory.test_inventory_service_batch.BatchBehavior.test_exception_is_not_swallowed) ... ok
+test_invalid_positions_real_store_atomic (tests.server.inventory.test_inventory_service_batch.BatchBehavior.test_invalid_positions_real_store_atomic) ... ok
+test_real_store_shared_sum (tests.server.inventory.test_inventory_service_batch.BatchBehavior.test_real_store_shared_sum) ... ok
+test_single_forward_and_result_identity (tests.server.inventory.test_inventory_service_batch.BatchBehavior.test_single_forward_and_result_identity) ... ok
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.001s
+
+OK

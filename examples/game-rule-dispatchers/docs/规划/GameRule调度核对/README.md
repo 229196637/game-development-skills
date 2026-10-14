@@ -20,3 +20,19 @@
 <!-- planning-tool:end -->
 
 类工单的相对层级与文档一致，例如 [GameRuleSystem](GameRule/职责/GameRuleSystem.md) 对应文档 [GameRuleSystem](../../文档/GameRule/职责/GameRuleSystem.md)。测试与验收保留在工单底部，不复制类职责正文。
+
+
+<!-- planning-todo:begin -->
+
+## TODO 与执行顺序
+
+| 顺序 | 任务 ID | 工单 |
+| --- | --- | --- |
+| 1 | GameplayWeightedChoice | [GameplayWeightedChoice](GameRandomEvent/职责/GameplayWeightedChoice.md) |
+| 2 | GameRuleStep | [GameRuleStep](GameRule/职责/GameRuleStep.md) |
+| 3 | RuleChainSnapshot | [RuleChainSnapshot](GameRule/职责/RuleChainSnapshot.md) |
+| 4 | GameRandomEventSystem | [GameRandomEventSystem](GameRandomEvent/职责/GameRandomEventSystem.md) |
+| 5 | GameWaveSystem | [GameWaveSystem](GameWave/职责/GameWaveSystem.md) |
+| 6 | GameRuleSystem | [GameRuleSystem](GameRule/职责/GameRuleSystem.md) |
+
+<!-- planning-todo:end -->

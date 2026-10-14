@@ -1,0 +1,44 @@
+{
+  "planning-check": {
+    "ok": true,
+    "result": {
+      "tasks": [
+        {
+          "id": "store-batch",
+          "class": "ItemStore",
+          "status": "completed",
+          "file": "docs/规划/批量入库/inventory/设计/批量入库/职责/ItemStore.md",
+          "depends_on": []
+        },
+        {
+          "id": "service-batch",
+          "class": "InventoryService",
+          "status": "completed",
+          "file": "docs/规划/批量入库/inventory/设计/批量入库/职责/InventoryService.md",
+          "depends_on": [
+            "store-batch"
+          ]
+        }
+      ]
+    }
+  },
+  "documentation-check": {
+    "ok": true,
+    "checked_files": 12,
+    "issues": [],
+    "skipped_template_count": 0,
+    "limits": [
+      "no business/ownership verification",
+      "no Mermaid rendering or language API semantic parsing",
+      "remote URLs not fetched"
+    ]
+  },
+  "next": {
+    "ok": true,
+    "result": {
+      "ready": [],
+      "next": null,
+      "remaining": []
+    }
+  }
+}
