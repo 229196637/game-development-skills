@@ -1,0 +1,104 @@
+[
+  {
+    "id": "paper-primary-button",
+    "visual_ok": false,
+    "actual_size": [
+      2119,
+      742
+    ],
+    "design_size": [
+      320,
+      112
+    ],
+    "size_matches_design": false,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "observation": "朱砂和青绿纸层、留白中心与云梅装饰延续定稿；修边后底部仍有红黄杂边，暂作美术草稿，未通过透明边缘验收。"
+  },
+  {
+    "id": "paper-secondary-button",
+    "visual_ok": false,
+    "actual_size": [
+      2073,
+      758
+    ],
+    "design_size": [
+      280,
+      96
+    ],
+    "size_matches_design": false,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "observation": "青绿主色与朱砂端饰协调，内容区域留白；修边后外轮廓仍有白黄杂边，暂作美术草稿，未通过透明边缘验收。"
+  },
+  {
+    "id": "paper-window-panel",
+    "visual_ok": false,
+    "actual_size": [
+      1402,
+      1122
+    ],
+    "design_size": [
+      800,
+      640
+    ],
+    "size_matches_design": false,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "observation": "纸白大内容区与青绿朱砂边框协调，标题和右上关闭区留白；修边后外沿仍有亮色杂边，暂作草稿，未通过透明边缘验收。"
+  },
+  {
+    "id": "paper-item-slot",
+    "visual_ok": false,
+    "actual_size": [
+      1254,
+      1254
+    ],
+    "design_size": [
+      128,
+      128
+    ],
+    "size_matches_design": false,
+    "alpha_range": [
+      0,
+      255
+    ],
+    "observation": "空物品槽保留纸白、青玉与云梅纹样；小尺寸装饰偏丰富，修边后轮廓仍有亮色杂边，暂作草稿。"
+  },
+  {
+    "id": "paper-inventory-concept",
+    "visual_ok": true,
+    "actual_size": [
+      1672,
+      941
+    ],
+    "design_size": [
+      1920,
+      1080
+    ],
+    "size_matches_design": false,
+    "alpha_range": null,
+    "observation": "背包整体效果图包含三页签、5×3空格、详情区和两按钮，无业务文字，内容区安静，装饰集中边角。属于整体生图参考，非已拼装可编辑UI。"
+  },
+  {
+    "id": "paper-xianxia-background",
+    "visual_ok": true,
+    "actual_size": [
+      1672,
+      941
+    ],
+    "design_size": [
+      1920,
+      1080
+    ],
+    "size_matches_design": false,
+    "alpha_range": null,
+    "observation": "独立仙山背景，纸艺柔彩山层、亭台、云纹和梅花统一，中央留白较多，无UI或文字。单独展示，不叠加默认UI预览。"
+  }
+]

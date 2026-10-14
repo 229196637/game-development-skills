@@ -1,0 +1,40 @@
+{
+  "id": "paper-primary-button",
+  "version": "v1",
+  "name": "朱砂主按钮",
+  "category": "shared",
+  "purpose": "朱砂主按钮，独立生图美术原件",
+  "tags": [
+    "paper-ui-kit",
+    "art-master",
+    "shared"
+  ],
+  "style_id": "xianxia-paper-collage",
+  "style_version": "v2",
+  "path": "assets/xianxia-paper-collage/shared/paper-primary-button-v1.png",
+  "requires_alpha": true,
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "design_size": {
+    "width": 320,
+    "height": 112
+  },
+  "native_size_required": false,
+  "delivery_stage": "art-master",
+  "runtime_ready": false,
+  "production": "productions/paper-ui-kit-v1/manifest.json",
+  "source": {
+    "kind": "generated",
+    "origin": "imagegen built-in; exec-c3417b38-f4b3-47a4-aabf-7a8bea786e90.png",
+    "prompt": "productions/paper-ui-kit-v1/prompts/paper-primary-button-v1.txt",
+    "reference": "styles/xianxia-paper-collage/v2/references/user-approved-v1.png",
+    "edit_prompt": "productions/paper-ui-kit-v1/prompts/paper-primary-button-edge-fix.txt",
+    "initial_generated_reference": "productions/paper-ui-kit-v1/drafts/paper-primary-button-initial.png",
+    "references": [
+      "styles/xianxia-paper-collage/v2/references/user-approved-v1.png",
+      "productions/paper-ui-kit-v1/drafts/paper-primary-button-initial.png"
+    ]
+  }
+}

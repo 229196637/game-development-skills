@@ -1,0 +1,44 @@
+{
+  "task_id": "paper-ui-functional-v2",
+  "style": {
+    "id": "xianxia-paper-collage",
+    "version": "v2"
+  },
+  "art_direction": "art-direction.md",
+  "reference": "styles/xianxia-paper-collage/v2/references/user-approved-v1.png",
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "user_feedback": "这个目前设计不太像 主要是样式多了一点把 不太适合ui",
+  "stage": "revised-ui-art-preview",
+  "previews": [
+    {
+      "id": "functional-controls",
+      "name": "克制纸艺·常用UI样式板",
+      "path": "productions/paper-ui-functional-v2/functional-controls.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "sha256": "300466ae913cb3ae4e845abbe264d72c2b56f6a9c2eed0e73a6031ee0e42280c",
+      "prompt": "productions/paper-ui-functional-v2/prompts/functional-controls.txt",
+      "kind": "overall-art-preview",
+      "observation": "按钮、页签、输入框、勾选开关、物品格、进度条、信息卡和弹窗使用规则轮廓和薄边，花枝与厚云框已去掉，保留轻纸纹、青绿/朱砂状态差异；图中名称用于展示，尚未生成独立控件PNG。"
+    },
+    {
+      "id": "functional-inventory",
+      "name": "克制纸艺·背包界面",
+      "path": "productions/paper-ui-functional-v2/functional-inventory.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "sha256": "afcd71ee33707660110033ceca54097ad2c5e0659da085d81a86997e6a0056b3",
+      "prompt": "productions/paper-ui-functional-v2/prompts/functional-inventory.txt",
+      "kind": "overall-art-preview",
+      "observation": "背包改为薄青绿边框、纸白内容面、左侧三页签、5×3空格及右侧详情，外围只有少量淡云线。对比上一版明显减少装饰，布局更清晰；仍是整体效果图，未实现UI或拆分资源。"
+    }
+  ],
+  "runtime_assets_ready": false
+}

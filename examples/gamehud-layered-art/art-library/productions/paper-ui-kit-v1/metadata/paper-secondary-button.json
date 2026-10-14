@@ -1,0 +1,40 @@
+{
+  "id": "paper-secondary-button",
+  "version": "v1",
+  "name": "青玉次按钮",
+  "category": "shared",
+  "purpose": "青玉次按钮，独立生图美术原件",
+  "tags": [
+    "paper-ui-kit",
+    "art-master",
+    "shared"
+  ],
+  "style_id": "xianxia-paper-collage",
+  "style_version": "v2",
+  "path": "assets/xianxia-paper-collage/shared/paper-secondary-button-v1.png",
+  "requires_alpha": true,
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "design_size": {
+    "width": 280,
+    "height": 96
+  },
+  "native_size_required": false,
+  "delivery_stage": "art-master",
+  "runtime_ready": false,
+  "production": "productions/paper-ui-kit-v1/manifest.json",
+  "source": {
+    "kind": "generated",
+    "origin": "imagegen built-in; exec-d828033d-2e2a-4991-ac73-610298dc53e2.png",
+    "prompt": "productions/paper-ui-kit-v1/prompts/paper-secondary-button-v1.txt",
+    "reference": "styles/xianxia-paper-collage/v2/references/user-approved-v1.png",
+    "edit_prompt": "productions/paper-ui-kit-v1/prompts/paper-secondary-button-edge-fix.txt",
+    "initial_generated_reference": "productions/paper-ui-kit-v1/drafts/paper-secondary-button-initial.png",
+    "references": [
+      "styles/xianxia-paper-collage/v2/references/user-approved-v1.png",
+      "productions/paper-ui-kit-v1/drafts/paper-secondary-button-initial.png"
+    ]
+  }
+}

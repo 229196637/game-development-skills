@@ -1,0 +1,40 @@
+{
+  "id": "paper-item-slot",
+  "version": "v1",
+  "name": "青玉物品槽",
+  "category": "shared",
+  "purpose": "青玉物品槽，独立生图美术原件",
+  "tags": [
+    "paper-ui-kit",
+    "art-master",
+    "shared"
+  ],
+  "style_id": "xianxia-paper-collage",
+  "style_version": "v2",
+  "path": "assets/xianxia-paper-collage/shared/paper-item-slot-v1.png",
+  "requires_alpha": true,
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "design_size": {
+    "width": 128,
+    "height": 128
+  },
+  "native_size_required": false,
+  "delivery_stage": "art-master",
+  "runtime_ready": false,
+  "production": "productions/paper-ui-kit-v1/manifest.json",
+  "source": {
+    "kind": "generated",
+    "origin": "imagegen built-in; exec-1a1c4636-882e-423f-9072-822a7be5df66.png",
+    "prompt": "productions/paper-ui-kit-v1/prompts/paper-item-slot-v1.txt",
+    "reference": "styles/xianxia-paper-collage/v2/references/user-approved-v1.png",
+    "edit_prompt": "productions/paper-ui-kit-v1/prompts/paper-item-slot-edge-fix.txt",
+    "initial_generated_reference": "productions/paper-ui-kit-v1/drafts/paper-item-slot-initial.png",
+    "references": [
+      "styles/xianxia-paper-collage/v2/references/user-approved-v1.png",
+      "productions/paper-ui-kit-v1/drafts/paper-item-slot-initial.png"
+    ]
+  }
+}

@@ -63,7 +63,7 @@
     {
       "id": "xianxia-paper-collage",
       "version": "v2",
-      "status": "candidate",
+      "status": "confirmed",
       "path": "styles/xianxia-paper-collage/v2/style.md"
     },
     {
@@ -688,6 +688,59 @@
         1044
       ],
       "sha256": "dc9f388067b9df9267075c1e9996f4109c5fc4a468b6dd33b64bb557d33044e4",
+      "size_matches_design": false
+    },
+    {
+      "id": "paper-xianxia-background",
+      "version": "v1",
+      "name": "纸艺仙山独立背景",
+      "category": "backgrounds",
+      "purpose": "纸艺仙山独立背景，独立生图美术原件",
+      "tags": [
+        "paper-ui-kit",
+        "art-master",
+        "backgrounds"
+      ],
+      "style_id": "xianxia-paper-collage",
+      "style_version": "v2",
+      "path": "assets/xianxia-paper-collage/backgrounds/paper-xianxia-background-v1.png",
+      "requires_alpha": false,
+      "design_canvas": {
+        "width": 1920,
+        "height": 1080
+      },
+      "design_size": {
+        "width": 1920,
+        "height": 1080
+      },
+      "native_size_required": false,
+      "delivery_stage": "art-master",
+      "runtime_ready": false,
+      "production": "productions/paper-ui-kit-v1/manifest.json",
+      "source": {
+        "kind": "generated",
+        "origin": "imagegen built-in; exec-085de1db-e433-4efb-a42c-2e8021b22b4c.png",
+        "prompt": "productions/paper-ui-kit-v1/prompts/paper-xianxia-background-v1.txt",
+        "reference": "styles/xianxia-paper-collage/v2/references/user-approved-v1.png"
+      },
+      "format": "PNG",
+      "width": 1672,
+      "height": 941,
+      "has_transparent_pixels": false,
+      "has_visible_pixels": true,
+      "content_bounds": [
+        0,
+        0,
+        1672,
+        941
+      ],
+      "opaque_content_bounds": [
+        0,
+        0,
+        1672,
+        941
+      ],
+      "sha256": "eb1ab5282fb11fc5a04026ed91d18be42d37c6db4509ccfca8fee4f8e92a4600",
       "size_matches_design": false
     }
   ]

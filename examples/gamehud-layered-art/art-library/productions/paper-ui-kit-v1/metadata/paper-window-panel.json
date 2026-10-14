@@ -1,0 +1,40 @@
+{
+  "id": "paper-window-panel",
+  "version": "v1",
+  "name": "纸艺通用窗口",
+  "category": "shared",
+  "purpose": "纸艺通用窗口，独立生图美术原件",
+  "tags": [
+    "paper-ui-kit",
+    "art-master",
+    "shared"
+  ],
+  "style_id": "xianxia-paper-collage",
+  "style_version": "v2",
+  "path": "assets/xianxia-paper-collage/shared/paper-window-panel-v1.png",
+  "requires_alpha": true,
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "design_size": {
+    "width": 800,
+    "height": 640
+  },
+  "native_size_required": false,
+  "delivery_stage": "art-master",
+  "runtime_ready": false,
+  "production": "productions/paper-ui-kit-v1/manifest.json",
+  "source": {
+    "kind": "generated",
+    "origin": "imagegen built-in; exec-9da9e83c-1f4b-45e2-be22-2d340b823e9d.png",
+    "prompt": "productions/paper-ui-kit-v1/prompts/paper-window-panel-v1.txt",
+    "reference": "styles/xianxia-paper-collage/v2/references/user-approved-v1.png",
+    "edit_prompt": "productions/paper-ui-kit-v1/prompts/paper-window-panel-edge-fix.txt",
+    "initial_generated_reference": "productions/paper-ui-kit-v1/drafts/paper-window-panel-initial.png",
+    "references": [
+      "styles/xianxia-paper-collage/v2/references/user-approved-v1.png",
+      "productions/paper-ui-kit-v1/drafts/paper-window-panel-initial.png"
+    ]
+  }
+}

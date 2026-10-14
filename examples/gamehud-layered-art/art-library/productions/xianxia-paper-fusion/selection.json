@@ -1,6 +1,6 @@
 {
   "task_id": "xianxia-paper-fusion",
-  "stage": "style-candidates",
+  "stage": "style-confirmed",
   "design_canvas": {
     "width": 1920,
     "height": 1080
@@ -99,6 +99,11 @@
       "based_on": "styles/xianxia-paper-collage/v1/references/user-preferred-v1.png"
     }
   ],
-  "selected": null,
+  "selected": {
+    "id": "softwash",
+    "style_id": "xianxia-paper-collage",
+    "style_version": "v2",
+    "approved_reference": "styles/xianxia-paper-collage/v2/references/user-approved-v1.png"
+  },
   "latest_focus": "simplified"
 }

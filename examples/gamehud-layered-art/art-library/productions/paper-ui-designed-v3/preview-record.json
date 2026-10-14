@@ -1,0 +1,43 @@
+{
+  "task_id": "paper-ui-designed-v3",
+  "style": {
+    "id": "xianxia-paper-collage",
+    "version": "v2"
+  },
+  "art_direction": "art-direction.md",
+  "reference": "styles/xianxia-paper-collage/v2/references/user-approved-v1.png",
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "stage": "revised-ui-art-preview",
+  "user_feedback": "不行 这个 太简单了 没有设计感。。。 重新来 要求有点游戏的感觉啊 边框可以带一点设计花纹之类的",
+  "ui_rule": "窄分层边框、细云纹、折角、标题造型，装饰集中边角，内容区留白",
+  "previews": [
+    {
+      "id": "designed-ui-controls",
+      "name": "仙侠纸艺·适度纹饰控件",
+      "path": "productions/paper-ui-designed-v3/designed-ui-controls.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "sha256": "eb42222653c4650d94706a884a54cd71686b1084e98f95a8b13a15ce6ed62191",
+      "prompt": "productions/paper-ui-designed-v3/prompts/designed-ui-controls.txt",
+      "observation": "按钮两端细云纹、折角和窄分层边框带回仙侠游戏感；页签用小红缎带，物品格选中态细金边发光，标题栏有造型。内容区留白，无密集花枝。仍是样式效果板，独立PNG未制作。"
+    },
+    {
+      "id": "designed-inventory",
+      "name": "仙侠纸艺·适度纹饰背包",
+      "path": "productions/paper-ui-designed-v3/designed-inventory.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "sha256": "f34f7ec1f18e848ebf38af64cdd887c64bfd65230e6b97a3084c8f20b5dfc4fd",
+      "prompt": "productions/paper-ui-designed-v3/prompts/designed-inventory.txt",
+      "observation": "背包采用青绿窄边带、细金云纹、造型标题栏和角部云饰，页签/物品格/按钮共享折角语言；无花枝堆叠，内容区留白。标题周围装饰比控件板略多，等待用户判断该密度。整体图非可编辑UI。"
+    }
+  ],
+  "runtime_assets_ready": false
+}

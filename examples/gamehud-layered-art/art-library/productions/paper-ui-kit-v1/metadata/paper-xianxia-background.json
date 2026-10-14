@@ -1,0 +1,34 @@
+{
+  "id": "paper-xianxia-background",
+  "version": "v1",
+  "name": "纸艺仙山独立背景",
+  "category": "backgrounds",
+  "purpose": "纸艺仙山独立背景，独立生图美术原件",
+  "tags": [
+    "paper-ui-kit",
+    "art-master",
+    "backgrounds"
+  ],
+  "style_id": "xianxia-paper-collage",
+  "style_version": "v2",
+  "path": "assets/xianxia-paper-collage/backgrounds/paper-xianxia-background-v1.png",
+  "requires_alpha": false,
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "design_size": {
+    "width": 1920,
+    "height": 1080
+  },
+  "native_size_required": false,
+  "delivery_stage": "art-master",
+  "runtime_ready": false,
+  "production": "productions/paper-ui-kit-v1/manifest.json",
+  "source": {
+    "kind": "generated",
+    "origin": "imagegen built-in; exec-085de1db-e433-4efb-a42c-2e8021b22b4c.png",
+    "prompt": "productions/paper-ui-kit-v1/prompts/paper-xianxia-background-v1.txt",
+    "reference": "styles/xianxia-paper-collage/v2/references/user-approved-v1.png"
+  }
+}

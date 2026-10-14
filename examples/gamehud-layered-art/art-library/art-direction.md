@@ -1,35 +1,33 @@
 ---
 schema_version: 1
-status: discussing
+status: confirmed
 scope: project
 design_canvas:
   width: 1920
   height: 1080
 candidates_file: productions/xianxia-paper-fusion/selection.json
 discussion_file: productions/xianxia-style-exploration/discussion.md
-selected: null
-confirmation: null
+selected:
+  style_id: xianxia-paper-collage
+  style_version: v2
+  style_file: styles/xianxia-paper-collage/v2/style.md
+  reference_images:
+  - path: styles/xianxia-paper-collage/v2/references/user-approved-v1.png
+    sha256: 032749fd460a5b53fd31de4e44717c95a9addb8f99fc19bde6f8ad63ff8fa055
+confirmation:
+  user_message: 还是这种把；记录这个风格 统一了 目前 然后基于这个生成多几个常见的ui元素 例如按钮 界面 背景 等等
+  source: 当前对话，用户附图明确确定全游戏风格
 ---
-# 仙侠游戏美术风格决定
+# 仙侠游戏美术定稿
 
-状态：讨论中。默认整个游戏统一风格；先确定风格再规划美术任务，无关代码规划可以继续。
+状态：已确认；适用范围：目前整个游戏。设计基准1920×1080。
 
-## 当前讨论
+用户选定纸艺融合柔彩v2，保留纸张浅浮雕、青绿朱砂奶白、柔和光照及适量花枝云纹，主体与支撑统一。v7大幅简化稿未采用，旧候选保留。
 
-用户不喜欢原来的青玉鎏金写实感，希望查看仙侠、水墨、卡通和风格化方向。已保存九版候选及完整文字档案，尚未确定最终方向。
+[完整风格描述](styles/xianxia-paper-collage/v2/style.md) · [用户认可的真实参考图](styles/xianxia-paper-collage/v2/references/user-approved-v1.png) · [历史讨论](productions/xianxia-style-exploration/discussion.md)
 
-[九版比较与原件](productions/xianxia-style-exploration/README.md) · [真实反馈记录](productions/xianxia-style-exploration/discussion.md)
+后续制作统一先读本入口，再实际读取完整风格和参考图。常用UI美术不烘焙业务文字；背景独立存放，不叠加进默认UI检查预览。改变已确认风格建立新版本。
 
-## 后续制作入口
+## UI制作约束
 
-本文件是风格决定入口，目前不能作为已确认定稿交给素材生产。用户明确确定方向后，selected 将指向相应 styles/<ID>/<版本>/style.md 和实际认可图；confirmation 保存真实用户决定。
-
-美术任务引用本文件、选定版本与认可图，不另写一份不同的风格规范。候选方向图并非已分层素材，独立素材制作随后交给 game-layered-art。
-
-## 当前偏好与融合细化
-
-用户认可纸艺融合方向的舒服感，已保存上传原图作为偏好基准；要求继续看五版，故仍讨论中。
-
-[基准与五版比较](productions/xianxia-paper-fusion/README.md) · [保存的偏好图](styles/xianxia-paper-collage/v1/references/user-preferred-v1.png)。原有九版和旧资料保留，没有替用户作最终选择。
-
-最新要求：停止扩展风格，减少细节，增强游戏入口感。当前待反馈的是[游戏简化稿](styles/xianxia-paper-collage/v7/references/concept-v1.png)，文字档案见[v7](styles/xianxia-paper-collage/v7/style.md)。仍为讨论中，尚无最终选择。
+用户反馈第一批UI装饰过多，随后克制版又太简单。全游戏风格不变；UI需保留游戏设计感，边框可带细云纹、折角和分层轮廓，标题有造型，内容区清楚，避免密集花枝。当前待反馈：[适度纹饰UI新稿](productions/paper-ui-designed-v3/README.md)。入口道具的装饰密度不直接照搬到按钮、物品槽和内容区。
