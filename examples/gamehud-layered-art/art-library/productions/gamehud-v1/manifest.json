@@ -1,0 +1,178 @@
+{
+  "task_id": "gamehud-v1",
+  "style": {
+    "id": "xianxia-jade-gold",
+    "version": "v1"
+  },
+  "preview_canvas": {
+    "width": 220,
+    "height": 290
+  },
+  "assets": [
+    {
+      "id": "entrance-base",
+      "version": "v1"
+    },
+    {
+      "id": "shop-pavilion",
+      "version": "v1"
+    },
+    {
+      "id": "quest-scroll",
+      "version": "v1"
+    },
+    {
+      "id": "dungeon-portal",
+      "version": "v1"
+    },
+    {
+      "id": "friends-cranes",
+      "version": "v1"
+    },
+    {
+      "id": "mail-frame",
+      "version": "v1"
+    },
+    {
+      "id": "cloudscape",
+      "version": "v1"
+    }
+  ],
+  "compositions": [
+    {
+      "id": "shop-pavilion-on-base",
+      "layers": [
+        {
+          "asset_id": "shop-pavilion",
+          "version": "v1",
+          "order": 0,
+          "placement": {
+            "x": 46,
+            "y": 52.84,
+            "width": 128,
+            "height": 128
+          }
+        },
+        {
+          "asset_id": "entrance-base",
+          "version": "v1",
+          "order": 1,
+          "placement": {
+            "x": 5,
+            "y": 96,
+            "width": 210,
+            "height": 210
+          }
+        }
+      ]
+    },
+    {
+      "id": "quest-scroll-on-base",
+      "layers": [
+        {
+          "asset_id": "quest-scroll",
+          "version": "v1",
+          "order": 0,
+          "placement": {
+            "x": 46,
+            "y": 58.0,
+            "width": 128,
+            "height": 128
+          }
+        },
+        {
+          "asset_id": "entrance-base",
+          "version": "v1",
+          "order": 1,
+          "placement": {
+            "x": 5,
+            "y": 96,
+            "width": 210,
+            "height": 210
+          }
+        }
+      ]
+    },
+    {
+      "id": "dungeon-portal-on-base",
+      "layers": [
+        {
+          "asset_id": "dungeon-portal",
+          "version": "v1",
+          "order": 0,
+          "placement": {
+            "x": 46,
+            "y": 52.0,
+            "width": 128,
+            "height": 128
+          }
+        },
+        {
+          "asset_id": "entrance-base",
+          "version": "v1",
+          "order": 1,
+          "placement": {
+            "x": 5,
+            "y": 96,
+            "width": 210,
+            "height": 210
+          }
+        }
+      ]
+    },
+    {
+      "id": "friends-cranes-on-base",
+      "layers": [
+        {
+          "asset_id": "friends-cranes",
+          "version": "v1",
+          "order": 0,
+          "placement": {
+            "x": 46,
+            "y": 58.0,
+            "width": 128,
+            "height": 128
+          }
+        },
+        {
+          "asset_id": "entrance-base",
+          "version": "v1",
+          "order": 1,
+          "placement": {
+            "x": 5,
+            "y": 96,
+            "width": 210,
+            "height": 210
+          }
+        }
+      ]
+    },
+    {
+      "id": "mail-frame-on-base",
+      "layers": [
+        {
+          "asset_id": "mail-frame",
+          "version": "v1",
+          "order": 0,
+          "placement": {
+            "x": 46,
+            "y": 59.37,
+            "width": 128,
+            "height": 128
+          }
+        },
+        {
+          "asset_id": "entrance-base",
+          "version": "v1",
+          "order": 1,
+          "placement": {
+            "x": 5,
+            "y": 96,
+            "width": 210,
+            "height": 210
+          }
+        }
+      ]
+    }
+  ]
+}

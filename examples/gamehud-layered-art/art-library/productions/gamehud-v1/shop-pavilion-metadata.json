@@ -1,0 +1,21 @@
+{
+  "id": "shop-pavilion",
+  "version": "v1",
+  "category": "subjects",
+  "purpose": "商店入口主体",
+  "tags": [
+    "entrance",
+    "subjects"
+  ],
+  "style_id": "xianxia-jade-gold",
+  "style_version": "v1",
+  "path": "assets/xianxia-jade-gold/subjects/shop-pavilion-v1.png",
+  "requires_alpha": true,
+  "production": "productions/gamehud-v1/manifest.json",
+  "source": {
+    "kind": "generated",
+    "origin": "imagegen built-in; exec-70e6c9dc-d0b8-4962-8dd5-96fba6c432fd.png",
+    "prompt": "productions/gamehud-v1/prompts/shop-v1.txt",
+    "reference": "styles/xianxia-jade-gold/v1/references/concept-v1.png"
+  }
+}

@@ -1,5 +1,24 @@
 # 技能架构与依赖
 
+## 美术资源支线
+
+[分层美术资源](game-layered-art/SKILL.md) 使用外部内置 imagegen 技能生产位图；持久记录风格 ID/版本、文字描述、参考图和实际提示词。它可独立使用，开发执行也可在授权的美术工单中调用。规划只描述资源需求，不自动生图。
+
+```mermaid
+flowchart LR
+  N[效果图与美术需求] --> A[game-layered-art]
+  A --> S[版本化文字风格档案]
+  A --> R[分层资源与 catalog.json]
+  S --> UI[其它 UI 技能读取资源]
+  R --> UI
+  A --> BG[可选背景独立管理]
+  click A "game-layered-art/SKILL.md"
+  click S "game-layered-art/references/style.md"
+  click R "game-layered-art/references/resources.md"
+```
+
+[风格档案规范](game-layered-art/references/style.md) · [消费契约](game-layered-art/references/resources.md)。UI 素材展示默认中性底色，场景背景不参与；本支线不处理 UI 组件、布局或发布。[完整示例](examples/gamehud-layered-art/README.md)。
+
 更新：2026-10-14 09:45:59 +08:00。游戏系统开发分三段：文档描述系统，规划编写工单，执行落实工单。可单独写文档；直接规划时先调用文档；执行已有工单时不重新复制设计。
 
 ```mermaid

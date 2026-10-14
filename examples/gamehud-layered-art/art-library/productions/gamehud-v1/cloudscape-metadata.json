@@ -1,0 +1,19 @@
+{
+  "id": "cloudscape",
+  "version": "v1",
+  "category": "backgrounds",
+  "purpose": "独立云海场景背景，不参与 UI 组合",
+  "tags": [
+    "scene",
+    "optional-background"
+  ],
+  "style_id": "xianxia-jade-gold",
+  "style_version": "v1",
+  "path": "assets/xianxia-jade-gold/backgrounds/cloudscape-v1.png",
+  "requires_alpha": false,
+  "production": "productions/gamehud-v1/manifest.json",
+  "source": {
+    "kind": "existing",
+    "origin": "FGUIProject/assets/OtherPic/BigPic/背景图.png"
+  }
+}

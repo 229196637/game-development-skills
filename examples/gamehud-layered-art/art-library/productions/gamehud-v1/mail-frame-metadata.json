@@ -1,0 +1,21 @@
+{
+  "id": "mail-frame",
+  "version": "v1",
+  "category": "subjects",
+  "purpose": "邮件入口主体",
+  "tags": [
+    "entrance",
+    "subjects"
+  ],
+  "style_id": "xianxia-jade-gold",
+  "style_version": "v1",
+  "path": "assets/xianxia-jade-gold/subjects/mail-frame-v1.png",
+  "requires_alpha": true,
+  "production": "productions/gamehud-v1/manifest.json",
+  "source": {
+    "kind": "generated",
+    "origin": "imagegen built-in; exec-e9e98850-f1b5-482c-ab6b-c8715a2dda5f.png",
+    "prompt": "productions/gamehud-v1/prompts/mail-v1.txt",
+    "reference": "styles/xianxia-jade-gold/v1/references/concept-v1.png"
+  }
+}

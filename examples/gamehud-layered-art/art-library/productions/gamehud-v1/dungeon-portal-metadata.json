@@ -1,0 +1,19 @@
+{
+  "id": "dungeon-portal",
+  "version": "v1",
+  "category": "subjects",
+  "purpose": "副本入口主体",
+  "tags": [
+    "entrance",
+    "subjects"
+  ],
+  "style_id": "xianxia-jade-gold",
+  "style_version": "v1",
+  "path": "assets/xianxia-jade-gold/subjects/dungeon-portal-v1.png",
+  "requires_alpha": true,
+  "production": "productions/gamehud-v1/manifest.json",
+  "source": {
+    "kind": "existing",
+    "origin": "FGUIProject/assets/GameHub/Image/ui_dungeon_icon.png"
+  }
+}

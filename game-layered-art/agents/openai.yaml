@@ -1,0 +1,4 @@
+interface:
+  display_name: "游戏分层美术资源"
+  short_description: "记录统一风格、分析效果图并生成和管理可复用分层美术资源，供 UI 技能使用"
+  default_prompt: "使用 $game-layered-art 分析游戏效果图，记录风格并生成可复用的分层美术素材。"

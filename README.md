@@ -9,6 +9,31 @@
 | game-system-development-documentation | 游戏系统开发文档：扫描现状、增量同步、原语言公开函数 API、独立 docs Git |
 | game-excel-config | 游戏 Excel 配置表：字段注释、表关系、端归属及项目固定路径一键导表，独立适配不同语言 |
 | log-reading | 日志阅读技能：定位构建/运行日志，关联会话、双端及异常链；含 SCE 可选适配 |
+| [game-layered-art](game-layered-art/SKILL.md) | 美术资源：效果图分析、文字风格档案、分层生图与复用、资源索引；交付给 UI 技能，不实现界面 |
+
+## 技能协作流程
+
+```mermaid
+flowchart TD
+  P[游戏开发规划] --> D[游戏开发文档]
+  P --> T[具体工单与资源需求]
+  T --> E[游戏开发执行]
+  E -->|授权美术任务| A[分层美术资源]
+  A --> I[外部 imagegen 生图技能]
+  I --> A
+  A --> R[风格档案、PNG、资源索引]
+  R --> U[项目 UI 技能读取并拼装]
+  E --> C[游戏 Excel 配置]
+  E --> L[日志阅读]
+  click P "game-system-development-planning/SKILL.md"
+  click D "game-system-development-documentation/SKILL.md"
+  click E "game-system-development-execution/SKILL.md"
+  click A "game-layered-art/SKILL.md"
+  click C "game-excel-config/SKILL.md"
+  click L "log-reading/SKILL.md"
+```
+
+[技能架构](architecture.md) · [分层美术示例](examples/gamehud-layered-art/README.md)。UI 素材默认不需要背景；背景独立存放和展示。新技能只处理美术，布局与交互由消费技能负责。各技能流程图位于对应 SKILL.md。
 
 ## 安装
 

@@ -1,0 +1,19 @@
+{
+  "id": "friends-cranes",
+  "version": "v1",
+  "category": "subjects",
+  "purpose": "好友入口主体",
+  "tags": [
+    "entrance",
+    "subjects"
+  ],
+  "style_id": "xianxia-jade-gold",
+  "style_version": "v1",
+  "path": "assets/xianxia-jade-gold/subjects/friends-cranes-v1.png",
+  "requires_alpha": true,
+  "production": "productions/gamehud-v1/manifest.json",
+  "source": {
+    "kind": "existing",
+    "origin": "FGUIProject/assets/GameHub/Image/ui_friends_icon.png"
+  }
+}

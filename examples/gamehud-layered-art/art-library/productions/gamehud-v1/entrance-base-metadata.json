@@ -1,0 +1,21 @@
+{
+  "id": "entrance-base",
+  "version": "v1",
+  "category": "shared",
+  "purpose": "入口公共浮岛与无字牌匾",
+  "tags": [
+    "entrance",
+    "shared"
+  ],
+  "style_id": "xianxia-jade-gold",
+  "style_version": "v1",
+  "path": "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+  "requires_alpha": true,
+  "production": "productions/gamehud-v1/manifest.json",
+  "source": {
+    "kind": "generated",
+    "origin": "imagegen built-in; exec-56b5b75b-ee2c-4041-8f9a-e39d5eae7e4d.png",
+    "prompt": "productions/gamehud-v1/prompts/base-v1.txt",
+    "reference": "styles/xianxia-jade-gold/v1/references/concept-v1.png"
+  }
+}

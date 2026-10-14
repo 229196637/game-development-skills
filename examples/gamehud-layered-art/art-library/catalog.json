@@ -1,0 +1,277 @@
+{
+  "schema_version": 1,
+  "styles": [
+    {
+      "id": "xianxia-jade-gold",
+      "version": "v1",
+      "path": "styles/xianxia-jade-gold/v1/style.md"
+    }
+  ],
+  "assets": [
+    {
+      "id": "entrance-base",
+      "version": "v1",
+      "category": "shared",
+      "purpose": "入口公共浮岛与无字牌匾",
+      "tags": [
+        "entrance",
+        "shared"
+      ],
+      "style_id": "xianxia-jade-gold",
+      "style_version": "v1",
+      "path": "assets/xianxia-jade-gold/shared/entrance-base-v1.png",
+      "requires_alpha": true,
+      "production": "productions/gamehud-v1/manifest.json",
+      "source": {
+        "kind": "generated",
+        "origin": "imagegen built-in; exec-56b5b75b-ee2c-4041-8f9a-e39d5eae7e4d.png",
+        "prompt": "productions/gamehud-v1/prompts/base-v1.txt",
+        "reference": "styles/xianxia-jade-gold/v1/references/concept-v1.png"
+      },
+      "format": "PNG",
+      "width": 1254,
+      "height": 1254,
+      "has_transparent_pixels": true,
+      "has_visible_pixels": true,
+      "content_bounds": [
+        32,
+        60,
+        1236,
+        1254
+      ],
+      "sha256": "e62f69ee8e1967880295ee1e61bd3c5afdcacbfceb8956b63b3c760d879b830d",
+      "opaque_content_bounds": [
+        35,
+        453,
+        1220,
+        1047
+      ]
+    },
+    {
+      "id": "shop-pavilion",
+      "version": "v1",
+      "category": "subjects",
+      "purpose": "商店入口主体",
+      "tags": [
+        "entrance",
+        "subjects"
+      ],
+      "style_id": "xianxia-jade-gold",
+      "style_version": "v1",
+      "path": "assets/xianxia-jade-gold/subjects/shop-pavilion-v1.png",
+      "requires_alpha": true,
+      "production": "productions/gamehud-v1/manifest.json",
+      "source": {
+        "kind": "generated",
+        "origin": "imagegen built-in; exec-70e6c9dc-d0b8-4962-8dd5-96fba6c432fd.png",
+        "prompt": "productions/gamehud-v1/prompts/shop-v1.txt",
+        "reference": "styles/xianxia-jade-gold/v1/references/concept-v1.png"
+      },
+      "format": "PNG",
+      "width": 1254,
+      "height": 1254,
+      "has_transparent_pixels": true,
+      "has_visible_pixels": true,
+      "content_bounds": [
+        0,
+        4,
+        1251,
+        1254
+      ],
+      "sha256": "2e209e6621bb91ff92709770fd0ee27f98fe0f5957dd4e8d86c1ca44f778fb69",
+      "opaque_content_bounds": [
+        64,
+        74,
+        1194,
+        1187
+      ]
+    },
+    {
+      "id": "quest-scroll",
+      "version": "v1",
+      "category": "subjects",
+      "purpose": "任务入口主体",
+      "tags": [
+        "entrance",
+        "subjects"
+      ],
+      "style_id": "xianxia-jade-gold",
+      "style_version": "v1",
+      "path": "assets/xianxia-jade-gold/subjects/quest-scroll-v1.png",
+      "requires_alpha": true,
+      "production": "productions/gamehud-v1/manifest.json",
+      "source": {
+        "kind": "existing",
+        "origin": "FGUIProject/assets/GameHub/Image/ui_quest_icon.png"
+      },
+      "format": "PNG",
+      "width": 128,
+      "height": 128,
+      "has_transparent_pixels": true,
+      "has_visible_pixels": true,
+      "content_bounds": [
+        1,
+        15,
+        128,
+        119
+      ],
+      "sha256": "804fdc2bdb918839c030de4ccc776616c986ba9ffc127c22f558d68f9a9daf40",
+      "opaque_content_bounds": [
+        3,
+        17,
+        125,
+        116
+      ]
+    },
+    {
+      "id": "dungeon-portal",
+      "version": "v1",
+      "category": "subjects",
+      "purpose": "副本入口主体",
+      "tags": [
+        "entrance",
+        "subjects"
+      ],
+      "style_id": "xianxia-jade-gold",
+      "style_version": "v1",
+      "path": "assets/xianxia-jade-gold/subjects/dungeon-portal-v1.png",
+      "requires_alpha": true,
+      "production": "productions/gamehud-v1/manifest.json",
+      "source": {
+        "kind": "existing",
+        "origin": "FGUIProject/assets/GameHub/Image/ui_dungeon_icon.png"
+      },
+      "format": "PNG",
+      "width": 128,
+      "height": 128,
+      "has_transparent_pixels": true,
+      "has_visible_pixels": true,
+      "content_bounds": [
+        11,
+        2,
+        117,
+        125
+      ],
+      "sha256": "c9bb2e08ac31d9f61351d13a760dfa3547b5bb6df2c7e18a2204bacbf910e226",
+      "opaque_content_bounds": [
+        14,
+        5,
+        114,
+        122
+      ]
+    },
+    {
+      "id": "friends-cranes",
+      "version": "v1",
+      "category": "subjects",
+      "purpose": "好友入口主体",
+      "tags": [
+        "entrance",
+        "subjects"
+      ],
+      "style_id": "xianxia-jade-gold",
+      "style_version": "v1",
+      "path": "assets/xianxia-jade-gold/subjects/friends-cranes-v1.png",
+      "requires_alpha": true,
+      "production": "productions/gamehud-v1/manifest.json",
+      "source": {
+        "kind": "existing",
+        "origin": "FGUIProject/assets/GameHub/Image/ui_friends_icon.png"
+      },
+      "format": "PNG",
+      "width": 128,
+      "height": 128,
+      "has_transparent_pixels": true,
+      "has_visible_pixels": true,
+      "content_bounds": [
+        3,
+        8,
+        127,
+        119
+      ],
+      "sha256": "640a4316b13bf2e8f7d4f6e608a98f3281eaf078d9516e28347dca511b74fe68",
+      "opaque_content_bounds": [
+        6,
+        11,
+        125,
+        116
+      ]
+    },
+    {
+      "id": "mail-frame",
+      "version": "v1",
+      "category": "subjects",
+      "purpose": "邮件入口主体",
+      "tags": [
+        "entrance",
+        "subjects"
+      ],
+      "style_id": "xianxia-jade-gold",
+      "style_version": "v1",
+      "path": "assets/xianxia-jade-gold/subjects/mail-frame-v1.png",
+      "requires_alpha": true,
+      "production": "productions/gamehud-v1/manifest.json",
+      "source": {
+        "kind": "generated",
+        "origin": "imagegen built-in; exec-e9e98850-f1b5-482c-ab6b-c8715a2dda5f.png",
+        "prompt": "productions/gamehud-v1/prompts/mail-v1.txt",
+        "reference": "styles/xianxia-jade-gold/v1/references/concept-v1.png"
+      },
+      "format": "PNG",
+      "width": 1254,
+      "height": 1254,
+      "has_transparent_pixels": true,
+      "has_visible_pixels": true,
+      "content_bounds": [
+        31,
+        29,
+        1221,
+        1254
+      ],
+      "sha256": "bfde731444b082cbc7ede485f8ccb16db8b1da58ff776c80d2df1ee3e0daf93c",
+      "opaque_content_bounds": [
+        65,
+        66,
+        1217,
+        1123
+      ]
+    },
+    {
+      "id": "cloudscape",
+      "version": "v1",
+      "category": "backgrounds",
+      "purpose": "独立云海场景背景，不参与 UI 组合",
+      "tags": [
+        "scene",
+        "optional-background"
+      ],
+      "style_id": "xianxia-jade-gold",
+      "style_version": "v1",
+      "path": "assets/xianxia-jade-gold/backgrounds/cloudscape-v1.png",
+      "requires_alpha": false,
+      "production": "productions/gamehud-v1/manifest.json",
+      "source": {
+        "kind": "existing",
+        "origin": "FGUIProject/assets/OtherPic/BigPic/背景图.png"
+      },
+      "format": "PNG",
+      "width": 1920,
+      "height": 1080,
+      "has_transparent_pixels": false,
+      "has_visible_pixels": true,
+      "content_bounds": [
+        0,
+        0,
+        1920,
+        1080
+      ],
+      "sha256": "05283991aa50be12a92f5843c6231a449534b239e1f6207f71f5ec30641800b2",
+      "opaque_content_bounds": [
+        0,
+        0,
+        1920,
+        1080
+      ]
+    }
+  ]
+}
