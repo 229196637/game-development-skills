@@ -2,3 +2,5 @@
 
 # Keep archived runtime evidence byte-exact for report SHA256.
 examples/execution-workflow/reports/*.log -text whitespace=cr-at-eol
+
+examples/execution-workflow/sample-project/docs/测试/**/*.log -text whitespace=cr-at-eol

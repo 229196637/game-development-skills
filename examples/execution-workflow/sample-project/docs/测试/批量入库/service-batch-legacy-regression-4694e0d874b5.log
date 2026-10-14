@@ -1,0 +1,6 @@
+test_grant_reward_real_store (tests.server.inventory.test_inventory_service_batch.LegacyRegression.test_grant_reward_real_store) ... ok
+
+----------------------------------------------------------------------
+Ran 1 test in 0.000s
+
+OK
