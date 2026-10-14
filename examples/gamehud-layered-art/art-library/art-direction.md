@@ -16,9 +16,9 @@ confirmation: null
 
 ## 当前讨论
 
-用户不喜欢原来的青玉鎏金写实感，希望查看仙侠、水墨、卡通和风格化方向。已保存六版候选及完整文字档案，尚未确定最终方向。
+用户不喜欢原来的青玉鎏金写实感，希望查看仙侠、水墨、卡通和风格化方向。已保存九版候选及完整文字档案，尚未确定最终方向。
 
-[六版比较与原件](productions/xianxia-style-exploration/README.md) · [真实反馈记录](productions/xianxia-style-exploration/discussion.md)
+[九版比较与原件](productions/xianxia-style-exploration/README.md) · [真实反馈记录](productions/xianxia-style-exploration/discussion.md)
 
 ## 后续制作入口
 

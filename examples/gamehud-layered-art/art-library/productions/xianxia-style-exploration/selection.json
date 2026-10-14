@@ -83,6 +83,51 @@
       },
       "prompt": "productions/xianxia-style-exploration/prompts/faceted-v1.txt",
       "status": "candidate"
+    },
+    {
+      "id": "papercut",
+      "name": "剪纸拼贴仙侠",
+      "style_id": "xianxia-paper-collage",
+      "style_version": "v1",
+      "reference": "styles/xianxia-paper-collage/v1/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-style-exploration/prompts/papercut-v1.txt",
+      "status": "candidate",
+      "sha256": "62ea48faf97ea0b2948b06619523ffebbd17c574937de3412d5f47046846acd2",
+      "preview_labels": "generated-in-concept-only"
+    },
+    {
+      "id": "mineral",
+      "name": "敦煌岩彩仙侠",
+      "style_id": "xianxia-dunhuang-mineral",
+      "style_version": "v1",
+      "reference": "styles/xianxia-dunhuang-mineral/v1/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-style-exploration/prompts/mineral-v1.txt",
+      "status": "candidate",
+      "sha256": "ba9d13e82ff74c7926d66a682f7726d3016d6b895b633a64d993bae5417c202f",
+      "preview_labels": "generated-in-concept-only"
+    },
+    {
+      "id": "cel",
+      "name": "赛璐璐动漫仙侠",
+      "style_id": "xianxia-anime-cel",
+      "style_version": "v1",
+      "reference": "styles/xianxia-anime-cel/v1/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-style-exploration/prompts/cel-v1.txt",
+      "status": "candidate",
+      "sha256": "179496aba286dbf6ef3ff5eb48afebacb597c3bc4557e3b0dfa8fcd4e3178687",
+      "preview_labels": "generated-in-concept-only"
     }
   ],
   "selected": null

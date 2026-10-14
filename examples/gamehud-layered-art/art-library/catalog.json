@@ -41,6 +41,24 @@
       "version": "v1",
       "status": "candidate",
       "path": "styles/xianxia-faceted-3d/v1/style.md"
+    },
+    {
+      "id": "xianxia-paper-collage",
+      "version": "v1",
+      "status": "candidate",
+      "path": "styles/xianxia-paper-collage/v1/style.md"
+    },
+    {
+      "id": "xianxia-dunhuang-mineral",
+      "version": "v1",
+      "status": "candidate",
+      "path": "styles/xianxia-dunhuang-mineral/v1/style.md"
+    },
+    {
+      "id": "xianxia-anime-cel",
+      "version": "v1",
+      "status": "candidate",
+      "path": "styles/xianxia-anime-cel/v1/style.md"
     }
   ],
   "assets": [

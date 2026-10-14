@@ -37,3 +37,15 @@ python game-art-style-discussion/scripts/direction_tool.py handoff --root exampl
 ```
 
 check应返回valid=true、ready=false；handoff应退出2并报告风格未确定。当前示例不建立虚假的确认记录；工具测试的confirmed记录仅在隔离目录作为测试数据，不改变这里的真实状态。
+
+## 第二轮新增候选 G–I
+
+使用内置 imagegen 新生成三版，保留原件，不缩放；名称位于每项下方。原尺寸与1920×1080设计基准分别记录，未分层为运行素材。
+
+| 编号 | 名称 | 参考图 | 风格文字 |
+| --- | --- | --- | --- |
+| G | 剪纸拼贴仙侠 | [原图](../../styles/xianxia-paper-collage/v1/references/concept-v1.png) | [完整风格](../../styles/xianxia-paper-collage/v1/style.md) |
+| H | 敦煌岩彩仙侠 | [原图](../../styles/xianxia-dunhuang-mineral/v1/references/concept-v1.png) | [完整风格](../../styles/xianxia-dunhuang-mineral/v1/style.md) |
+| I | 赛璐璐动漫仙侠 | [原图](../../styles/xianxia-anime-cel/v1/references/concept-v1.png) | [完整风格](../../styles/xianxia-anime-cel/v1/style.md) |
+
+本轮三版和原六版均为讨论中；没有用户选择，不更新为已确认。实际读图差异和偏离目标的细节已写入各版档案。
