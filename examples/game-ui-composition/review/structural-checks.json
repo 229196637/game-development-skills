@@ -1,0 +1,214 @@
+{
+  "checks": [
+    {
+      "check": "登记的八项资源存在且 XML 可解析",
+      "passed": true
+    },
+    {
+      "check": "十一项元素映射及实际五实例引用",
+      "passed": true
+    },
+    {
+      "check": "不存在的页面实例被拒绝",
+      "passed": true
+    },
+    {
+      "check": "五实例同一 src 且标题和主体各自配置",
+      "passed": true
+    },
+    {
+      "check": "dungeon-portal-v2.png 保持原尺寸及透明通道",
+      "passed": true
+    },
+    {
+      "check": "entrance-base-v1.png 保持原尺寸及透明通道",
+      "passed": true
+    },
+    {
+      "check": "friends-cranes-v2.png 保持原尺寸及透明通道",
+      "passed": true
+    },
+    {
+      "check": "mail-frame-v2.png 保持原尺寸及透明通道",
+      "passed": true
+    },
+    {
+      "check": "quest-scroll-v2.png 保持原尺寸及透明通道",
+      "passed": true
+    },
+    {
+      "check": "shop-pavilion-v2.png 保持原尺寸及透明通道",
+      "passed": true
+    },
+    {
+      "check": "隔离设置两处禁止代码生成",
+      "passed": true
+    },
+    {
+      "check": "拒绝覆盖现有隔离工程",
+      "passed": true
+    },
+    {
+      "check": "拒绝越界路径 ../outside",
+      "passed": true
+    },
+    {
+      "check": "拒绝越界路径 C:/outside",
+      "passed": true
+    },
+    {
+      "check": "没有真实 FUI 时不能宣布导出成功",
+      "passed": true
+    },
+    {
+      "check": "未知跨包依赖被拒绝且不创建目标",
+      "passed": true
+    },
+    {
+      "check": "链接有效 SKILL.md → ../game-layered-art/SKILL.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 SKILL.md → references/analysis.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 SKILL.md → references/components.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 SKILL.md → references/export.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 SKILL.md → references/tooling.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 SKILL.md → ../examples/game-ui-composition/README.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 SKILL.md → ../examples/game-ui-composition/review/flowcharts/entry.svg",
+      "passed": true
+    },
+    {
+      "check": "链接有效 SKILL.md → ../examples/game-ui-composition/review/flowcharts/components.svg",
+      "passed": true
+    },
+    {
+      "check": "链接有效 SKILL.md → ../examples/game-ui-composition/review/flowcharts/export.svg",
+      "passed": true
+    },
+    {
+      "check": "链接有效 SKILL.md → references/analysis.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 SKILL.md → references/components.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 SKILL.md → ../game-layered-art/SKILL.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 SKILL.md → references/export.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 components.md → analysis.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 components.md → export.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 export.md → tooling.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 export.md → components.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 export.md → ../SKILL.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → source/UiCompositionDemo/assets/UiCompositionDemo/item/EntranceButton.xml",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → review/validation.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → source/UiCompositionDemo/UiCompositionDemo.fairy",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → analysis.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → mapping.json",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → components.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → ../../game-ui-composition/SKILL.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → review/flowcharts/entry.svg",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → review/flowcharts/components.svg",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → review/flowcharts/export.svg",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → ../gamehud-layered-art/art-library/productions/gamehud-v3/previews/effect-1920x1080.png",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → integration/README.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → ../gamehud-layered-art/art-library/productions/gamehud-v3/previews/effect-1920x1080.png",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → mapping.json",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → components.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → source/UiCompositionDemo/assets/UiCompositionDemo/UiCompositionDemo.xml",
+      "passed": true
+    },
+    {
+      "check": "链接有效 README.md → review/validation.md",
+      "passed": true
+    },
+    {
+      "check": "链接有效 analysis.md → mapping.json",
+      "passed": true
+    }
+  ],
+  "visual_verified": false,
+  "export_verified": false
+}

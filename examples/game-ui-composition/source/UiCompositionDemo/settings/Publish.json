@@ -1,0 +1,50 @@
+{
+  "path": "../ui/AppBundle/user_files/fgui",
+  "branchPath": "",
+  "fileExtension": "bytes",
+  "packageCount": 1,
+  "compressDesc": true,
+  "binaryFormat": true,
+  "jpegQuality": 80,
+  "compressPNG": false,
+  "codeGeneration": {
+    "allowGenCode": false,
+    "codePath": "../disabled-code",
+    "classNamePrefix": "UI_",
+    "memberNamePrefix": "ui_",
+    "packageName": null,
+    "ignoreNoname": true,
+    "getMemberByName": false,
+    "codeType": ""
+  },
+  "sceCodeGeneration": {
+    "enabled": false,
+    "codePath": "../disabled-code"
+  },
+  "includeHighResolution": 0,
+  "branchProcessing": 0,
+  "seperatedAtlasForBranch": false,
+  "atlasSetting": {
+    "maxSize": 2048,
+    "paging": true,
+    "sizeOption": "pot",
+    "forceSquare": false,
+    "allowRotation": false,
+    "trimImage": true
+  },
+  "include2x": false,
+  "include3x": false,
+  "include4x": false,
+  "sceFontExport": {
+    "enabled": true,
+    "defaultFont": "FguiNotoSansSC",
+    "fonts": [
+      {
+        "name": "FguiNotoSansSC",
+        "source": "fonts/NotoSansSC-VF.ttf",
+        "runtimePath": "font/FguiNotoSansSC/NotoSansSC-VF.ttf"
+      }
+    ]
+  },
+  "fileName": "Publish"
+}

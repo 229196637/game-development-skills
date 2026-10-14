@@ -1,0 +1,7 @@
+{
+  "name": "csharp-ui-binding-exporter",
+  "displayName": "C# UI Binding Exporter",
+  "description": "在 FairyGUI 发布结束后生成星火兼容 C# UI 绑定。",
+  "version": "1.0.0",
+  "main": "main.js"
+}

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<component size="320,545" extention="Button" pivot="0.5,0.85">
+  <controller name="button" pages="0,up,1,down,2,over,3,selectedOver" selected="0">
+    <action toPage="1" transition="selectScale" stopOnExit="true"/>
+    <action fromPage="1" transition="deselectScale" stopOnExit="true"/>
+  </controller>
+  <controller name="art" pages="0,shop,1,quest,2,dungeon,3,friends,4,mail" selected="0"/>
+  <displayList>
+    <loader id="n0" name="base" xy="0,225" size="320,320" touchable="false" url="ui://r9hwuu4ddfr87" fill="scale"/>
+    <loader id="n1" name="icon" xy="-1.63,75.91" size="323,323" touchable="false" url="ui://r9hwuu4ddfr82" fill="scale">
+      <gearXY controller="art" pages="0,1,2,3,4" values="-1.63,75.91|10.89,99.81|-30.00,14.06|2.87,92.03|-12.09,81.83" default="-1.63,75.91"/>
+      <gearSize controller="art" pages="0,1,2,3,4" values="323,323,1,1|294,294,1,1|380,380,1,1|314,314,1,1|332,332,1,1" default="323,323,1,1"/>
+    </loader>
+    <text id="n2" name="title" xy="60,381" size="200,48" touchable="false" font="Noto Sans SC" fontSize="32" color="#FFEDC2" align="center" vAlign="middle" strokeColor="#124C45" strokeSize="2" singleLine="true" autoSize="none" text="商店"/>
+  </displayList>
+  <Button/>
+  <transition name="selectScale"><item time="0" type="Scale" tween="true" startValue="1,1" endValue="1.08,1.08" duration="0.18" ease="Back.Out"/></transition>
+  <transition name="deselectScale"><item time="0" type="Scale" tween="true" startValue="1.08,1.08" endValue="1,1" duration="0.14" ease="Quad.Out"/></transition>
+</component>

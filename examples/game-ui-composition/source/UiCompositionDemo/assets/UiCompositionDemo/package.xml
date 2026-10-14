@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<packageDescription id="r9hwuu4d">
+  <resources>
+    <component id="dfr80" name="EntranceButton.xml" path="/item/" exported="true"/>
+    <component id="dfr81" name="UiCompositionDemo.xml" path="/" exported="true"/>
+    <image id="dfr82" name="shop-pavilion-v2.png" path="/Image/"/>
+    <image id="dfr83" name="quest-scroll-v2.png" path="/Image/"/>
+    <image id="dfr84" name="dungeon-portal-v2.png" path="/Image/"/>
+    <image id="dfr85" name="friends-cranes-v2.png" path="/Image/"/>
+    <image id="dfr86" name="mail-frame-v2.png" path="/Image/"/>
+    <image id="dfr87" name="entrance-base-v1.png" path="/Image/"/>
+  </resources>
+  <publish name=""/>
+</packageDescription>

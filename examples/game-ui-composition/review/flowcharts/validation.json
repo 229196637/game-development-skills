@@ -1,0 +1,26 @@
+[
+  {
+    "file": "game-ui-composition/SKILL.md",
+    "svg": "entry.svg",
+    "rendered": true,
+    "clickable": true
+  },
+  {
+    "file": "game-ui-composition/references/components.md",
+    "svg": "components.svg",
+    "rendered": true,
+    "clickable": true
+  },
+  {
+    "file": "game-ui-composition/references/export.md",
+    "svg": "export.svg",
+    "rendered": true,
+    "clickable": true
+  },
+  {
+    "file": "examples/game-ui-composition/README.md",
+    "svg": "demo.svg",
+    "rendered": true,
+    "clickable": true
+  }
+]

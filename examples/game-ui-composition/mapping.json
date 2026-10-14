@@ -1,0 +1,252 @@
+{
+  "design_size": [
+    1920,
+    1080
+  ],
+  "reference": "../gamehud-layered-art/art-library/productions/gamehud-v3/previews/effect-1920x1080.png",
+  "style_id": "xianxia-jade-gold",
+  "style_version": "v1",
+  "elements": [
+    {
+      "element": "shop-pavilion",
+      "asset_id": "shop-pavilion",
+      "version": "v2",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "display_rect": [
+        78.37,
+        330.91,
+        323,
+        323
+      ],
+      "package": "UiCompositionDemo",
+      "component": "EntranceButton",
+      "instance": "shop",
+      "decision": "new",
+      "reason": "扩展已盘点 MainTapBtn 的 title/icon 与按下回弹契约，实例共享结构；采用原锚点匹配底座",
+      "art_page": 0,
+      "contact_anchor": {
+        "x": 627.5,
+        "y": 1094
+      },
+      "source": "../gamehud-layered-art/art-library/assets/xianxia-jade-gold/subjects/shop-pavilion-v2.png",
+      "sha256": "038bff8c53885c5f4a4ab3fb002f71962ee13e25f63b33a876a2f804d990872a"
+    },
+    {
+      "element": "quest-scroll",
+      "asset_id": "quest-scroll",
+      "version": "v2",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "display_rect": [
+        450.89,
+        354.81,
+        294,
+        294
+      ],
+      "package": "UiCompositionDemo",
+      "component": "EntranceButton",
+      "instance": "quest",
+      "decision": "new",
+      "reason": "扩展已盘点 MainTapBtn 的 title/icon 与按下回弹契约，实例共享结构；采用原锚点匹配底座",
+      "art_page": 1,
+      "contact_anchor": {
+        "x": 636.0,
+        "y": 1100
+      },
+      "source": "../gamehud-layered-art/art-library/assets/xianxia-jade-gold/subjects/quest-scroll-v2.png",
+      "sha256": "84d4e1af6ebe8ebfd5024b1816be1eb8a3397e8236ca669bf85776c0236b25d2"
+    },
+    {
+      "element": "dungeon-portal",
+      "asset_id": "dungeon-portal",
+      "version": "v2",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "display_rect": [
+        770.0,
+        269.06,
+        380,
+        380
+      ],
+      "package": "UiCompositionDemo",
+      "component": "EntranceButton",
+      "instance": "dungeon",
+      "decision": "new",
+      "reason": "扩展已盘点 MainTapBtn 的 title/icon 与按下回弹契约，实例共享结构；采用原锚点匹配底座",
+      "art_page": 2,
+      "contact_anchor": {
+        "x": 627.0,
+        "y": 1134
+      },
+      "source": "../gamehud-layered-art/art-library/assets/xianxia-jade-gold/subjects/dungeon-portal-v2.png",
+      "sha256": "7aa98d082c4ee86280fce4299b0d5627f6384723fd3a80fd13c643b4355e49ea"
+    },
+    {
+      "element": "friends-cranes",
+      "asset_id": "friends-cranes",
+      "version": "v2",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "display_rect": [
+        1162.87,
+        347.03,
+        314,
+        314
+      ],
+      "package": "UiCompositionDemo",
+      "component": "EntranceButton",
+      "instance": "friends",
+      "decision": "new",
+      "reason": "扩展已盘点 MainTapBtn 的 title/icon 与按下回弹契约，实例共享结构；采用原锚点匹配底座",
+      "art_page": 3,
+      "contact_anchor": {
+        "x": 627.5,
+        "y": 1061
+      },
+      "source": "../gamehud-layered-art/art-library/assets/xianxia-jade-gold/subjects/friends-cranes-v2.png",
+      "sha256": "5783d1d5d70da6b2159506c43c343e7dbcb8d6e037eb45d0b637b284499cf182"
+    },
+    {
+      "element": "mail-frame",
+      "asset_id": "mail-frame",
+      "version": "v2",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "display_rect": [
+        1507.91,
+        336.83,
+        332,
+        332
+      ],
+      "package": "UiCompositionDemo",
+      "component": "EntranceButton",
+      "instance": "mail",
+      "decision": "new",
+      "reason": "扩展已盘点 MainTapBtn 的 title/icon 与按下回弹契约，实例共享结构；采用原锚点匹配底座",
+      "art_page": 4,
+      "contact_anchor": {
+        "x": 650.0,
+        "y": 1042
+      },
+      "source": "../gamehud-layered-art/art-library/assets/xianxia-jade-gold/subjects/mail-frame-v2.png",
+      "sha256": "dc9f388067b9df9267075c1e9996f4109c5fc4a468b6dd33b64bb557d33044e4"
+    },
+    {
+      "element": "shared-base",
+      "asset_id": "entrance-base",
+      "version": "v1",
+      "native_size": [
+        1254,
+        1254
+      ],
+      "display_rect": [
+        80,
+        480,
+        320,
+        320
+      ],
+      "package": "UiCompositionDemo",
+      "component": "EntranceButton",
+      "decision": "reuse",
+      "reason": "五实例复用相同底座；不对浮岛使用九宫格",
+      "contact_anchor": {
+        "x": 627,
+        "y": 520
+      },
+      "instances": [
+        "shop",
+        "quest",
+        "dungeon",
+        "friends",
+        "mail"
+      ]
+    },
+    {
+      "element": "shop-title",
+      "package": "UiCompositionDemo",
+      "component": "EntranceButton",
+      "instance": "shop/title",
+      "display_rect": [
+        140,
+        636,
+        200,
+        48
+      ],
+      "decision": "reuse",
+      "reason": "原生 title 文本节点，由 Button 实例标题覆盖；技术标注不进入页面"
+    },
+    {
+      "element": "quest-title",
+      "package": "UiCompositionDemo",
+      "component": "EntranceButton",
+      "instance": "quest/title",
+      "display_rect": [
+        500,
+        636,
+        200,
+        48
+      ],
+      "decision": "reuse",
+      "reason": "原生 title 文本节点，由 Button 实例标题覆盖；技术标注不进入页面"
+    },
+    {
+      "element": "dungeon-title",
+      "package": "UiCompositionDemo",
+      "component": "EntranceButton",
+      "instance": "dungeon/title",
+      "display_rect": [
+        860,
+        636,
+        200,
+        48
+      ],
+      "decision": "reuse",
+      "reason": "原生 title 文本节点，由 Button 实例标题覆盖；技术标注不进入页面"
+    },
+    {
+      "element": "friends-title",
+      "package": "UiCompositionDemo",
+      "component": "EntranceButton",
+      "instance": "friends/title",
+      "display_rect": [
+        1220,
+        636,
+        200,
+        48
+      ],
+      "decision": "reuse",
+      "reason": "原生 title 文本节点，由 Button 实例标题覆盖；技术标注不进入页面"
+    },
+    {
+      "element": "mail-title",
+      "package": "UiCompositionDemo",
+      "component": "EntranceButton",
+      "instance": "mail/title",
+      "display_rect": [
+        1580,
+        636,
+        200,
+        48
+      ],
+      "decision": "reuse",
+      "reason": "原生 title 文本节点，由 Button 实例标题覆盖；技术标注不进入页面"
+    }
+  ],
+  "excluded": [
+    "素材审阅标题",
+    "原尺寸和设计尺寸技术标注",
+    "场景背景"
+  ],
+  "page_path": "assets/UiCompositionDemo/UiCompositionDemo.xml"
+}

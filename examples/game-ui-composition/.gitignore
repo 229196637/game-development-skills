@@ -1,0 +1,6 @@
+**/.objs/
+source/**/plugins/
+export/FGUIProject/
+source/ui/
+review/inventory.json
+integration/MCPBridge/MCPBridge/

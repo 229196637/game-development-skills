@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='utf-8'?>
+<component size="1920,1080">
+  <displayList>
+    <component id="n0" name="shop" src="dfr80" fileName="item/EntranceButton.xml" xy="80,255">
+      <controller name="art" selected="0" />
+      <Button title="商店" icon="ui://r9hwuu4ddfr82" />
+    </component>
+    <component id="n1" name="quest" src="dfr80" fileName="item/EntranceButton.xml" xy="440,255">
+      <controller name="art" selected="1" />
+      <Button title="任务" icon="ui://r9hwuu4ddfr83" />
+    </component>
+    <component id="n2" name="dungeon" src="dfr80" fileName="item/EntranceButton.xml" xy="800,255">
+      <controller name="art" selected="2" />
+      <Button title="副本" icon="ui://r9hwuu4ddfr84" />
+    </component>
+    <component id="n3" name="friends" src="dfr80" fileName="item/EntranceButton.xml" xy="1160,255">
+      <controller name="art" selected="3" />
+      <Button title="好友" icon="ui://r9hwuu4ddfr85" />
+    </component>
+    <component id="n4" name="mail" src="dfr80" fileName="item/EntranceButton.xml" xy="1520,255">
+      <controller name="art" selected="4" />
+      <Button title="邮件" icon="ui://r9hwuu4ddfr86" />
+    </component>
+  </displayList>
+</component>

@@ -11,6 +11,7 @@
 | log-reading | 日志阅读技能：定位构建/运行日志，关联会话、双端及异常链；含 SCE 可选适配 |
 | [game-art-style-discussion](game-art-style-discussion/SKILL.md) | 美术风格讨论与定稿：比较候选、记录反馈、保存完整风格描述与认可参考图 |
 | [game-layered-art](game-layered-art/SKILL.md) | 美术资源：效果图分析、文字风格档案、分层生图与复用、资源索引；交付给 UI 技能，不实现界面 |
+| [game-ui-composition](game-ui-composition/SKILL.md) | UI 表现：读图、资源映射、组件复用与抽象、FairyGUI 拼接、真实预览与隔离资源导出；不生成业务或绑定代码 |
 
 ## 技能协作流程
 
@@ -38,9 +39,10 @@ flowchart TD
   click A "game-layered-art/SKILL.md"
   click C "game-excel-config/SKILL.md"
   click L "log-reading/SKILL.md"
+  click U "game-ui-composition/SKILL.md"
 ```
 
-[技能架构](architecture.md) · [分层美术示例](examples/gamehud-layered-art/README.md)。UI 素材默认不需要背景；背景独立存放和展示。美术技能只处理资源，布局与交互由消费技能负责。各技能流程图位于对应 SKILL.md。
+[技能架构](architecture.md) · [分层美术示例](examples/gamehud-layered-art/README.md) · [UI 拼接示例](examples/game-ui-composition/README.md)。UI 默认不需要场景背景；背景独立存放和展示。美术技能管理素材和风格，UI 拼接技能负责视觉布局与表现，业务由开发技能接手。各技能流程图位于对应 SKILL.md。
 
 美术制作从 `art-library/art-direction.md` 读取定稿，引用 `styles/<风格ID>/<版本>/style.md` 和同版本 `references/` 中实际保存的图片。未定稿时先讨论风格，无关代码规划继续；纯规划不自动生图。[六版仙侠候选比较](examples/gamehud-layered-art/art-library/productions/xianxia-style-exploration/README.md) 当前为讨论中，等待用户选择。
 

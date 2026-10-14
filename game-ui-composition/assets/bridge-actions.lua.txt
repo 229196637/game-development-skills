@@ -1,0 +1,27 @@
+        -- 已查阅 FairyGUI 6.1.4 editor.d.ts；使用既有桥接信封，不建立另一套通信。
+        ["composition_import"] = function(params)
+            local pkg = App.project:GetPackageByName(params.package_name)
+            local existing = pkg:FindItemByName(params.name)
+            if existing then return { id=existing.id, existing=true } end
+            _G._compositionImports = _G._compositionImports or {}
+            _G._compositionImports[params.name] = { task=pkg:ImportResource(params.source, params.path or "/", params.name), pkg=pkg }
+            return { started=true, name=params.name }
+        end,
+        ["composition_import_status"] = function(params)
+            local entry = _G._compositionImports and _G._compositionImports[params.name]
+            if not entry then error("没有该导入任务") end
+            if not entry.task.IsCompleted then return { completed=false } end
+            if entry.task.IsFaulted then error(tostring(entry.task.Exception)) end
+            local item = entry.task.Result
+            entry.pkg:Save()
+            return { completed=true, id=item.id, name=item.name }
+        end,
+        ["composition_move"] = function(params)
+            local pkg = App.project:GetPackageByName(params.package_name)
+            local item = pkg:FindItemByName(params.name)
+            if not item then error("资源未登记") end
+            pkg:CreatePath(params.path)
+            pkg:MoveItem(item, params.path)
+            pkg:Save()
+            return { id=item.id, path=params.path }
+        end,

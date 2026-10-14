@@ -1,0 +1,4 @@
+interface:
+  display_name: "UI 拼接与表现导出"
+  short_description: "读取效果图和资源，复用 FairyGUI 组件拼接页面并隔离导出表现资源"
+  default_prompt: "使用 $game-ui-composition 分析已有效果图和美术资源，复用组件拼接 UI，真实预览并仅导出表现资源。"

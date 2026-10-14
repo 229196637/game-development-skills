@@ -18,15 +18,18 @@ flowchart LR
   P --> A[game-layered-art]
   A -->|全局方向改变| D
   A --> R[分层资源与 catalog.json]
-  R --> UI[其它 UI 技能读取资源]
+  R --> UI[game-ui-composition 读取资源并拼接]
+  UI --> EX[隔离预览与表现资源导出]
   A --> BG[可选背景独立管理]
   click A "game-layered-art/SKILL.md"
   click D "game-art-style-discussion/SKILL.md"
   click S "game-layered-art/references/style.md"
   click R "game-layered-art/references/resources.md"
+  click UI "game-ui-composition/SKILL.md"
+  click EX "game-ui-composition/references/export.md"
 ```
 
-[风格档案规范](game-layered-art/references/style.md) · [消费契约](game-layered-art/references/resources.md)。UI 素材展示默认中性底色，场景背景不参与；本支线不处理 UI 组件、布局或发布。[完整示例](examples/gamehud-layered-art/README.md)。
+[风格档案规范](game-layered-art/references/style.md) · [消费契约](game-layered-art/references/resources.md)。美术技能只生产和管理资源；[UI 拼接技能](game-ui-composition/SKILL.md) 读取资源、效果图及已有组件，负责布局、表现与隔离发布，代码侧业务由执行技能处理。背景默认独立。[美术示例](examples/gamehud-layered-art/README.md) · [UI 拼接示例](examples/game-ui-composition/README.md)。
 
 更新：2026-10-14 09:45:59 +08:00。游戏系统开发分三段：文档描述系统，规划编写工单，执行落实工单。可单独写文档；直接规划时先调用文档；执行已有工单时不重新复制设计。
 
