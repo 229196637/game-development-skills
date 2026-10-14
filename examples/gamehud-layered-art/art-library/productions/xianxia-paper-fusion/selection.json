@@ -1,0 +1,104 @@
+{
+  "task_id": "xianxia-paper-fusion",
+  "stage": "style-candidates",
+  "design_canvas": {
+    "width": 1920,
+    "height": 1080
+  },
+  "preferred_reference": "styles/xianxia-paper-collage/v1/references/user-preferred-v1.png",
+  "user_feedback": "这一版不错，融合舒服；先存下来，基于这个再来5版本看看",
+  "candidates": [
+    {
+      "id": "softwash",
+      "name": "纸艺融合·柔彩水洗",
+      "style_id": "xianxia-paper-collage",
+      "style_version": "v2",
+      "reference": "styles/xianxia-paper-collage/v2/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-paper-fusion/prompts/softwash-v1.txt",
+      "status": "candidate",
+      "sha256": "7b734d030072196470c2875ce2d21130bd2b79ab5dc453c87a17bb71eb7a3e7f",
+      "based_on": "styles/xianxia-paper-collage/v1/references/user-preferred-v1.png"
+    },
+    {
+      "id": "mineralpaper",
+      "name": "纸艺融合·雅致岩彩",
+      "style_id": "xianxia-paper-collage",
+      "style_version": "v3",
+      "reference": "styles/xianxia-paper-collage/v3/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-paper-fusion/prompts/mineralpaper-v1.txt",
+      "status": "candidate",
+      "sha256": "cd68eed97e3f01a7cd675a32c019920e53c31743e34aa54eebc8e215aa942669",
+      "based_on": "styles/xianxia-paper-collage/v1/references/user-preferred-v1.png"
+    },
+    {
+      "id": "friendly",
+      "name": "纸艺融合·圆润轻卡通",
+      "style_id": "xianxia-paper-collage",
+      "style_version": "v4",
+      "reference": "styles/xianxia-paper-collage/v4/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-paper-fusion/prompts/friendly-v1.txt",
+      "status": "candidate",
+      "sha256": "86bf7d67a2a674311e2622b90b149e0d0fcefb72294c98ad4e52307ede57a63e",
+      "based_on": "styles/xianxia-paper-collage/v1/references/user-preferred-v1.png"
+    },
+    {
+      "id": "elegant",
+      "name": "纸艺融合·工笔细线",
+      "style_id": "xianxia-paper-collage",
+      "style_version": "v5",
+      "reference": "styles/xianxia-paper-collage/v5/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-paper-fusion/prompts/elegant-v1.txt",
+      "status": "candidate",
+      "sha256": "5d3c3481fe94bc287706afb5f530a1da13154092dc828d5cd012f5f2ff8548a8",
+      "based_on": "styles/xianxia-paper-collage/v1/references/user-preferred-v1.png"
+    },
+    {
+      "id": "graphic",
+      "name": "纸艺融合·简洁平涂",
+      "style_id": "xianxia-paper-collage",
+      "style_version": "v6",
+      "reference": "styles/xianxia-paper-collage/v6/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-paper-fusion/prompts/graphic-v1.txt",
+      "status": "candidate",
+      "sha256": "0069eeb31ee093194ee8957b58d857f9b36fa7c44704fdc29d4dfe9b43371bfc",
+      "based_on": "styles/xianxia-paper-collage/v1/references/user-preferred-v1.png"
+    },
+    {
+      "id": "simplified",
+      "name": "纸艺融合·游戏简化稿",
+      "style_id": "xianxia-paper-collage",
+      "style_version": "v7",
+      "reference": "styles/xianxia-paper-collage/v7/references/concept-v1.png",
+      "source_size": {
+        "width": 1672,
+        "height": 941
+      },
+      "prompt": "productions/xianxia-paper-fusion/prompts/simplified-v1.txt",
+      "status": "candidate",
+      "sha256": "faac266150db889c00443f1a0af1fc079d21d444da01cbd5d3678395de9b94c1",
+      "based_on": "styles/xianxia-paper-collage/v1/references/user-preferred-v1.png"
+    }
+  ],
+  "selected": null,
+  "latest_focus": "simplified"
+}

@@ -49,3 +49,7 @@ check应返回valid=true、ready=false；handoff应退出2并报告风格未确�
 | I | 赛璐璐动漫仙侠 | [原图](../../styles/xianxia-anime-cel/v1/references/concept-v1.png) | [完整风格](../../styles/xianxia-anime-cel/v1/style.md) |
 
 本轮三版和原六版均为讨论中；没有用户选择，不更新为已确认。实际读图差异和偏离目标的细节已写入各版档案。
+
+## 最新一轮
+
+用户偏好纸艺融合方向，已保存用户原图并继续生成五版：[基准与五版比较](../xianxia-paper-fusion/README.md)。

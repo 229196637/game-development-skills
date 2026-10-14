@@ -59,6 +59,42 @@
       "version": "v1",
       "status": "candidate",
       "path": "styles/xianxia-anime-cel/v1/style.md"
+    },
+    {
+      "id": "xianxia-paper-collage",
+      "version": "v2",
+      "status": "candidate",
+      "path": "styles/xianxia-paper-collage/v2/style.md"
+    },
+    {
+      "id": "xianxia-paper-collage",
+      "version": "v3",
+      "status": "candidate",
+      "path": "styles/xianxia-paper-collage/v3/style.md"
+    },
+    {
+      "id": "xianxia-paper-collage",
+      "version": "v4",
+      "status": "candidate",
+      "path": "styles/xianxia-paper-collage/v4/style.md"
+    },
+    {
+      "id": "xianxia-paper-collage",
+      "version": "v5",
+      "status": "candidate",
+      "path": "styles/xianxia-paper-collage/v5/style.md"
+    },
+    {
+      "id": "xianxia-paper-collage",
+      "version": "v6",
+      "status": "candidate",
+      "path": "styles/xianxia-paper-collage/v6/style.md"
+    },
+    {
+      "id": "xianxia-paper-collage",
+      "version": "v7",
+      "status": "candidate",
+      "path": "styles/xianxia-paper-collage/v7/style.md"
     }
   ],
   "assets": [
