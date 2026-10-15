@@ -35,7 +35,9 @@ flowchart TD
   T --> P
   R -->|素材视角、风格或精度| H
   J --> V[生成独立缩略图与图片资料卡]
-  V --> K[交付资源契约给消费技能]
+  V --> S{正式PNG尺寸匹配设计框？}
+  S -->|是| K[交付资源契约给消费技能]
+  S -->|否| W[保留为待处理原稿，不交付运行素材]
   click E "references/style.md"
   click A "../game-art-style-discussion/references/direction-contract.md"
   click Talk "../game-art-style-discussion/SKILL.md"
@@ -43,6 +45,7 @@ flowchart TD
   click H "references/production.md"
   click J "references/tooling.md"
   click V "references/tooling.md"
+  click S "references/tooling.md"
   click P "references/pairing.md"
   click T "references/pairing.md"
   click K "references/resources.md"
@@ -60,6 +63,8 @@ flowchart TD
 6. 通过 `register` 无覆盖归档，记录实际提示词和来源。预览必须在每个素材下方显示易读的素材名字、PNG 实际原尺寸、设计目标尺寸及是否匹配，不只显示英文 ID。1920×1080 美术搭配按设计像素展示，网页整体缩放只为方便查看；原尺寸不达标不能凭 CSS 缩放声明完成。运行 `check` 后交付相对路径、资源 ID/版本、风格版本和组合说明。组合预览只证明素材搭配，不实现 UI。
 
 ## 协作边界
+
+正式素材的大小由设计图中对应元素的占用框确定。先记录参考图原像素区域及1920×1080设计矩形，锁定宽高、位置与透明留白边界；提取或独立生图都不能自行放大。新的正式PNG默认 `native_size_required=true`，交付前用 `art_tool.py handoff` 实测尺寸；高分辨率生成稿保留为待处理原稿，不能靠CSS/FGUI单项缩放冒充正确原大小。具体映射与校验见[资源契约](references/resources.md)。
 
 大图归档后使用 `scripts/preview_tool.cjs build/check` 生成并核对独立缩略图，不以CSS缩小原图代替。等比缩小、不裁切、不放大、保留透明区域，原图只读；默认最长边640，可按用途调整。每张图下方显示中文名称、资源文件名、原图像素/体积、缩略图像素/体积，点击可查看原图。正式设计尺寸及匹配状态继续单列，缩略图不能用于素材制作或尺寸验收。
 

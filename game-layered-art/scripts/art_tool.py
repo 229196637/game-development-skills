@@ -79,6 +79,57 @@ def _size(m_value, m_label):
     return m_value
 
 
+def _rect(m_value, m_canvas, m_label):
+    """校验非负整数位置、正整数尺寸及边界；无效矩形抛出ValueError。"""
+    _size(m_value, m_label)
+    if any(type(m_value.get(m_key)) is not int or m_value[m_key] < 0 for m_key in ("x", "y")):
+        raise ValueError(f"{m_label} 的 x/y 必须为非负整数")
+    if m_value["x"] + m_value["width"] > m_canvas["width"] or m_value["y"] + m_value["height"] > m_canvas["height"]:
+        raise ValueError(f"{m_label} 超出对应画布")
+
+
+def _referenceGeometry(m_root, m_asset):
+    """核对已记录的设计矩形和参考图框；不猜测图中元素边界，不修改图片。"""
+    m_designRect = m_asset.get("design_rect")
+    if m_designRect is not None:
+        m_canvas = _size(m_asset.get("design_canvas"), "design_canvas")
+        _rect(m_designRect, m_canvas, "design_rect")
+        if _size(m_asset.get("design_size"), "design_size") != {m_k: m_designRect[m_k] for m_k in ("width", "height")}:
+            raise ValueError("design_size 必须等于设计图中 design_rect 的宽高")
+    m_region = m_asset.get("reference_region")
+    if m_region is None:
+        return
+    if not isinstance(m_region, dict) or m_designRect is None:
+        raise ValueError("reference_region 必须为对象并配套 design_rect")
+    m_reference = _inspect(_resolve(m_root, m_region["path"]))
+    if m_region.get("sha256") != m_reference["sha256"]:
+        raise ValueError("参考设计图摘要缺失或已变化")
+    _rect(m_region, m_reference, "reference_region")
+    # 用四条边换算而不是只缩放宽高，避免取整后位置或相邻元素间距漂移。
+    m_mapped = {}
+    for m_axis, m_dimension in (("x", "width"), ("y", "height")):
+        m_scale = m_canvas[m_dimension] / m_reference[m_dimension]
+        m_start = math.floor(m_region[m_axis] * m_scale + 0.5)
+        m_end = math.floor((m_region[m_axis] + m_region[m_dimension]) * m_scale + 0.5)
+        m_mapped[m_axis], m_mapped[m_dimension] = m_start, m_end - m_start
+    if any(m_designRect[m_k] != m_mapped[m_k] for m_k in ("x", "y", "width", "height")):
+        raise ValueError("design_rect 与参考图提取框映射不一致，不能擅自放大或改变位置")
+
+
+def _handoffGaps(m_asset):
+    """给出正式尺寸交付缺口；原图通过结构检查不代表已经可供UI按设计原大小使用。"""
+    m_gaps = []
+    if m_asset.get("native_size_required") is not True or m_asset.get("size_matches_design") is not True:
+        m_gaps.append("正式PNG必须严格匹配design_size，并启用native_size_required")
+    if not m_asset.get("name") or not m_asset.get("design_canvas"):
+        m_gaps.append("缺少素材名称或设计基准")
+    if m_asset.get("runtime_ready") is False or m_asset.get("delivery_stage") == "art-master":
+        m_gaps.append("当前明确标记为待处理原稿，不能作为正式运行素材交付")
+    if m_asset["source"].get("method") == "extracted" and not m_asset.get("reference_region"):
+        m_gaps.append("提取素材缺少实际参考图区域及设计矩形记录")
+    return m_gaps
+
+
 def _validateAsset(m_root, m_data, m_asset, m_imagePath):
     m_required = ("id", "version", "category", "purpose", "tags", "style_id", "style_version",
                   "path", "requires_alpha", "source", "production")
@@ -148,6 +199,9 @@ def _validateAsset(m_root, m_data, m_asset, m_imagePath):
     if m_asset.get("native_size_required"):
         if not m_asset.get("name") or not m_asset.get("design_canvas") or not m_manifest.get("design_canvas") or not m_matchesDesign:
             raise ValueError("按设计原大小交付必须记录名称、设计基准，并使 PNG 实测尺寸等于 design_size")
+    _referenceGeometry(m_root, m_asset)
+    if "runtime_ready" in m_asset and type(m_asset["runtime_ready"]) is not bool:
+        raise ValueError("runtime_ready 必须为布尔值")
     if m_actual["format"] != "PNG" or not m_actual["has_visible_pixels"]:
         raise ValueError("正式素材必须为包含可见像素的 PNG")
     if m_asset["requires_alpha"] and not m_actual["has_transparent_pixels"]:
@@ -245,17 +299,17 @@ def _check(m_root):
 
 
 def Main():
-    """解析 CLI 并输出 JSON；无效输入和缺失文件返回退出码 1，不修改其它文件。"""
+    """解析CLI输出JSON；无效输入退出1，handoff存在尺寸交付缺口退出2。"""
     m_parser = argparse.ArgumentParser(description=__doc__)
     m_sub = m_parser.add_subparsers(dest="command", required=True)
-    for m_name in ("init", "find", "get", "register", "check"):
+    for m_name in ("init", "find", "get", "handoff", "register", "check"):
         m_command = m_sub.add_parser(m_name)
         m_command.add_argument("--root", required=True)
         if m_name == "find":
             m_command.add_argument("--style")
             m_command.add_argument("--purpose")
             m_command.add_argument("--tag", action="append", default=[])
-        if m_name == "get":
+        if m_name in ("get", "handoff"):
             m_command.add_argument("--id", required=True)
             m_command.add_argument("--version", required=True)
         if m_name == "register":
@@ -288,9 +342,14 @@ def Main():
                     raise ValueError("资源版本缺失或重复")
                 # 消费前实测文件，避免将已变化或缺失的 PNG 当成登记时仍合格的资源。
                 m_assets = [_validateAsset(m_root, m_data, m_a, _resolve(m_root, m_a["path"])) for m_a in m_assets]
-            m_result = {"inspection": "live-file" if m_args.command == "get" else "registered-metadata",
+            m_result = {"inspection": "live-file" if m_args.command in ("get", "handoff") else "registered-metadata",
                         "assets": [{**m_a, "name": m_a.get("name", m_a["purpose"]), "style_path": _style(m_root, m_data, m_a["style_id"], m_a["style_version"])["path"]} for m_a in m_assets]}
+            if m_args.command == "handoff":
+                m_gaps = _handoffGaps(m_assets[0])
+                m_result.update({"ready": not m_gaps, "gaps": m_gaps})
         print(json.dumps(m_result, ensure_ascii=False, indent=2))
+        if m_args.command == "handoff" and not m_result["ready"]:
+            return 2
         return 1 if m_result.get("ok") is False else 0
     except (OSError, KeyError, TypeError, ValueError, ImportError) as m_error:
         print(json.dumps({"ok": False, "error": str(m_error)}, ensure_ascii=False))

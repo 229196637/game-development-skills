@@ -19,6 +19,7 @@ check只读，实测原图与缩略图尺寸、字节、摘要、比例、覆盖
 python art_tool.py init --root <库根>
 python art_tool.py find --root <库根> [--style <ID>] [--purpose <用途>] [--tag <标签>]
 python art_tool.py get --root <库根> --id <资源ID> --version <版本>
+python art_tool.py handoff --root <库根> --id <资源ID> --version <版本>
 python art_tool.py register --root <库根> --source <已有图片路径> --metadata <JSON文件>
 python art_tool.py check --root <库根>
 ```
@@ -28,3 +29,7 @@ init 创建空索引，不覆盖已有索引。register 的元数据按资源契
 find 支持多个 `--tag`，全部匹配；purpose 匹配用途文字，style 精确匹配 ID。find 返回登记信息，inspection=registered-metadata；get 要求精确版本，重新读取 PNG 并校验来源/尺寸/哈希，inspection=live-file。旧资源未定义设计尺寸时 size_matches_design=null，不据此承诺按设计原大小交付。check 核对索引、风格、来源引用、实际图像和生产清单、组合引用。文件存在与 alpha 检查通过仍需视觉验收。
 
 工具仅限单写入者使用，不支持多个 agent 同时登记同一个库。登记前写好完整任务清单；生产中尚未登记的资源可暂时使 check 报告缺口，完成全部登记后必须检查通过。
+
+handoff只读并实测精确版本：正式交付需要名称、设计基准、native_size_required=true、PNG尺寸严格等于design_size，且未标runtime_ready=false/art-master。提取素材还须有reference_region及design_rect。就绪退出0；记录可读但不具备正式尺寸交付条件退出2并给出gaps；无效记录/文件退出1。get/check仍可盘点历史原稿，不代表它们已经通过handoff。
+
+提供reference_region时，register/get/check/handoff都会核对参考图真实尺寸与SHA256、区域不越界、设计矩形与四边映射一致，以及design_size等于design_rect宽高。工具不会替用户定位图中元素，字段格式见资源契约。
