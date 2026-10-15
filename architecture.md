@@ -89,3 +89,7 @@ game-system-development-execution/
 文档/规划/报告由 docs 独立 Git 维护；项目代码属于项目 Git。执行技能本身不授权推送生产代码或发布。旧规划的执行命令已移除；旧任务入口先用 planning_tool.py order 补 TODO，不改变类状态和历史。
 
 拆分前版本备份标签：`backup/before-execution-skill-20261014`，指向此前已交付提交 `4c3557412d7ebc4377380fa378ccf41087ddd185`；个人已安装版本另有本地完整备份。
+
+## 只读可视化工具
+
+[game-workbench](tools/game-workbench/README.md) 通过个人 MCP 提供 HTML 进度看板，单向读取文档、规划工单和独立测试记录，复用规划技能的状态/字段/纯段落解析。它不依赖执行命令，不维护任务状态副本，不触发实现或测试；文档、规划和执行三个职责保持原样。

@@ -1,0 +1,10 @@
+{
+  "planning_skill": "../../game-system-development-planning",
+  "projects": [
+    {
+      "id": "inventory-example",
+      "name": "批量奖励 · 隔离实现样例",
+      "docs": "../../examples/execution-workflow/sample-project/docs"
+    }
+  ]
+}

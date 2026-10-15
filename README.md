@@ -108,3 +108,7 @@ flowchart TD
 [执行技能实际验证与流程预览](examples/execution-workflow/README.md)。
 
 含类索引的文档 README 同时提供职责架构图与系统依赖图；[补充与验证](examples/game-rule-dispatchers/readme-diagram-review.md)。
+
+## HTML 任务进度工作台 MCP
+
+[游戏开发工作台](tools/game-workbench/README.md) 提供多项目只读进度条、未完成工单和 Markdown/HTML 阅读器，通过个人 STDIO MCP 接入 Codex。实现进度与验收完成分开计算，不触发规划执行。[验证与界面](tools/game-workbench/verification.md)。
