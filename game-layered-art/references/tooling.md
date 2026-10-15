@@ -13,6 +13,8 @@ build递归读取库内PNG/JPEG/WebP，跳过符号链接、Git与自身输出�
 
 check只读，实测原图与缩略图尺寸、字节、摘要、比例、覆盖范围及生成页面，缺图/被替换/页面信息不符退出1，成功退出0。新图加入后重新build/check；旧派生图不自动删除。既有制作页面使用此索引查原图path并加载thumbnail.path，下方补名称、文件名、原图与缩略图像素/体积和原图链接；标注不烘焙进图片。
 
+库根可维护 `organization.json`：`{"schema_version":1,"images":[{"path":"库内图片相对路径","name":"中文名称","group":"concept","note":"具体状态或问题","runtime_ready":false}]}`。group可选approved（用户认可参考）、retained（用户要求保留）、concept（未拆分效果图）、background（独立背景原稿）、repair、rejected、history。此表只组织参考与非正式稿件，不授予交付资格；正式素材仍通过handoff。显式名称优先于历史JSON，未登记图片进入unreviewed；重复、失效路径及未知分类报错。check会发现分类变更后未重建的预览。历史、未采用、待修默认折叠，原件不移动，既有引用不变。
+
 入口 `scripts/art_tool.py`，Python 3.10+；图片检查依赖 Pillow。缺少依赖时报告环境缺口，不自动安装。命令输出 JSON；错误退出 1。
 
 ```text
