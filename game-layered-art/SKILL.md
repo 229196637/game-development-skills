@@ -8,6 +8,8 @@ description: 按已确认的美术定稿和参考图抽象分层、复用或独�
 
 正式制作先读取库根 `art-direction.md`，调用相邻 [风格讨论技能](../game-art-style-discussion/SKILL.md) 的 direction_tool.py handoff。未确认、缺少档案或认可图时回到风格讨论；ready=true后实际读取入口、style_file全文并查看reference_images。生产任务记录所用定稿路径与精确风格版本。已有历史资源盘点可以继续，不把候选方向当制作决定。
 
+先按用户显式路径或项目/任务仓库的 `art-library.location.json` 定位资源库；`local_root` 相对定位文件目录解析，并作为所有资源工具的 `--root`。配置了独立美术 Git 时，后续原图、风格参考、提示词、生产清单与索引只写该库，旧示例仅保留。目录未就绪时报告缺口，不回退向旧存档生产新素材；无定位配置时才沿用项目 `art-library/`。
+
 ## 工作流程
 
 ```mermaid

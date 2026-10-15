@@ -1,5 +1,7 @@
 # GameHud 分层美术资源示例
 
+本目录已上传的美术资料保留为历史存档。后续新图、风格和生产记录改在私有 [fgui-art-library](https://github.com/229196637/fgui-art-library) 维护；实际位置读取项目/任务仓库 `art-library.location.json`，见 [拆分说明](../../art-repository.md)。不向本存档追加新美术。
+
 这是美术资源生产与管理示例。展示效果图分析、可复用文字风格、已有素材复用、缺失素材独立生图、公共底座引用和资源交付。UI 布局、控件与交互由后续技能负责。
 
 当前风格讨论：[六版仙侠候选比较](art-library/productions/xianxia-style-exploration/README.md)。从 [美术方向入口](art-library/art-direction.md) 查看状态，目前没有选定新风格。

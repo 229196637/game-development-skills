@@ -44,7 +44,13 @@ flowchart TD
 
 [技能架构](architecture.md) · [分层美术示例](examples/gamehud-layered-art/README.md) · [UI 拼接示例](examples/game-ui-composition/README.md)。UI 默认不需要场景背景；背景独立存放和展示。美术技能管理素材和风格，UI 拼接技能负责视觉布局与表现，业务由开发技能接手。各技能流程图位于对应 SKILL.md。
 
-美术制作从 `art-library/art-direction.md` 读取定稿，引用 `styles/<风格ID>/<版本>/style.md` 和同版本 `references/` 中实际保存的图片。未定稿时先讨论风格，无关代码规划继续；纯规划不自动生图。[六版仙侠候选比较](examples/gamehud-layered-art/art-library/productions/xianxia-style-exploration/README.md) 当前为讨论中，等待用户选择。
+美术制作从实际库根的 `art-direction.md` 读取定稿，引用 `styles/<风格ID>/<版本>/style.md` 和同版本 `references/` 中实际保存的图片。未定稿时先讨论风格，无关代码规划继续；纯规划不自动生图。
+
+## 美术资料独立维护
+
+后续 FGUI 图片、风格、参考图、提示词与资源记录放在私有仓库 [fgui-art-library](https://github.com/229196637/fgui-art-library)。当前定稿为 `xianxia-paper-collage/v2`，已认可适度纹饰UI；三个关闭按钮方案全部保留。技能代码继续在本仓库维护。
+
+[资源库定位文件](art-library.location.json) 的 `local_root` 相对文件所在目录解析，默认对应同级 `fgui-art-library/art-library`。在目标项目也可放同名定位文件，技能读取它再向工具传实际 `--root`。[拆分与调用说明](art-repository.md)。本仓库现有 `examples/gamehud-layered-art/art-library/` 全部保留为历史存档；后续不再向旧目录上传新图，不双向同步，不改写已上传历史。
 
 ## 安装
 

@@ -6,6 +6,8 @@ description: 与用户讨论和确定游戏美术风格，生成或比较候选�
 
 默认整个游戏统一风格。用户明确指定模块或其他范围时记录实际范围，不自行拆成多套风格。用 [skill 的交付契约](references/direction-contract.md) 管理 `art-library/art-direction.md`：这是规划与美术制作读取的唯一风格决定入口；完整文字和参考图沿用资源库现有的版本化风格目录。
 
+资源库位置优先沿用用户指定路径，其次读取目标项目或当前任务仓库的 `art-library.location.json`，将 `local_root` 相对该文件所在目录解析。已配置独立美术 Git 时，新图片、风格、提示词和反馈写入该库，检查工具以实际库根作为 `--root`；旧示例只作历史存档。没有定位文件时才使用项目 `art-library/`。定位与 Git 分工见 [定稿契约](references/direction-contract.md)。
+
 ## 流程
 
 ```mermaid

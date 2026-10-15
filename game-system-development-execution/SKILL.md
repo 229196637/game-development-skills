@@ -6,6 +6,8 @@ metadata:
 ---
 # 游戏系统开发执行
 
+美术工单先沿用用户指定库根，或将项目/任务仓库 `art-library.location.json` 的 `local_root` 相对该文件解析。独立美术 Git 保存新图片、风格与生产记录，技能 Git 保存规则；旧例保留，不再追加美术。调用工具时显式传递实际库根 `--root`。
+
 执行已授权美术工单时先用 [风格讨论工具](../game-art-style-discussion/references/tooling.md) 的handoff检查工单引用的定稿，实际读取风格文字并查看认可图；未确认或缺失时交回风格讨论，无关工单可继续。通过后使用 [分层美术资源](../game-layered-art/SKILL.md) 生成、修正和归档素材，不在执行中猜新画风。UI 工单由项目 UI 技能拼装；默认不把背景叠到素材预览。
 
 ```mermaid

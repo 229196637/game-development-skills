@@ -7,6 +7,8 @@ metadata:
 ---
 # 游戏系统开发规划
 
+涉及美术时先按用户路径或项目/任务仓库 `art-library.location.json` 的 `local_root` 定位实际库根（相对定位文件解析），再读取以下定稿。独立美术库与技能仓库分工维护，工单引用实际库及精确版本，旧示例不再追加新图。
+
 涉及美术时先检查 art-library/art-direction.md；已有适用定稿则沿用，未定时先进入 [美术风格讨论](../game-art-style-discussion/SKILL.md)，再确定美术制作工单。无关代码规划继续，未确定部分只记录需求和缺口，不假定某版风格或细化素材生产。工单引用定稿路径、style_id/version、style_file与认可图，再引用 [分层美术资源](../game-layered-art/SKILL.md) 的资源契约。纯规划不自动生图，用户请求看效果时由风格讨论按授权生成候选；正式素材制作留给执行。UI默认不需要背景。
 
 先研究需求和相关已有代码，调用 [游戏系统开发文档](../game-system-development-documentation/SKILL.md) 完成文档，再编写具体工单；校验交付后停止。本技能只规划，用户明确要求落实时使用独立 [游戏系统开发执行](../game-system-development-execution/SKILL.md)，不在本技能实现、构建、业务测试或记录实际验收。文档中的原语言 API 声明属于文档。

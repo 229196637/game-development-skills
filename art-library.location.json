@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "repository": "https://github.com/229196637/fgui-art-library.git",
+  "visibility": "private",
+  "local_root": "../fgui-art-library/art-library",
+  "direction": "art-direction.md",
+  "legacy_archive": "examples/gamehud-layered-art/art-library",
+  "legacy_policy": "retain-existing-no-new-art"
+}

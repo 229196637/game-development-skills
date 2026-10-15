@@ -2,6 +2,8 @@
 
 ## 美术资源支线
 
+美术资料与技能代码已分开：新图片、风格与索引进入私有 [fgui-art-library](https://github.com/229196637/fgui-art-library)，技能留在本仓库。[定位文件](art-library.location.json) 记录实际库根；[协作约定](art-repository.md)。旧例已上传内容保留，后续不追加图片。
+
 [美术风格讨论](game-art-style-discussion/SKILL.md) 使用现有 imagegen 生成请求的候选，保存文字描述、真实参考图与反馈，只有用户明确选择后才更新 `art-library/art-direction.md`。默认全游戏统一方向；更换已使用风格建立新版本，保留旧资料。
 
 [分层美术资源](game-layered-art/SKILL.md) 制作前通过只读 `direction_tool.py handoff` 检查定稿，实际阅读完整描述并查看认可参考图，再使用 imagegen 生产和修正位图。美术工单引用同一份定稿与精确版本，素材局部搭配问题在制作中修正，全局风格改变回到讨论。纯规划不自动生图，未定风格时可继续无关代码规划。
@@ -17,7 +19,7 @@ flowchart LR
   V -->|通过| P[规划引用精确版本与参考图]
   P --> A[game-layered-art]
   A -->|全局方向改变| D
-  A --> R[分层资源与 catalog.json]
+  A --> R[独立私有美术Git：图片与catalog.json]
   R --> UI[game-ui-composition 读取资源并拼接]
   UI --> EX[隔离预览与表现资源导出]
   A --> BG[可选背景独立管理]
