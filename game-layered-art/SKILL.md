@@ -34,13 +34,15 @@ flowchart TD
   R -->|比例或接触位置| T[修正美术搭配锚点与显示比例]
   T --> P
   R -->|素材视角、风格或精度| H
-  J --> K[交付资源契约给消费技能]
+  J --> V[生成独立缩略图与图片资料卡]
+  V --> K[交付资源契约给消费技能]
   click E "references/style.md"
   click A "../game-art-style-discussion/references/direction-contract.md"
   click Talk "../game-art-style-discussion/SKILL.md"
   click F "references/resources.md"
   click H "references/production.md"
   click J "references/tooling.md"
+  click V "references/tooling.md"
   click P "references/pairing.md"
   click T "references/pairing.md"
   click K "references/resources.md"
@@ -58,6 +60,8 @@ flowchart TD
 6. 通过 `register` 无覆盖归档，记录实际提示词和来源。预览必须在每个素材下方显示易读的素材名字、PNG 实际原尺寸、设计目标尺寸及是否匹配，不只显示英文 ID。1920×1080 美术搭配按设计像素展示，网页整体缩放只为方便查看；原尺寸不达标不能凭 CSS 缩放声明完成。运行 `check` 后交付相对路径、资源 ID/版本、风格版本和组合说明。组合预览只证明素材搭配，不实现 UI。
 
 ## 协作边界
+
+大图归档后使用 `scripts/preview_tool.cjs build/check` 生成并核对独立缩略图，不以CSS缩小原图代替。等比缩小、不裁切、不放大、保留透明区域，原图只读；默认最长边640，可按用途调整。每张图下方显示中文名称、资源文件名、原图像素/体积、缩略图像素/体积，点击可查看原图。正式设计尺寸及匹配状态继续单列，缩略图不能用于素材制作或尺寸验收。
 
 游戏开发规划先通过风格讨论确定方向，再引用美术需求和资源契约；执行技能仅在已授权美术任务中调用本技能；文档技能记录最终资源使用约定。改变整体风格交回风格讨论，本技能继续修正单项素材搭配。[game-ui-composition](../game-ui-composition/SKILL.md) 读取索引、版本化风格、锚点和素材，决定实际布局和组件；搭配不合格时回传资源 ID、参考图及修正范围。本技能不写 FairyGUI XML、不新增 UI 行为、不发布资源，不自行安装或更新其它技能。
 

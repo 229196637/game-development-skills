@@ -17,7 +17,8 @@ flowchart TD
   B -->|没有或要改变| D[讨论偏好和约束]
   D --> E[比较已有候选或生成新预览]
   E --> F[保存图片、文字与反馈]
-  F --> G{用户明确确定风格？}
+  F --> T[独立缩略图与名称尺寸资料卡]
+  T --> G{用户明确确定风格？}
   G -->|否| D
   G -->|是| H[记录定稿与认可图版本]
   H --> V[只读检查与交付入口]
@@ -26,6 +27,7 @@ flowchart TD
   P --> R[美术制作按定稿生成资源]
   click D "references/discussion.md"
   click F "references/direction-contract.md"
+  click T "../game-layered-art/references/tooling.md"
   click H "references/direction-contract.md"
   click V "references/tooling.md"
   click P "../game-system-development-planning/SKILL.md"
@@ -44,6 +46,8 @@ flowchart TD
 6. 运行只读工具 handoff，交付定稿入口、风格文档和参考图。结构检查不能证明记录的用户选择真实，操作者必须核对实际用户消息。讨论技能交付后停止，独立素材制作交给美术技能。
 
 ## 协作
+
+大参考图也需要独立缩略图用于比较页，复用相邻美术技能的[预览工具](../game-layered-art/references/tooling.md)。每图下方标明名称、资源文件名、原图像素/体积和缩略图像素/体积；点击查看保存的原件。缩略图只是浏览副本，不改变风格参考、原图尺寸或用户确认记录。
 
 游戏开发规划先检查定稿，缺失时先讨论再确定美术任务，无关代码规划可继续。文档与工单引用同一入口及风格版本，不复制另一套描述。美术制作必须读取定稿全文、所指文字和图片；局部素材不搭配由美术技能修正，要变整体画风则回到本技能。无美术内容的任务无需建空定稿。
 

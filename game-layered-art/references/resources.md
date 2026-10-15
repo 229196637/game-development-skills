@@ -1,5 +1,13 @@
 # 资源管理与消费契约
 
+## 浏览缩略图
+
+大图需要独立缩略文件，不能只在HTML用CSS缩放完整原图。统一图库默认放 `previews/index.html`、`previews/manifest.json` 和 `previews/thumbnails/`；缩略图默认WebP、最长边640，等比缩小、不裁切、不放大，透明区域保留。相同源图可共享派生图，原件与catalog不改。
+
+预览索引通过原图库相对 `path` 映射，记录 `name`、`id`（可空）、`width/height`、`bytes`、`sha256`，以及 `thumbnail.path/width/height/bytes/format/sha256`；原记录有design_size时沿用，不从缩略图推断。每张图片下方显示名称、实际资源文件名、原图像素尺寸和体积、缩略图像素尺寸和体积；保留原图链接。候选/效果稿也采用此规范，不能因有缩略图就当成通过资源。
+
+消费技能通过原图path查缩略索引用于浏览，制作/FGUI导入仍使用原件和精确资源版本。`art_tool.py check`不检查独立预览索引；使用`preview_tool.cjs check`核对覆盖、文件摘要、实测尺寸和资料卡。补派生文件到当前配置的美术库，旧技能仓库历史原件不改。
+
 ```text
 art-library/
   catalog.json
