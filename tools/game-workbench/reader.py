@@ -106,7 +106,7 @@ class Reader:
         if not root.is_dir():
             return []
         output = []
-        for base in ['文档', '规划', '测试']:
+        for base in ['策划', '文档', '规划', '测试']:
             folder = self.path(project, base)
             if not folder.is_dir():
                 continue

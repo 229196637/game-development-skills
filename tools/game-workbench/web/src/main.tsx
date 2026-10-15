@@ -578,7 +578,7 @@ function App() {
             onChange={(e) => setSearch(e.target.value)}
           />
           <nav>
-            {["文档", "规划", "测试"].map((folder) => (
+            {["策划", "文档", "规划", "测试"].map((folder) => (
               <details key={folder} open>
                 <summary>
                   {folder}

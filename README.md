@@ -4,6 +4,7 @@
 
 | 技能 | 用途 |
 | --- | --- |
+| [game-system-design](game-system-design/SKILL.md) | 游戏策划：按系统讨论规则，用流程图和表格表达，独立保存待确认事项 |
 | game-system-development-planning | 游戏系统开发规划：先文档，后逐类工单、验收标准与依赖 TODO，交付后停止 |
 | game-system-development-execution | 游戏系统开发执行：按 TODO 领取、阅读、实现、真实测试报告、验收与完成 |
 | game-system-development-documentation | 游戏系统开发文档：扫描现状、增量同步、原语言公开函数 API、独立 docs Git |
@@ -17,6 +18,8 @@
 
 ```mermaid
 flowchart TD
+  G[游戏策划] -->|明确玩法与规则后| P
+  click G "game-system-design/SKILL.md"
   P[游戏开发规划] --> D[游戏开发文档]
   P --> V{美术方向已定稿？}
   V -->|否| S[美术风格讨论与定稿]
@@ -58,6 +61,8 @@ flowchart TD
 
 ## 使用
 
+讨论玩法时调用 `$game-system-design`（游戏策划），按系统写入 `docs/策划`。核心流程图搭配规则表，未确认事项单独记录；不会自动创建开发工单或执行代码。[隔离示例](examples/game-system-design/README.md) · [验证结果](examples/game-system-design/verification.md)。
+
 可以直接调用“游戏系统开发规划”：先研究代码与需求，内部调用文档能力，再建立工单，默认交付后停止；明确要求落实后由独立执行技能实现；也可单独调用“游戏系统开发文档”，只做文档增删改；配置需求由“游戏 Excel 配置表”协作处理；日志排查调用“日志阅读技能”。
 
 - 规划查阅 API 时，已有框架能力须先给出准确接口、调用/生命周期细节与差距，再询问复用还是重写；已明确选择沿用。
@@ -72,6 +77,7 @@ flowchart TD
 
 | 技能 | 工具 | 命令与范围 |
 | --- | --- | --- |
+| 游戏策划 | scripts/design_tool.py | check：只读校验策划 meta、目录、链接、核心流程图与规则表 |
 | 开发规划 | scripts/planning_tool.py、scripts/task_store.py | init/update/relocate/order/check/list：具体工单与依赖 TODO，共享格式 |
 | 开发执行 | scripts/execution_tool.py | next/show/claim/set-item/run-test/record-test/record-acceptance/block/release/reopen/complete：落实与真实报告 |
 | 开发文档 | scripts/documentation_tool.py | rules/check：精简 meta、文档依赖、API 和测试分离 |

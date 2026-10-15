@@ -1,5 +1,26 @@
 # 技能架构与依赖
 
+## 游戏策划入口
+
+[游戏策划](game-system-design/SKILL.md) 可独立讨论，在 docs/策划/<系统> 保存 README、策划.md 及按需的待确认.md。玩法流程用图，条件/结果用规则表；未决方案单独存放，用户决定后同步正文。
+
+```mermaid
+flowchart TD
+  Design[游戏策划] -->|规则明确| Plan[游戏系统开发规划]
+  Plan --> Docs[游戏系统开发文档]
+  Docs --> Tickets[工单与依赖 TODO]
+  Tickets -->|用户明确要求落实| Execute[游戏系统开发执行]
+  Reader[只读工作台] -->|读取| Design
+  Reader -->|读取| Tickets
+  click Design "game-system-design/SKILL.md"
+  click Plan "game-system-development-planning/SKILL.md"
+  click Docs "game-system-development-documentation/SKILL.md"
+  click Execute "game-system-development-execution/SKILL.md"
+  click Reader "tools/game-workbench/README.md"
+```
+
+策划工具只校验文档结构，不能判断业务合理性或替用户确认。规划读取适用策划及相关待确认问题，技术文档通过 meta dependencies 引用策划；没有相关策划的明确需求仍可直接规划。正式文档、规划和执行职责保持原有边界。工作台仅增加策划导航，进度仍只来自规划工单。
+
 ## 美术资源支线
 
 美术资料与技能代码已分开：新图片、风格与索引进入私有 [fgui-art-library](https://github.com/229196637/fgui-art-library)，技能留在本仓库。[定位文件](art-library.location.json) 记录实际库根；[协作约定](art-repository.md)。旧例已上传内容保留，后续不追加图片。

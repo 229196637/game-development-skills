@@ -41,6 +41,8 @@ codex mcp add game-workbench --env PYTHONUTF8=1 --env PYTHONDONTWRITEBYTECODE=1 
 
 ## 阅读和进度口径
 
+- 导航支持 docs/策划，按系统阅读 README、策划与待确认事项；仅规划目录的标准工单参与进度计算，策划不新增状态副本或完成率。
+
 - 开发任务是 docs/规划 下的一级文件夹，以 README.md 为入口；旧 index.md 只读兼容，不迁移原文件。
 - 主进度 = 所有已识别工单中已勾选工作项 / 全部工作项。零分母显示“—”，没有工单显示“暂无工单”。
 - 验收完成数另计：需要 completed 标记、工作项全勾选、必需测试/验收最新 passed，以及前置一致。循环依赖、重复 ID 和失效上游不冒充完成；这仍不证明业务测试充分。

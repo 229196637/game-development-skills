@@ -18,6 +18,7 @@ metadata:
 ```mermaid
 %%{init: {"themeVariables": {"fontSize": "20px"}, "flowchart": {"wrappingWidth": 340}}}%%
 flowchart TD
+  Design["游戏策划<br/>读取相关策划与待确认记录"] --> Research
   Research["需求研究与文档准备<br/>preparation.md<br/>研究需求和相关架构"] --> ArtNeed{涉及美术方向或资源需求？}
   ArtNeed -->|否| Docs["游戏系统开发文档<br/>SKILL.md<br/>先完成所需文档"]
   ArtNeed -->|是| Direction[检查美术定稿与认可图]
@@ -33,6 +34,7 @@ flowchart TD
   Route --> Check["开发规划工具<br/>tooling.md<br/>order、check、list"]
   Check --> Deliver["需求研究与文档准备<br/>preparation.md<br/>交付文档与工单，停止"]
   click Research "references/workflows/preparation.md"
+  click Design "../game-system-design/SKILL.md"
   click Direction "../game-art-style-discussion/references/tooling.md"
   click ArtTalk "../game-art-style-discussion/SKILL.md"
   click Docs "../game-system-development-documentation/SKILL.md"

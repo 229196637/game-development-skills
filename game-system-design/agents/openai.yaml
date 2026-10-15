@@ -1,0 +1,4 @@
+interface:
+  display_name: "游戏策划"
+  short_description: "按游戏系统讨论玩法规则，用流程图和表格精简表达，单独记录待确认问题"
+  default_prompt: "使用 $game-system-design 讨论这个游戏系统，在 docs/策划 按系统整理规则、流程图和待确认事项。"
