@@ -6,6 +6,7 @@
 | --- | --- | --- |
 | [目标动作与图片草稿](goal-image-drafts/README.md) | DSH `0.2.1-rc.4`，并精确校验归档和模块 SHA256 | 恢复按钮异常锁死、blocked 恢复入口；切会话及刷新时的附件草稿保留 |
 | [壁纸浮层可读性](wallpaper-popovers/README.md) | `dsh-plugin-wallpaper-engine-glass@1.4.2`，精确校验模块 SHA256 | 专家菜单、Token 统计及语义浮层的局部底色/文字配对；保留配置与启用状态 |
+| [GenUI 展开查看卡片](genui-fullscreen/README.md) | `@changfenhuang/dsh-genui@0.15.0`，精确校验原始及已发布补丁 SHA256 | 长内容居中弹出卡片、表格换行和卡片内滚动；保留交互状态，附安装、升级、回滚及浏览器回归 |
 
 源码、基线指纹、构建工具、安装/回滚脚本和回归测试进入 Git。官方完整 bundle、`node_modules`、`.artifacts`、安装包、备份以及任何个人配置不进入 Git。修复归属上游时仍保留来源，不冒充独立插件，也不自动挂入用户 profile。
 

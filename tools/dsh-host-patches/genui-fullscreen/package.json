@@ -1,0 +1,14 @@
+{
+  "name": "dsh-genui-fullscreen-patch",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "node patch.test.cjs && node browser.test.cjs"
+  },
+  "devDependencies": {
+    "esbuild": "0.25.12",
+    "playwright-core": "1.61.1",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  }
+}
