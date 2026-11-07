@@ -1,0 +1,17 @@
+{
+  "name": "dsh-goal-image-drafts-patch",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Version-bound maintenance patches for DSH goal actions and attachment drafts; not an installable DSH plugin.",
+  "scripts": {
+    "test:tooling": "node --test tests/tooling.test.cjs tests/prepare-archive.test.cjs",
+    "test": "node --test tests/tooling.test.cjs tests/prepare-archive.test.cjs tests/goal-chain.test.cjs tests/goal-ui.test.cjs tests/draft-attachments.test.cjs",
+    "test:browser": "node --test tests/browser-idb.test.cjs"
+  },
+  "devDependencies": {
+    "playwright": "1.62.1"
+  },
+  "engines": {
+    "node": ">=24.9.0"
+  }
+}

@@ -127,6 +127,12 @@ flowchart TD
 
 [本轮改动过滤与文件类型图标](tools/dsh-changes-filter/README.md) 是独立的 DSH 插件，位于 `tools/dsh-changes-filter`，不是 Codex skill。它按目录和后缀过滤改动列表、按目录分组，并为 C#、JavaScript、TypeScript、Lua、JSON、Unity 资源等显示内置小图标；不改变原始改动数据或审阅行为。安装时从 DSH 插件管理器选择该目录，保留原有 profile 设置，不随仓库分发个人过滤规则。该工具附带独立的 Node.js 回归测试，验证命令与边界见插件说明。
 
+## DSH 插件开发与官方修复
+
+[DSH 插件开发与 Git 管理](tools/dsh-plugins.md) 汇总本仓实际开发的插件、源码归属和提交边界。用到且由我们开发或修复的插件，应保存源码、测试和构建方式，不只留在本机安装目录；第三方依赖不整体复制入库。
+
+[官方插件补丁](tools/dsh-host-patches/README.md) 维护目标恢复按钮与图片草稿的版本绑定修复，包含补丁源码、来源/指纹、回归、可重复生成以及安装/回滚脚本。完整官方应用、依赖、个人配置和备份不入库；需要用户退出 DSH 后安装才会改变运行版本。
+
 ## HTML 任务进度工作台 MCP
 
 [游戏开发工作台](tools/game-workbench/README.md) 提供多项目只读进度条、未完成工单和 Markdown/HTML 阅读器，通过个人 STDIO MCP 接入 Codex。实现进度与验收完成分开计算，不触发规划执行。[验证与界面](tools/game-workbench/verification.md)。

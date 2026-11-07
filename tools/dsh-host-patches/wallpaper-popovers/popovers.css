@@ -1,0 +1,69 @@
+/* Wallpaper glass owns the page, not the contrast of portaled controls.
+ * Scope paired tokens to known floating surfaces; never recolor the body,
+ * semantic status colors, wallpaper, composer, or settings-window carrier.
+ * The solid-base setting is the single opt-in gate, including native dialogs.
+ */
+body[data-we-glass-page][data-we-floater-solid] :is(
+  .aag-menu, .lc-tip, .lc-chart-tip,
+  [role="menu"], [role="listbox"],
+  [role="dialog"]:not([data-we-surface-runtime]):not([data-we-host-dialog]),
+  [role="alertdialog"]:not([data-we-surface-runtime]):not([data-we-host-dialog])
+) {
+  --we-popover-bg: #f3f6f8;
+  --we-popover-primary: #17212d;
+  --we-popover-secondary: #435164;
+  --we-popover-muted: #526173;
+  --we-popover-hover: #dce4ed;
+  --we-popover-border: #768497;
+}
+body[data-ds-dark-theme][data-we-glass-page][data-we-floater-solid] :is(
+  .aag-menu, .lc-tip, .lc-chart-tip,
+  [role="menu"], [role="listbox"],
+  [role="dialog"]:not([data-we-surface-runtime]):not([data-we-host-dialog]),
+  [role="alertdialog"]:not([data-we-surface-runtime]):not([data-we-host-dialog])
+) {
+  --we-popover-bg: #202630;
+  --we-popover-primary: #f3f6fa;
+  --we-popover-secondary: #c3cdd9;
+  --we-popover-muted: #b0bdce;
+  --we-popover-hover: #364354;
+  --we-popover-border: #8998ab;
+}
+/* Native Tooltip has fixed white text in both themes. Keep that pairing. */
+body[data-we-glass-page][data-we-floater-solid] [role="tooltip"] {
+  --we-popover-bg: #202630;
+  --we-popover-primary: #f3f6fa;
+  --we-popover-secondary: #c3cdd9;
+  --we-popover-muted: #b0bdce;
+  --we-popover-hover: #364354;
+  --we-popover-border: #8998ab;
+}
+body[data-we-glass-page][data-we-floater-solid] :is(
+  .aag-menu, .lc-tip, .lc-chart-tip,
+  [role="menu"], [role="listbox"], [role="tooltip"],
+  [role="dialog"]:not([data-we-surface-runtime]):not([data-we-host-dialog]),
+  [role="alertdialog"]:not([data-we-surface-runtime]):not([data-we-host-dialog])
+) {
+  --dsw-alias-bg-base: var(--we-popover-bg);
+  --dsw-alias-bg-layer-1: var(--we-popover-bg);
+  --dsw-alias-bg-layer-2: var(--we-popover-bg);
+  --dsw-alias-bg-layer-3: var(--we-popover-bg);
+  --dsw-alias-label-primary: var(--we-popover-primary);
+  --dsw-alias-label-primary-dimmed: var(--we-popover-secondary);
+  --dsw-alias-label-secondary: var(--we-popover-secondary);
+  --dsw-alias-label-tertiary: var(--we-popover-muted);
+  --dsw-alias-label-caption: var(--we-popover-muted);
+  --dsw-alias-label-dimmed: var(--we-popover-muted);
+  --dsw-alias-interactive-bg-hover: var(--we-popover-hover);
+  --dsw-alias-border-l1: var(--we-popover-border);
+  --dsw-alias-border-l2: var(--we-popover-border);
+  --dsw-specific-selector: var(--we-popover-bg);
+  --dsw-specific-menu: var(--we-popover-bg);
+  --dsw-menu-backdrop-filter: none;
+  --dsw-alias-tooltip-bg: var(--we-popover-bg);
+  background-color: var(--we-popover-bg) !important;
+  background-image: none !important;
+  color: var(--we-popover-primary);
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+}

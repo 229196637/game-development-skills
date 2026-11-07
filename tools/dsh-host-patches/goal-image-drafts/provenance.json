@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "upstream": "https://github.com/deepseek-ai/deepseek-harness",
+  "license": "MIT",
+  "version": "0.2.1-rc.4",
+  "archiveSha256": "16f2c62b1ccc98a968d9c7cf5edcd7af7a1e7690c2fba8cea361d1726d0db349",
+  "patchedArchiveSha256": "e72b07f065111b464ed46f20c6f7b3f46f40952c1e512fed0f05063d8c8df582",
+  "entries": [
+    {
+      "entry": "node_modules/@deepseek-ai/dsh-client-ui-goal/lib/client.js",
+      "originalSha256": "d0a19976114c4a6a1cbac74d1f1ffa1ea2c47811ad526dc40ecdf2ea4845fa85",
+      "patchedSha256": "b8d25c4f203f4a26583a78c683a774a77213c156f981f2bb3b26a7f6db1102d4",
+      "transform": "goal"
+    },
+    {
+      "entry": "node_modules/@deepseek-ai/dsh-client-ui-conversation/lib/client.js",
+      "originalSha256": "1685810f736459f28c27e30d0ef4d6b98b42657211a5398fa8ce156b11953164",
+      "patchedSha256": "dee4fb9b54893c6515beff5bc78e51dec7a8f9c8f7d53309e45d340e22562290",
+      "transform": "conversation"
+    },
+    {
+      "entry": "node_modules/@deepseek-ai/dsh-goal-round-driver/lib/index.js",
+      "originalSha256": "255483fbf86bed0dac5f641d89684de1933695e2c034475b2fa3953ec7f1ff92"
+    }
+  ]
+}
