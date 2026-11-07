@@ -1,0 +1,8 @@
+{
+  "package": "dsh-plugin-wallpaper-engine-glass",
+  "version": "1.4.2",
+  "upstream": "https://github.com/elysia395/dsh-wallpaper-engine",
+  "license": "MIT",
+  "entry": "lib/client.glass.js",
+  "originalSha256": "d80bcad7d4b02a47dd421c94124e502eb223bdcd15156aec39175de3b3b77fc0"
+}

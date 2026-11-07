@@ -1,0 +1,12 @@
+{
+  "name": "local-dsh-wallpaper-popover-patch",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "test": "node --test patch.test.cjs",
+    "test:browser": "node --test browser.test.cjs",
+    "test:installer": "node --test installer.test.cjs"
+  },
+  "devDependencies": { "playwright": "1.62.1" },
+  "engines": { "node": ">=24.9.0" }
+}
