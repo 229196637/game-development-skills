@@ -342,11 +342,27 @@ window.__ModuleLoader__.load({
       return h('span', { style: S.added }, parts.join(' '));
     }
 
-    function FileRow({ item, t, onOpen }) {
+    function FileRow({ item, t, onOpen, onPreview }) {
       const tags = [];
       if (item.hidden) tags.push(h('span', { key: 'hidden', style: S.tag }, t('hidden.tag')));
       if (item.file.binary) tags.push(h('span', { key: 'binary', style: S.tag }, t('binary.tag')));
       if (item.file.oversized) tags.push(h('span', { key: 'oversized', style: S.tag }, t('oversized.tag')));
+      // A refused snapshot is not an empty diff. Keep its explanation and the
+      // current-file action distinct; never present today's bytes as history.
+      if (item.file.oversized === true) {
+        return h('div', { 'data-diff-unavailable': 'oversized', style: item.hidden ? S.rowDim : undefined }, [
+          h('div', { key: 'file', style: { ...S.row, cursor: 'default', boxSizing: 'border-box' }, title: item.file.path }, [
+            h(FileIcon, { key: 'icon', path: item.file.path ?? item.relative }),
+            h('span', { key: 'name', style: S.name }, item.file.display ?? item.relative),
+            ...tags,
+            typeof onPreview === 'function' ? h('button', {
+              key: 'current', type: 'button', style: { ...S.more, flexShrink: 0 },
+              title: t('oversized.previewHint'), onClick: onPreview,
+            }, t('action.viewCurrent')) : null,
+          ]),
+          h('div', { key: 'note', style: { ...S.note, padding: '0 6px 3px 30px' } }, t('oversized.note')),
+        ]);
+      }
       return h('button', {
         type: 'button',
         style: item.hidden ? { ...S.row, ...S.rowDim } : S.row,
@@ -519,7 +535,7 @@ window.__ModuleLoader__.load({
         }
 
         if (showAll) {
-          const rows = items.map((item) => h(FileRow, { key: item.index, item, t, onOpen: () => openIndex(item) }));
+          const rows = items.map((item) => h(FileRow, { key: item.index, item, t, onOpen: () => openIndex(item), onPreview: typeof openFile === 'function' ? () => openFile(item.file.path) : undefined }));
           sections.push(h('div', { key: 'all', style: S.group }, rows));
           if (hiddenCount > 0) {
             sections.push(h('span', { key: 'hidden-note', style: S.note }, t('label.hidden', { count: hiddenCount })));
@@ -544,7 +560,7 @@ window.__ModuleLoader__.load({
                 h('span', { key: 'count' }, t('label.files', { count: group.files.length })),
                 h(Counts, { key: 'delta', added: group.added, deleted: group.deleted }),
               ]),
-              ...shown.map((item) => h(FileRow, { key: item.index, item, t, onOpen: () => openIndex(item) })),
+              ...shown.map((item) => h(FileRow, { key: item.index, item, t, onOpen: () => openIndex(item), onPreview: typeof openFile === 'function' ? () => openFile(item.file.path) : undefined })),
             ];
             if (group.files.length > COLLAPSED_ROWS) {
               children.push(h('button', {
@@ -622,7 +638,10 @@ window.__ModuleLoader__.load({
       'rules.unavailable': '过滤规则读取失败，当前显示全部文件',
       'hidden.tag': '已过滤',
       'binary.tag': '二进制',
-      'oversized.tag': '过大',
+      'oversized.tag': '差异不可用',
+      'action.viewCurrent': '查看当前文件',
+      'oversized.previewHint': '打开当前文件，不是本轮历史差异',
+      'oversized.note': '文件超出快照或对比上限，本轮差异不可用。查看当前文件不代表历史差异；调高上限不会补回未采集的历史版本。',
       'empty.allHidden': '本轮 {count} 个改动都被规则隐藏',
       'group.root': '根目录',
       'group.external': '外部路径',
@@ -651,7 +670,10 @@ window.__ModuleLoader__.load({
       'rules.unavailable': 'Filter rules unavailable; showing every file',
       'hidden.tag': 'hidden',
       'binary.tag': 'binary',
-      'oversized.tag': 'large',
+      'oversized.tag': 'diff unavailable',
+      'action.viewCurrent': 'View current file',
+      'oversized.previewHint': 'Open the current file, not this turn\'s historical diff',
+      'oversized.note': 'The file exceeds the snapshot or comparison limit. Its turn diff is unavailable. The current file is not a historical diff; raising the limit cannot restore versions that were never captured.',
       'empty.allHidden': 'All {count} changes are hidden by the rules',
       'group.root': 'repository root',
       'group.external': 'outside workspace',

@@ -149,7 +149,7 @@ test('FileRow starts with FileIcon using file.path, not its display name', () =>
   assert.equal(typeof FileRow, 'function');
   const onOpen = () => {};
   const item = {
-    file: { path: 'D:\\workspace\\Runtime\\Player.cs', display: 'FriendlyLabel.tsx', binary: true, oversized: true },
+    file: { path: 'D:\\workspace\\Runtime\\Player.cs', display: 'FriendlyLabel.tsx', binary: true },
     relative: 'AnotherLabel.lua', hidden: true, added: 2, deleted: 1,
   };
   const row = FileRow({ item, t: (key) => key, onOpen });
