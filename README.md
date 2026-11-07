@@ -117,6 +117,10 @@ flowchart TD
 
 含类索引的文档 README 同时提供职责架构图与系统依赖图；[补充与验证](examples/game-rule-dispatchers/readme-diagram-review.md)。
 
+## DSH 本轮改动过滤插件
+
+[本轮改动过滤与文件类型图标](tools/dsh-changes-filter/README.md) 是独立的 DSH 插件，位于 `tools/dsh-changes-filter`，不是 Codex skill。它按目录和后缀过滤改动列表、按目录分组，并为 C#、JavaScript、TypeScript、Lua、JSON、Unity 资源等显示内置小图标；不改变原始改动数据或审阅行为。安装时从 DSH 插件管理器选择该目录，保留原有 profile 设置，不随仓库分发个人过滤规则。该工具附带独立的 Node.js 回归测试，验证命令与边界见插件说明。
+
 ## HTML 任务进度工作台 MCP
 
 [游戏开发工作台](tools/game-workbench/README.md) 提供多项目只读进度条、未完成工单和 Markdown/HTML 阅读器，通过个人 STDIO MCP 接入 Codex。实现进度与验收完成分开计算，不触发规划执行。[验证与界面](tools/game-workbench/verification.md)。
