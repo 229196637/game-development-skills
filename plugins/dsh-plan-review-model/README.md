@@ -2,16 +2,14 @@
 
 在原计划待审卡片底部增加执行模型选择。默认继承当前会话；只有用户点击同意执行且 `exit_plan_mode` 最终结果成功后才记录会话模型选择。切换持续生效，直到手动再次切换；不改全局默认或 Worker / Verifier 独立配置。
 
-源码从原独立仓库的提交 `0561206d01d6ee30deeafbb83b2fad5a77373cf5` 纳入本仓库，保留完整 Host/Client 实现、语言资源、图标及回归测试；安装说明已调整为本仓库子目录。
-
 ## 安装与兼容性
 
 这是 DSH 的本地 Cordis bundle，不是独立 Web 应用。当前版本为 `@local/dsh-plan-review-model@1.0.2`。
 
 此修订补齐 Client 的 `remote` 根服务注入（只有 `remote.commands` 不足以允许访问 `ctx.remote`），修复模型目录命令发出前的 `cannot get property "remote" without inject` 错误；同时修正批准按钮的主题文字色，并将加载异常显示在可展开的错误详情中。静态回归检查不等于浏览器点击验收。
 
-1. 克隆本仓库到准备长期保留的目录：`git clone https://github.com/229196637/game-development-skills.git`。
-2. 使用 DSH 的插件管理器安装仓库内的 `plugins/dsh-plan-review-model` 子目录作为本地 bundle，不要安装整个仓库根目录。开发会话中可调用 `plugin_manager`，指定 `action: install_bundle`，`target` 为该插件子目录的绝对路径。
+1. 克隆本仓库到准备长期保留的目录：`git clone https://github.com/229196637/dsh-plan-review-model.git`。私有仓库需要相应的 GitHub 访问权限。
+2. 使用 DSH 的插件管理器安装该目录作为本地 bundle。开发会话中可调用 `plugin_manager`，指定 `action: install_bundle`，`target` 为克隆目录的绝对路径。
 3. 在启用 Plan 模式的会话中提交计划，在待审卡片底部选择执行模型。默认继承当前会话。
 
 本扩展没有额外依赖或安装脚本，无须执行构建。安装为本地链接后，不要随意移动或删除源码目录。当前核验环境为 DSH Desktop `2.0.21-next`、DSH packages `0.2.1-rc.4`；其他版本需重新验证内部模型选择接口。运行测试建议使用 Node.js 22 或更高版本。
