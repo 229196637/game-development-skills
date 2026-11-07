@@ -1,0 +1,3 @@
+- insert:
+    - id: local-plan-review-model
+      name: '@local/dsh-plan-review-model'
