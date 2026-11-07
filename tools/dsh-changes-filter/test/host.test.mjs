@@ -76,16 +76,44 @@ test('Host rule route delegates trust/auth checks before any file or body access
       }
     }
 
+    await t.test('missing rules migrate defaults without writing; corrupt rules fail visibly without overwriting', async () => {
+      const corrupt = await readFile(rulesPath, 'utf8');
+      const failed = await request('GET');
+      assert.equal(failed.status, 500);
+      assert.equal(await readFile(rulesPath, 'utf8'), corrupt);
+      await rm(rulesPath);
+      const missing = await request('GET');
+      assert.equal(missing.status, 200);
+      assert.deepEqual(JSON.parse(missing.body), { dirs: [], exts: [], noiseDirs: ['.agent-tmp'] });
+      await assert.rejects(readFile(rulesPath), { code: 'ENOENT' });
+    });
+
     await t.test('authenticated PUT normalizes and persists; GET returns the same rules', async () => {
       const result = await request('PUT', JSON.stringify({ dirs: ['./Docs/', 'docs'], exts: ['META'] }));
       assert.equal(result.status, 200);
-      const expected = { dirs: ['docs'], exts: ['.meta'] };
+      const expected = { dirs: ['docs'], exts: ['.meta'], noiseDirs: ['.agent-tmp'] };
       assert.deepEqual(JSON.parse(result.body), expected);
       assert.deepEqual(JSON.parse(await readFile(rulesPath, 'utf8')), expected);
       const read = await request('GET');
       assert.equal(read.status, 200);
       assert.deepEqual(JSON.parse(read.body), expected);
       assert.equal(read.headers['cache-control'], 'no-store');
+    });
+
+    await t.test('noise directory configuration roundtrips normalized names and an explicit disabled list', async () => {
+      for (const [noiseDirs, expectedNames] of [
+        [[' Scratch ', 'SCRATCH', '.agent-tmp', 'nested/path', 'nested\\path', '..', 'bad:name'], ['.agent-tmp', 'scratch']],
+        [[], []],
+      ]) {
+        const expected = { dirs: ['docs'], exts: ['.meta'], noiseDirs: expectedNames };
+        const saved = await request('PUT', JSON.stringify({ dirs: ['Docs'], exts: ['META'], noiseDirs }));
+        assert.equal(saved.status, 200);
+        assert.deepEqual(JSON.parse(saved.body), expected);
+        assert.deepEqual(JSON.parse(await readFile(rulesPath, 'utf8')), expected);
+        const loaded = await request('GET');
+        assert.equal(loaded.status, 200);
+        assert.deepEqual(JSON.parse(loaded.body), expected);
+      }
     });
 
     await t.test('invalid authenticated JSON cannot overwrite saved rules', async () => {

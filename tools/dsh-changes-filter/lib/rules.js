@@ -44,15 +44,19 @@ function collect(list, normalize) {
 
 /**
  * Normalize a stored or submitted rules object.
- * Anything unreadable collapses to the empty rules, which never hides a file.
+ * Missing noiseDirs migrates legacy rules; an explicit [] disables it.
  */
 export function normalizeRules(input) {
   if (input === null || typeof input !== 'object' || Array.isArray(input)) {
-    return { dirs: [], exts: [] };
+    input = {};
   }
   return {
     dirs: collect(input.dirs, normalizeDir),
     exts: collect(input.exts, normalizeExt),
+    noiseDirs: collect(input.noiseDirs === undefined ? ['.agent-tmp'] : input.noiseDirs, (value) => {
+      const name = value.trim().toLowerCase();
+      return name === '..' || /[\\/<>:"|?*\x00-\x1f]/.test(name) ? '' : name;
+    }),
   };
 }
 
@@ -78,14 +82,23 @@ export function isExternal(p) {
  * Directory prefixes match whole segments, extensions match the tail.
  * `docs` hides `docs/a.md` and `docs/b/c.md`, never `docs2/a.md`.
  */
-export function isHidden(relativePath, rules) {
-  if (typeof relativePath !== 'string' || relativePath === '') return false;
+export function hiddenReason(relativePath, rules) {
+  if (typeof relativePath !== 'string' || relativePath === '') return null;
   const p = relativePath.replace(/\\/g, '/').toLowerCase();
-  for (const ext of rules.exts) if (p.endsWith(ext)) return true;
-  for (const dir of rules.dirs) {
-    if (p === dir || p.startsWith(`${dir}/`)) return true;
+  for (const ext of rules.exts ?? []) if (p.endsWith(ext)) return 'manual';
+  for (const dir of rules.dirs ?? []) {
+    if (p === dir || p.startsWith(`${dir}/`)) return 'manual';
   }
-  return false;
+  // The last segment is a file name, never a directory match.
+  const directories = p.split('/').slice(0, -1);
+  for (const dir of rules.noiseDirs ?? ['.agent-tmp']) {
+    if (directories.includes(dir)) return 'noise';
+  }
+  return null;
+}
+
+export function isHidden(relativePath, rules) {
+  return hiddenReason(relativePath, rules) !== null;
 }
 
 /** Group kept files by their first path segment, keeping original indices. */

@@ -50,10 +50,10 @@ test('client normalizeIncoming mirrors the host normalization', async () => {
   const internals = await loadClientInternals();
   assert.deepEqual(
     internals.normalizeIncoming({ dirs: ['./Docs/', 'docs'], exts: ['META', '.png'] }),
-    { dirs: ['docs'], exts: ['.meta', '.png'] },
+    { dirs: ['docs'], exts: ['.meta', '.png'], noiseDirs: ['.agent-tmp'] },
   );
-  assert.deepEqual(internals.normalizeIncoming(undefined), { dirs: [], exts: [] });
-  assert.deepEqual(internals.normalizeIncoming({ dirs: 'docs' }), { dirs: [], exts: [] });
+  assert.deepEqual(internals.normalizeIncoming(undefined), { dirs: [], exts: [], noiseDirs: ['.agent-tmp'] });
+  assert.deepEqual(internals.normalizeIncoming({ dirs: 'docs' }), { dirs: [], exts: [], noiseDirs: ['.agent-tmp'] });
 });
 
 test('client summaryKey separates sessions', async () => {

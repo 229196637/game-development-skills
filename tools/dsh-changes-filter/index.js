@@ -17,7 +17,6 @@ export const inject = ['webServer', 'connection'];
 
 const ROUTE = '/dsh-changes-filter/rules.json';
 const MAX_BODY_BYTES = 16 * 1024;
-const EMPTY_RULES = { dirs: [], exts: [] };
 
 /** The profile directory keeps rules across web ports; the port changes per run. */
 function rulesFile() {
@@ -31,8 +30,9 @@ async function readRules(logger) {
     const text = await readFile(rulesFile(), 'utf8');
     return normalizeRules(JSON.parse(text));
   } catch (error) {
-    if (error?.code !== 'ENOENT') logger?.warn?.(`dsh-changes-filter: unreadable rules: ${error?.message ?? error}`);
-    return EMPTY_RULES;
+    if (error?.code === 'ENOENT') return normalizeRules({});
+    logger?.warn?.(`dsh-changes-filter: unreadable rules: ${error?.message ?? error}`);
+    throw error;
   }
 }
 
@@ -42,7 +42,7 @@ async function writeRules(rules, logger) {
   const temporary = `${file}.tmp`;
   await writeFile(temporary, `${JSON.stringify(rules, null, 2)}\n`, 'utf8');
   await rename(temporary, file);
-  logger?.info?.(`dsh-changes-filter: saved ${rules.dirs.length} folder rule(s) and ${rules.exts.length} extension rule(s)`);
+  logger?.info?.(`dsh-changes-filter: saved ${rules.dirs.length} folder rule(s) and ${rules.exts.length} extension rule(s), ${rules.noiseDirs.length} process directory rule(s)`);
 }
 
 function sendJson(response, status, value) {

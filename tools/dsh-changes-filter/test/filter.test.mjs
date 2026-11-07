@@ -13,9 +13,9 @@ test('normalizeRules cleans folder prefixes', () => {
 });
 
 test('normalizeRules tolerates junk input', () => {
-  assert.deepEqual(normalizeRules(null), { dirs: [], exts: [] });
-  assert.deepEqual(normalizeRules('nope'), { dirs: [], exts: [] });
-  assert.deepEqual(normalizeRules({ dirs: [1, null, 'ok'], exts: {} }), { dirs: ['ok'], exts: [] });
+  assert.deepEqual(normalizeRules(null), { dirs: [], exts: [], noiseDirs: ['.agent-tmp'] });
+  assert.deepEqual(normalizeRules('nope'), { dirs: [], exts: [], noiseDirs: ['.agent-tmp'] });
+  assert.deepEqual(normalizeRules({ dirs: [1, null, 'ok'], exts: {} }), { dirs: ['ok'], exts: [], noiseDirs: ['.agent-tmp'] });
 });
 
 test('normalizeRules caps the rule count', () => {
@@ -47,7 +47,7 @@ test('isHidden matches folders by segment, not by string prefix', () => {
   assert.equal(isHidden('src/thing.meta', rules), true);
   assert.equal(isHidden('src/thing.meta.bak', rules), false);
   assert.equal(isHidden('src/thing.lua', rules), false);
-  assert.equal(isHidden('docs/a.md', { dirs: [], exts: [] }), false);
+  assert.equal(isHidden('docs/a.md', { dirs: [], exts: [], noiseDirs: ['.agent-tmp'] }), false);
 });
 
 test('isHidden is case insensitive, matching the normalized rules', () => {

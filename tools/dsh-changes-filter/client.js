@@ -19,7 +19,7 @@ window.__ModuleLoader__.load({
     const SUMMARY_ROUTE = '/api/changes.summary';
     const COLLAPSED_ROWS = 4;
     const COLLAPSED_PRESENTED = 4;
-    const EMPTY_RULES = { dirs: [], exts: [] };
+    const EMPTY_RULES = { dirs: [], exts: [], noiseDirs: [] };
 
     //#region pure helpers (keep in sync with lib/rules.js)
     function relPath(path, cwd) {
@@ -36,12 +36,18 @@ window.__ModuleLoader__.load({
       return p.startsWith('/') || /^[a-zA-Z]:\//.test(p);
     }
 
-    function isHidden(relativePath, rules) {
-      if (typeof relativePath !== 'string' || relativePath === '') return false;
+    function hiddenReason(relativePath, rules) {
+      if (typeof relativePath !== 'string' || relativePath === '') return null;
       const p = relativePath.replace(/\\/g, '/').toLowerCase();
-      for (const ext of rules.exts) if (p.endsWith(ext)) return true;
-      for (const dir of rules.dirs) if (p === dir || p.startsWith(`${dir}/`)) return true;
-      return false;
+      for (const ext of rules.exts ?? []) if (p.endsWith(ext)) return 'manual';
+      for (const dir of rules.dirs ?? []) if (p === dir || p.startsWith(`${dir}/`)) return 'manual';
+      const directories = p.split('/').slice(0, -1);
+      for (const dir of rules.noiseDirs ?? ['.agent-tmp']) if (directories.includes(dir)) return 'noise';
+      return null;
+    }
+
+    function isHidden(relativePath, rules) {
+      return hiddenReason(relativePath, rules) !== null;
     }
 
     function groupFiles(items, labels) {
@@ -241,6 +247,9 @@ window.__ModuleLoader__.load({
         const response = await fetch(RULES_ROUTE, { headers: { accept: 'application/json' } });
         if (!response.ok) throw new Error(`HTTP ${response.status}`);
         const value = await response.json();
+        // A legacy running Host would silently discard noiseDirs on PUT.
+        // Require the normalized new wire shape before enabling rule editing.
+        if (!Array.isArray(value?.noiseDirs)) throw new Error('rules host needs reload');
         rulesStore.set({ status: 'ready', rules: normalizeIncoming(value), error: null });
       } catch (error) {
         rulesStore.set({ status: 'error', rules: EMPTY_RULES, error: String(error?.message ?? error) });
@@ -267,18 +276,23 @@ window.__ModuleLoader__.load({
         for (const item of list) {
           if (typeof item !== 'string') continue;
           const value = normalize(item);
-          if (value === '' || value === '.') continue;
+          if (value === '' || value === '.' || value.length > 200) continue;
           if (!out.includes(value)) out.push(value);
+          if (out.length >= 200) break;
         }
         return out.sort();
       };
-      if (input === null || typeof input !== 'object' || Array.isArray(input)) return EMPTY_RULES;
+      if (input === null || typeof input !== 'object' || Array.isArray(input)) input = {};
       return {
         dirs: clean(input.dirs, (v) => v.replace(/\\/g, '/').trim().replace(/^\.\//, '').replace(/^\/+/, '').replace(/\/+$/, '').toLowerCase()),
         exts: clean(input.exts, (v) => {
           const text = v.trim().toLowerCase();
           if (text === '' || text === '.') return '';
           return text.startsWith('.') ? text : `.${text}`;
+        }),
+        noiseDirs: clean(input.noiseDirs === undefined ? ['.agent-tmp'] : input.noiseDirs, (value) => {
+          const name = value.trim().toLowerCase();
+          return name === '..' || /[\\/<>:"|?*\x00-\x1f]/.test(name) ? '' : name;
         }),
       };
     }
@@ -344,7 +358,7 @@ window.__ModuleLoader__.load({
 
     function FileRow({ item, t, onOpen, onPreview }) {
       const tags = [];
-      if (item.hidden) tags.push(h('span', { key: 'hidden', style: S.tag }, t('hidden.tag')));
+      if (item.hidden) tags.push(h('span', { key: 'hidden', style: S.tag }, t(item.hiddenReason === 'noise' ? 'hidden.noise.tag' : 'hidden.manual.tag')));
       if (item.file.binary) tags.push(h('span', { key: 'binary', style: S.tag }, t('binary.tag')));
       if (item.file.oversized) tags.push(h('span', { key: 'oversized', style: S.tag }, t('oversized.tag')));
       // A refused snapshot is not an empty diff. Keep its explanation and the
@@ -374,13 +388,14 @@ window.__ModuleLoader__.load({
     function RulesPanel({ t, rules, onClose }) {
       const [dirs, setDirs] = React.useState(rules.dirs.join('\n'));
       const [exts, setExts] = React.useState(rules.exts.join('\n'));
+      const [noiseDirs, setNoiseDirs] = React.useState((rules.noiseDirs ?? ['.agent-tmp']).join('\n'));
       const [busy, setBusy] = React.useState(false);
       const [error, setError] = React.useState(null);
       async function submit() {
         setBusy(true);
         setError(null);
         try {
-          await saveRules({ dirs: parseLines(dirs), exts: parseLines(exts) });
+          await saveRules({ dirs: parseLines(dirs), exts: parseLines(exts), noiseDirs: parseLines(noiseDirs) });
           onClose();
         } catch (failure) {
           setError(String(failure?.message ?? failure));
@@ -410,6 +425,11 @@ window.__ModuleLoader__.load({
             placeholder: '.meta\n.png',
             onChange: (event) => setExts(event.target.value),
           }),
+        ]),
+        h('label', { key: 'noise', style: S.panelLabel }, [
+          h('span', { key: 'label' }, t('rules.noiseDirs')),
+          h('textarea', { key: 'input', style: S.textarea, value: noiseDirs, spellCheck: false, placeholder: '.agent-tmp', onChange: (event) => setNoiseDirs(event.target.value) }),
+          h('span', { key: 'hint', style: S.note }, t('rules.noiseHint')),
         ]),
         error === null ? null : h('span', { key: 'error', style: S.note }, t('rules.saveFailed', { message: error })),
         h('div', { key: 'actions', style: S.panelActions }, [
@@ -463,21 +483,32 @@ window.__ModuleLoader__.load({
 
       if (changes === null && presented.length === 0) return null;
 
-      const rules = rulesState.rules;
+      const rules = rulesState.status === 'ready' ? rulesState.rules : EMPTY_RULES;
       const items = changes === null ? [] : changes.files.map((file, index) => {
         // `display` is already workspace-relative; `path` is the absolute fallback.
         const relative = relPath(file.display ?? file.path);
+        const reason = hiddenReason(relative, rules);
         return {
           index,
           file,
           relative,
           added: typeof file.added === 'number' ? file.added : 0,
           deleted: typeof file.deleted === 'number' ? file.deleted : 0,
-          hidden: isHidden(relative, rules),
+          hidden: reason !== null,
+          hiddenReason: reason,
         };
       });
       const visible = items.filter((item) => !item.hidden);
       const hiddenCount = items.length - visible.length;
+      const manualCount = items.filter((item) => item.hiddenReason === 'manual').length;
+      const noiseCount = items.filter((item) => item.hiddenReason === 'noise').length;
+      const displayed = showAll ? items : visible;
+      const totals = displayed.reduce((sum, item) => ({ added: sum.added + item.added, deleted: sum.deleted + item.deleted }), { added: 0, deleted: 0 });
+      const hiddenNote = () => h('span', { style: S.note }, [
+        manualCount > 0 ? t('label.hiddenManual', { count: manualCount }) : null,
+        manualCount > 0 && noiseCount > 0 ? ' · ' : null,
+        noiseCount > 0 ? t('label.hiddenNoise', { count: noiseCount }) : null,
+      ]);
       const groups = groupFiles(visible, { root: t('group.root'), external: t('group.external') });
       const openIndex = (item) => {
         if (changes === null) return;
@@ -490,8 +521,8 @@ window.__ModuleLoader__.load({
       if (changes !== null) {
         sections.push(h('div', { key: 'header', style: S.header }, [
           h('span', { key: 'title', style: S.title }, t('label.changed')),
-          h(Counts, { key: 'delta', added: changes.added, deleted: changes.deleted }),
-          h('span', { key: 'count', style: S.note }, t('label.files', { count: changes.files.length })),
+          h(Counts, { key: 'delta', added: totals.added, deleted: totals.deleted }),
+          h('span', { key: 'count', style: S.note }, t('label.shown', { shown: displayed.length, total: items.length })),
           h('span', { key: 'spacer', style: S.spacer }),
           h('div', { key: 'segment', style: S.segment }, [
             h('button', {
@@ -523,7 +554,7 @@ window.__ModuleLoader__.load({
           }, t('action.review')),
         ]));
 
-        if (rulesOpen) {
+        if (rulesOpen && rulesState.status === 'ready') {
           sections.push(h(RulesPanel, {
             key: 'rules',
             t,
@@ -538,11 +569,13 @@ window.__ModuleLoader__.load({
           const rows = items.map((item) => h(FileRow, { key: item.index, item, t, onOpen: () => openIndex(item), onPreview: typeof openFile === 'function' ? () => openFile(item.file.path) : undefined }));
           sections.push(h('div', { key: 'all', style: S.group }, rows));
           if (hiddenCount > 0) {
-            sections.push(h('span', { key: 'hidden-note', style: S.note }, t('label.hidden', { count: hiddenCount })));
+            sections.push(h('div', { key: 'hidden-note' }, hiddenNote()));
           }
         } else if (visible.length === 0) {
           sections.push(h('div', { key: 'empty', style: S.group }, [
             h('span', { key: 'text', style: S.note }, t('empty.allHidden', { count: items.length })),
+            hiddenNote(),
+            h('button', { key: 'rules', type: 'button', style: S.more, onClick: () => setRulesOpen(true) }, t('action.rules')),
             h('button', {
               key: 'open',
               type: 'button',
@@ -574,7 +607,7 @@ window.__ModuleLoader__.load({
           });
           sections.push(h('div', { key: 'groups', style: { display: 'flex', flexDirection: 'column', gap: 6 } }, blocks));
           if (hiddenCount > 0) {
-            sections.push(h('span', { key: 'hidden-note', style: S.note }, t('label.hidden', { count: hiddenCount })));
+            sections.push(h('div', { key: 'hidden-note' }, hiddenNote()));
           }
         }
       }
@@ -621,6 +654,13 @@ window.__ModuleLoader__.load({
       'label.changed': '本轮改动',
       'label.files': '{count} 个文件',
       'label.hidden': '已按规则隐藏 {count} 个',
+      'label.shown': '显示 {shown} / 共 {total} 个文件',
+      'label.hiddenManual': '手动规则隐藏 {count} 个',
+      'label.hiddenNoise': '过程目录隐藏 {count} 个',
+      'hidden.manual.tag': '手动规则',
+      'hidden.noise.tag': '过程产物目录',
+      'rules.noiseDirs': '过程产物目录名（每行一个，按完整目录段匹配）',
+      'rules.noiseHint': '默认 .agent-tmp；支持嵌套与外部路径。留空关闭；不支持路径或通配符。',
       'view.filtered': '过滤后',
       'view.all': '全部',
       'action.rules': '过滤规则',
@@ -630,12 +670,12 @@ window.__ModuleLoader__.load({
       'action.showAll': '查看全部',
       'action.save': '保存',
       'action.cancel': '取消',
-      'action.clear': '清空',
+      'action.clear': '清空手动排除',
       'rules.dirs': '文件夹（每行一个，按前缀匹配）',
       'rules.exts': '后缀（每行一个，如 .meta）',
       'rules.saving': '保存中…',
       'rules.saveFailed': '保存失败：{message}',
-      'rules.unavailable': '过滤规则读取失败，当前显示全部文件',
+      'rules.unavailable': '过滤规则读取失败，当前显示全部文件且暂停编辑。若刚更新插件，请重载插件宿主。',
       'hidden.tag': '已过滤',
       'binary.tag': '二进制',
       'oversized.tag': '差异不可用',
@@ -653,6 +693,13 @@ window.__ModuleLoader__.load({
       'label.changed': 'Changed',
       'label.files': '{count} files',
       'label.hidden': '{count} hidden by rules',
+      'label.shown': 'Showing {shown} / {total} files',
+      'label.hiddenManual': '{count} hidden by manual rules',
+      'label.hiddenNoise': '{count} hidden by process directories',
+      'hidden.manual.tag': 'manual rule',
+      'hidden.noise.tag': 'process directory',
+      'rules.noiseDirs': 'Process directory names (one complete segment per line)',
+      'rules.noiseHint': 'Default: .agent-tmp. Includes nested and external paths. Leave empty to disable; no paths or wildcards.',
       'view.filtered': 'Filtered',
       'view.all': 'All',
       'action.rules': 'Filter rules',
@@ -662,12 +709,12 @@ window.__ModuleLoader__.load({
       'action.showAll': 'Show all',
       'action.save': 'Save',
       'action.cancel': 'Cancel',
-      'action.clear': 'Clear',
+      'action.clear': 'Clear manual exclusions',
       'rules.dirs': 'Folders (one per line, prefix match)',
       'rules.exts': 'Extensions (one per line, e.g. .meta)',
       'rules.saving': 'Saving…',
       'rules.saveFailed': 'Save failed: {message}',
-      'rules.unavailable': 'Filter rules unavailable; showing every file',
+      'rules.unavailable': 'Filter rules unavailable; showing every file with editing paused. Reload the plugin host if you just upgraded.',
       'hidden.tag': 'hidden',
       'binary.tag': 'binary',
       'oversized.tag': 'diff unavailable',
@@ -717,7 +764,7 @@ window.__ModuleLoader__.load({
     return {
       inject: ['slots', 'locale'],
       apply,
-      __internals: { relPath, isHidden, groupFiles, summaryKey, parseLines, normalizeIncoming, dedupePresented, getFileIcon, FileIcon, FileRow, FilteredDeliverablesTail },
+      __internals: { rulesStore, hiddenReason, relPath, isHidden, groupFiles, summaryKey, parseLines, normalizeIncoming, dedupePresented, getFileIcon, FileIcon, FileRow, FilteredDeliverablesTail },
     };
   },
 });

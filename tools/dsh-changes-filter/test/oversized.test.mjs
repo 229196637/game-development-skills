@@ -65,7 +65,7 @@ function oversizedItem() {
       oversized: true,
       binary: true,
     },
-    relative: 'Runtime/AnotherLabel.lua', hidden: true, added: 2, deleted: 1,
+    relative: 'Runtime/AnotherLabel.lua', hidden: true, hiddenReason: 'manual', added: 2, deleted: 1,
   };
 }
 
@@ -91,7 +91,7 @@ test('oversized FileRow keeps icon/name/tags but exposes only an independent cur
   assert.equal(mainLine.props.children[0], icon, 'main display line starts with the icon');
   assert.notEqual(mainLine.type, 'button', 'main display line is not a review button');
   assert.equal(mainLine.props.onClick, undefined, 'main display line has no historical click action');
-  for (const label of [item.file.display, 'hidden.tag', 'binary.tag', 'oversized.tag']) {
+  for (const label of [item.file.display, 'hidden.manual.tag', 'binary.tag', 'oversized.tag']) {
     assert.ok(text(mainLine).includes(label), `${label} remains on the main display line`);
   }
 
