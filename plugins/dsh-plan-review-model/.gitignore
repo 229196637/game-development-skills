@@ -1,0 +1,23 @@
+# Dependencies and package-manager caches
+node_modules/
+.pnpm-store/
+.npm/
+
+# Local configuration and credentials
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+.npmrc
+
+# Logs, temporary files and generated test output
+*.log
+*.tmp
+*.bak
+coverage/
+.nyc_output/
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

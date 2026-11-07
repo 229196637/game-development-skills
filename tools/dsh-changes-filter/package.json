@@ -1,0 +1,41 @@
+{
+  "name": "dsh-changes-filter",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Filter and group the per-turn changed-files card by folder prefix and file extension.",
+  "exports": {
+    ".": "./index.js",
+    "./client": "./client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "index.js",
+    "client.js",
+    "lib",
+    "locale",
+    "icon.svg",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-deliverables"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "react": "^18"
+  },
+  "engines": {
+    "node": ">=22.13.0"
+  }
+}

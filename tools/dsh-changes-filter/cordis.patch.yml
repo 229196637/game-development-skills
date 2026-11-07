@@ -1,0 +1,7 @@
+# Loader row for dsh-changes-filter.
+#
+# The row id is deliberately different from the package name: a row whose id
+# equals the package name shows the same string twice on the plugin card.
+- insert:
+    - id: changes-filter
+      name: 'dsh-changes-filter'

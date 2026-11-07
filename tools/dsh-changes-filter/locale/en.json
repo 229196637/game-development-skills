@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Changed Files Filter",
+    "description": "Filters this turn's changed files by folder prefix and extension, then groups the rest by directory."
+  }
+}
