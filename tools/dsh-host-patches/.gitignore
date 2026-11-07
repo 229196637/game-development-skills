@@ -1,0 +1,6 @@
+**/.artifacts/
+node_modules/
+*.asar
+*.asar.*
+*.tgz
+backup/
