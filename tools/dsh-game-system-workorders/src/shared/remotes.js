@@ -21,5 +21,5 @@ export function createDescriptors() {
     return value;
   });
   const make = (method, parameters) => ({ id: `${owner}#gameWorkorders/${method}`, service: 'gameWorkorders', namespace: 'gameWorkorders', method, invocation: { kind: 'direct' }, parameters: [agent, ...parameters], cancellation: { parameter: 'signal' }, result });
-  return [make('discover', [json('options', options)]), make('snapshot', [json('root', string)]), make('document', [json('root', string), json('file', string)])];
+  return [make('discover', [json('options', options)]), make('snapshot', [json('root', string)]), make('document', [json('root', string), json('file', string)]), make('evidence', [json('root', string), json('taskId', string)]), make('resolveEvidence', [json('root', string), json('taskId', string), json('evidenceId', string)])];
 }

@@ -20,7 +20,9 @@
 
 claim 只接受首个 ready ID，省略 ID 就领取首项，不能跨越入口同批优先级。owner 使用稳定标识；除原 reopen 规则外，写操作必须是当前持有人且状态 doing。set-item pending、block/release/reopen 都追加 not-run 失效记录，保留原证据。更新规划需先 release，不在执行中偷改验收条件。
 
-run-test 真实运行参数列表并生成独立报告/日志；record-test 只登记已有真实报告，报告须在工单根和正式文档目录之外。record-acceptance 单独登记逐项观察，不拿测试通过替代验收。
+并行是允许的：就绪判定是「todo、无领取人、前置全 completed」，同一时刻可以有多项就绪；不同执行者以各自 `--owner` 依次 claim 会拿到不同工单，从而同时推进。工具写入仍串行（`.execution.lock`），claim 每次只发第一个就绪项，不能越过未完成前置；锁只防工具操作冲突，不替代源码并行修改的协调——并发开工前应先划分各自改动的文件范围。
+
+run-test 真实运行参数列表并生成独立报告/日志；record-test 只登记已有真实报告，报告须在工单根和正式文档目录之外。record-acceptance 单独登记逐项观察，不拿测试通过替代验收。`--evidence` 保持自由单行文字，可含多个标准 Markdown 图片/视频/报告链接；详细操作集中在 [多媒体验收证据](workflows/verification.md#多媒体验收证据)。测试七列、验收五列、工单八 key schema 和现有 `--report` 绝对路径记录不变；只读 UI 预览不走模型、不产生 passed 或绕过 owner、依赖、最新记录与完成门禁。
 
 complete 要求持有人、doing、前置 completed、全工作项勾选、每项必需测试与验收的最后追加记录 passed、最新测试报告存在，才写 completed 并移除领取；“最新”按追加顺序而非时间。新 dashboard 对已有 completed 同样检查这些完成事实中的格式/依赖/工作项/测试/验收/报告门禁；不从 completed 状态倒推曾经实际执行或具有充分覆盖。
 

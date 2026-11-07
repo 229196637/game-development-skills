@@ -12,7 +12,7 @@
 | `planning_tool.py order --root <任务根> [--id <ID> ...]` | 写入完整依赖顺序 | order |
 | `planning_tool.py init/update/relocate --root ...` | 建立、修订或迁移规划工单 | 见 [参数说明](tooling.md) |
 
-统一输出 `{ok:true,result:...}`；约束/文件错误为 `{ok:false,error:...}`，退出码 1；参数错误退出码 2。dashboard 允许合法空 TODO，其他命令契约不变。
+统一输出 `{ok:true,result:...}`；约束/文件错误为 `{ok:false,error:...}`，退出码 1；参数错误退出码 2。dashboard 允许合法空 TODO，其他命令契约不变。`ready` 是所有「todo、无领取人、前置全 completed」的工单 id，可能同时有多项，表示可并行领取而不是「只该做一个」；`next` 只是入口顺序上的第一个。证据仍为原字符串，可含多个标准 Markdown 图片/视频/报告链接；路径与记录约定见 [多媒体验收证据](../../game-system-development-execution/references/workflows/verification.md#多媒体验收证据)，不扩展返回 schema。
 
 ## 共享 Python API
 

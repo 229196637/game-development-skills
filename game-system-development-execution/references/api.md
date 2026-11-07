@@ -13,6 +13,8 @@
 
 统一输出 `{ok:true,result:...}`；错误 `{ok:false,error:...}`。退出码 0 成功、1 约束/实际测试失败、2 参数错误；run-test 测试失败仍返回其真实 result 和报告。
 
+`record-acceptance --evidence <单行文字>` 可含多个标准 Markdown 图片/视频/报告链接；不改现有 `--report` 绝对路径记录或返回 schema。相对链接基准、产物与例子见 [多媒体验收证据](workflows/verification.md#多媒体验收证据)。
+
 ## scripts/execution_tool.py
 
 ```python

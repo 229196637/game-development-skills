@@ -1,5 +1,6 @@
 import path from 'node:path';
 import { WorkorderOperations } from './operations.js';
+import { fileAddressFor } from '@deepseek-ai/dsh-util-workspace-path';
 
 export function createOperations(ctx, config = {}) {
   return new WorkorderOperations({
@@ -18,6 +19,7 @@ export function createOperations(ctx, config = {}) {
       const python = await subprocess.resolveExecutable(config.python || 'python', undefined, signal);
       return {
         fs, cwd,
+        fileAddress: target => fileAddressFor(agent.sessionId, cwd, fs.processPath(target)),
         async dashboard(root, parentSignal) {
           const timeout = new AbortController();
           const timer = setTimeout(() => timeout.abort(new Error('工单查询超过 30 秒，请缩小任务范围。')), 30000);

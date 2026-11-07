@@ -10,6 +10,7 @@ async function harness() {
   let installed;
   const query = input => new Promise(resolve => pending.push({ input, resolve(data) { resolve({ ok: true, value: data }); } }));
   const context = {
+    providers: {},
     window: { __ModuleLoader__: { load(module) {
       const plugin = module.factory(() => ({ createElement() {}, useState(value) { return [value, () => {}]; }, useEffect() {} }));
       installed = plugin.apply({
@@ -17,7 +18,7 @@ async function harness() {
         effect(effect) { effect(); },
         on(name, callback) { listeners.set(name, callback); },
         slots: { inject() {} },
-        get(key) { assert.equal(key, 'remote.gameWorkorders'); return this.remote.gameWorkorders; },
+        get(key) { return key === 'remote.gameWorkorders' ? this.remote.gameWorkorders : this.providers[key]; },
         remote: {
           async $mount() {},
           gameWorkorders: {

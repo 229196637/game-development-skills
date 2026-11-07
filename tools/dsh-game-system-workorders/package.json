@@ -1,13 +1,46 @@
 {
   "name": "@local/dsh-game-system-workorders",
-  "version": "0.1.4",
-  "engines": { "dsh": "0.2.1-rc.4" },
-  "dependencies": { "@deepseek-ai/dsh-typert-protocol": "0.2.1-rc.4", "@deepseek-ai/cordis": "4.0.5" },
+  "version": "0.6.1",
+  "engines": {
+    "dsh": "0.2.1-rc.4"
+  },
+  "dependencies": {
+    "@deepseek-ai/cordis": "4.0.5",
+    "@deepseek-ai/dsh-typert-protocol": "0.2.1-rc.4",
+    "@deepseek-ai/dsh-util-workspace-path": "0.2.1-rc.4",
+    "markdown-it": "14.1.0"
+  },
   "private": true,
   "type": "module",
   "description": "Game-system workorders, progress and planning/execution commands inside DSH.",
-  "exports": { ".": "./dist/host/index.js", "./client": "./dist/client.js", "./locale/*.json": "./locale/*.json", "./icon": "./icon.svg" },
-  "files": ["dist", "cordis.patch.yml", "locale/*.json", "icon.svg", "README.md"],
-  "scripts": { "build": "node scripts/build.mjs", "test": "node --test tests/*.test.mjs" },
-  "dsh": { "bundle": { "patch": "./cordis.patch.yml" }, "client": { "platform": "web", "immediately": true, "inject": ["@deepseek-ai/dsh-client-ui-conversation", "@deepseek-ai/dsh-api-remotes"] } }
+  "exports": {
+    ".": "./dist/host/index.js",
+    "./client": "./dist/client.js",
+    "./locale/*.json": "./locale/*.json",
+    "./icon": "./icon.svg"
+  },
+  "files": [
+    "dist",
+    "cordis.patch.yml",
+    "locale/*.json",
+    "icon.svg",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "immediately": true,
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-api-remotes"
+      ]
+    }
+  }
 }

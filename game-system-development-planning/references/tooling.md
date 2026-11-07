@@ -43,4 +43,6 @@ update 重建具体内容，保留测试/验收历史并追加 not-run 失效记
 
 dashboard 只读输出 schemaVersion=1 的完整 JSON 快照：任务/工作项进度、状态计数、按 TODO 顺序的工单、ready/next、最新测试/验收及历史、报告存在性和依赖。consistency.stable=false 为“更新中”（锁存在或输入变化），最多三轮有限重试；不创建/抢占锁、不写 README，坏 completed 整次失败。简洁调用/函数签名见 [API 速查](api.md)，完整字段与一致性边界见 [职责说明](responsibilities.md)。list/check 返回契约不变。
 
+规划验收条件时按验证对象选择证据，不预填实际通过结果；截图、视频、数值/日志与存放/链接规则见执行侧 [多媒体验收证据](../../game-system-development-execution/references/workflows/verification.md#多媒体验收证据)。dashboard 仅只读展示已有证据，不走模型，预览不证明验收通过。
+
 每级 README 导航自动区保留手写部分。操作仅在显式任务根内，类文档只读，JSON 输出，0 成功/1 约束错误/2 参数错误；格式通过不证明业务合理或测试已执行。

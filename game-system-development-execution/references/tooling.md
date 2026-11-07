@@ -21,7 +21,7 @@ cd "$project_root" || exit 1
 python3 -B "$skill_root/scripts/execution_tool.py" --help
 ~~~
 
-后续示例的 `$m_tool` 均指此绝对脚本路径。`--root`、目标文档、`--cwd`、`--report-root` 等参数优先用项目根构造的绝对路径；相对参数按进程工作目录解析，而不是脚本目录。缺依赖先报告，不自动安装。工具启动或结构检查通过不等于业务验收通过。
+后续示例的 `$m_tool` 均指此绝对脚本路径。`--root`、目标文档、`--cwd`、`--report-root` 等参数优先用项目根构造的绝对路径；相对参数按进程工作目录解析，而不是脚本目录。`--evidence` 内新证据链接不属于 CLI 路径参数，其相对基准见 [多媒体验收证据](workflows/verification.md#多媒体验收证据)。缺依赖先报告，不自动安装。工具启动或结构检查通过不等于业务验收通过。
 
 `scripts/execution_tool.py` 依赖相邻规划技能的 task_store.py，读取任务入口 TODO 后操作原类工单，无第二份状态清单。领取记录为工单正文中的短 HTML 注释（领取人/时间），不增加系统文档 meta。任务根 `.execution.lock` 防止两个脚本同时领取或记录；测试期间持锁。遗留锁需先确认进程已退出再清理，不自动抢占。
 

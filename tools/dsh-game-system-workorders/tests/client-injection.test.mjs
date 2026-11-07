@@ -57,7 +57,7 @@ test('production Client reads dynamically mounted queries under the real depende
       const response = await sandbox.testApi.command(store, 'game-tickets', { action, ...(action === 'discover' ? {} : { root: 'root', ...(action === 'document' ? { file: 'file' } : {}) }) });
       assert.equal(response.data.action, action);
     }
-    assert.deepEqual(JSON.parse(JSON.stringify(calls)), [['discover', 'session-test', {}], ['snapshot', 'session-test', 'root'], ['document', 'session-test', 'root', 'file']]);
+    assert.deepEqual(JSON.parse(JSON.stringify(calls)), [['discover', 'session-test', {}, null], ['snapshot', 'session-test', 'root', null], ['document', 'session-test', 'root', 'file', null]]);
     await queryProvider.dispose();
     await assert.rejects(sandbox.testApi.command(store, 'game-tickets', { action: 'discover' }), /queryUnavailable/);
     assert.equal(calls.length, 3, 'An unavailable query provider must not fall back to command history or model execution');

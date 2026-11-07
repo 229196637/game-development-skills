@@ -1,4 +1,6 @@
 import path from 'node:path';
+import { collectEvidence } from './evidence.js';
+import { createDiscoverCache, createSnapshotCache } from './cache.js';
 
 const SKIP = new Set(['node_modules', '.git', '.dsh', '.codex', '.agents', 'Library', 'Temp', 'obj', 'bin', 'dist', 'build', 'target', 'coverage', 'vendor', 'dsh-game-system-workorders', 'dsh-game-system-workorders-backup']);
 const MAX_DIRECTORIES = 1500;
@@ -16,6 +18,8 @@ export class WorkorderOperations {
   constructor(deps) {
     this.deps = deps;
     this.activeStarts = new Map();
+    this.snapshots = deps.snapshotCache || createSnapshotCache(deps.cache);
+    this.discoveries = deps.discoverCache || createDiscoverCache(deps.cache);
   }
 
   async discover(agent, options = {}, signal) {
@@ -23,7 +27,9 @@ export class WorkorderOperations {
     const base = await fs.resolve(cwd, { signal });
     const start = options.directory ? await fs.resolve(options.directory, { cwd, signal }) : base;
     if (!fs.contains(base, start)) throw new Error('扫描目录必须位于当前会话工作目录内。');
-    const startParts = fs.processPath(start).split(/[\\/]+/);
+    const key = this.discoveries.keyOf(fs.processPath(base), fs.processPath(start), Boolean(options.includeCompleted));
+    const scan = async () => {
+      const startParts = fs.processPath(start).split(/[\\/]+/);
     const inPlanning = startParts.some((part, index) => part === 'docs' && startParts[index + 1] === '规划');
     const queue = [{ target: start, depth: 0, planning: inPlanning }];
     const visited = new Set();
@@ -84,7 +90,10 @@ export class WorkorderOperations {
       return bt - at || a.root.localeCompare(b.root);
     });
     const query = String(options.query || '').trim().toLowerCase();
-    return { schemaVersion: 1, cwd, tasks: tasks.filter(task => !query || `${task.name} ${task.project}`.toLowerCase().includes(query)), issues, partial, scanned: { directories, entries: entriesRead, candidates: candidates.length }, limits: { directories: MAX_DIRECTORIES, entries: MAX_ENTRIES, tasks: MAX_TASKS, depth: 6 }, readAt: new Date().toISOString() };
+      return { schemaVersion: 1, cwd, tasks: tasks.filter(task => !query || `${task.name} ${task.project}`.toLowerCase().includes(query)), issues, partial, scanned: { directories, entries: entriesRead, candidates: candidates.length }, limits: { directories: MAX_DIRECTORIES, entries: MAX_ENTRIES, tasks: MAX_TASKS, depth: 6 }, readAt: new Date().toISOString() };
+    };
+    const result = await this.discoveries.run(key, scan, { fresh: options.fresh === true });
+    return { ...result.value, cached: result.cached };
   }
 
   async target(agent, input, signal) {
@@ -103,15 +112,27 @@ export class WorkorderOperations {
     return { ...env, root, readme: path.join(root, 'README.md') };
   }
 
+  /**
+   * Serve a snapshot from the memory cache when no dependency file changed.
+   * `fresh` forces the underlying read and is required before any execution gate.
+   */
+  async dashboardCached(target, signal, options = {}) {
+    // The entry must fingerprint the whole read set, README included, or an edit
+    // to the task entry would not invalidate a cached snapshot.
+    const produce = async () => ({ ...(await target.dashboard(target.root, signal)), root: target.root, readme: target.readme, readAt: new Date().toISOString() });
+    const result = await this.snapshots.run(target.root, target.fs, produce, signal, options);
+    return { ...result.value, cached: result.cached, servedAt: new Date().toISOString() };
+  }
+
   async snapshot(agent, root, signal) {
     const target = await this.target(agent, root, signal);
-    const snapshot = await target.dashboard(target.root, signal);
-    return { ...snapshot, root: target.root, readme: target.readme, readAt: new Date().toISOString() };
+    const snapshot = await this.dashboardCached(target, signal);
+    return { ...snapshot, root: target.root, readme: target.readme };
   }
 
   async document(agent, root, file, signal) {
     const target = await this.target(agent, root, signal);
-    const snapshot = await target.dashboard(target.root, signal);
+    const snapshot = await this.dashboardCached(target, signal);
     const allowed = [target.readme, ...(snapshot.tasks || []).flatMap(task => [task.file, task.document]).filter(Boolean).map(item => path.resolve(target.root, item))];
     const resolved = await target.fs.resolve(file, { cwd: target.root, signal });
     const actual = target.fs.processPath(resolved);
@@ -121,6 +142,26 @@ export class WorkorderOperations {
     if (!info || info.type !== 'file') throw new Error('文档不存在或不是普通文件。');
     if ((info.size || 0) > 256 * 1024) throw new Error('文档超过 256 KiB，请通过原文路径查看。');
     return { file: actual, content: await target.fs.readText(resolved, signal) };
+  }
+
+  async evidence(agent, root, taskId, signal) {
+    return collectEvidence(await this.target(agent, root, signal), taskId, signal);
+  }
+
+  async resolveEvidence(agent, root, taskId, evidenceId, signal) {
+    const target = await this.target(agent, root, signal);
+    const evidence = await collectEvidence(target, taskId, signal);
+    const item = evidence.items.find(candidate => candidate.id === evidenceId);
+    if (!item) throw new Error('证据已变更或不属于当前工单，请刷新。');
+    if (!item.exists) throw new Error(item.reason || '证据文件不可用。');
+    // Never accept a client path: this path came from freshly regenerated record evidence.
+    const resolved = await target.fs.resolve(item.path, { signal });
+    const base = await target.fs.resolve(target.cwd, { signal });
+    if (!target.fs.contains(base, resolved) || target.fs.processPath(resolved) !== item.path) throw new Error('证据路径已失效，请刷新。');
+    const info = await target.fs.stat(resolved, signal);
+    if (!info || info.type !== 'file') throw new Error('证据文件已失效。');
+    await target.fs.readByteRange(resolved, { offset: 0, length: 1 }, signal);
+    return { ...item, ...(target.fileAddress ? { address: target.fileAddress(resolved) } : {}) };
   }
 
   async start(agent, action, input, requestId, signal) {
@@ -142,7 +183,8 @@ export class WorkorderOperations {
     let root;
     if (action === 'execute') {
       const target = await this.target(agent, text, signal);
-      const snapshot = await target.dashboard(target.root, signal);
+      // The gate must read reality now, never a cached snapshot.
+      const snapshot = await this.dashboardCached(target, signal, { fresh: true });
       // Completed class tickets can still require task-level integration or merge closeout.
       if (!snapshot.consistency?.stable && snapshot.consistency) throw new Error('工单正在更新，请刷新后再确认执行。');
       root = target.root;
