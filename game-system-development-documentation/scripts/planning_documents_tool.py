@@ -10,6 +10,7 @@ from collections import deque
 from pathlib import Path
 from module_layout import validate_layout, validate_class_diagrams
 from urllib.parse import unquote
+from api_markdown import API_NAME, LEGACY_NAME, is_api_ref, validate_api
 SCHEMAS = {'skill': ['name', 'description'], 'planning': ['id', 'kind', 'system', 'title', 'status', 'updated', 'sources', 'links', 'code_revision']}
 SIDES = {'client', 'server', 'shared'}
 def output(value):
@@ -89,35 +90,14 @@ def check(args):
             continue
         validate_layout(file, fail)
         in_api = 'api' in file.parts and 'references' not in file.parts
-        if in_api and file.name != 'README.md' and file.suffix.lower() in {'.md', '.json', '.yaml', '.yml'}:
-            fail(file, 'API_DIRECTORY', 'API directory contains a non-declaration file')
-            continue
-        if in_api and re.search('\\.api\\.(cs|d\\.ts|pyi)$', file.name):
-            count += 1
-            text = file.read_text(encoding='utf-8-sig')
-            relative = file.parts[file.parts.index('api') + 1:]
-            if len(relative) < 2 or relative[0] not in SIDES:
-                fail(file, 'API_SIDE', 'expected <module>/api/client|server|shared/file')
-            for field in ['System', 'Side', 'Language', 'Source', 'CodeRevision', 'Status', 'Updated', 'Verification']:
-                if not re.search('(?m)^\\s*(?://|#)\\s*' + field + ':\\s*\\S', text):
-                    fail(file, 'API_HEADER', 'missing header: ' + field)
-            updated_header = re.search(r'(?m)^\s*(?://|#)\s*Updated:\s*(.+)$', text)
-            if updated_header and not valid_updated(updated_header[1].strip()):
-                fail(file, 'API_UPDATED_TIME', 'Updated requires YYYY-MM-DD HH:mm:ss +/-HH:MM')
-            side = re.search('(?m)^\\s*(?://|#)\\s*Side:\\s*(\\w+)', text)
-            if side and relative and (side[1] != relative[0]):
-                fail(file, 'API_SIDE', 'header Side differs from directory')
-            status = re.search('(?m)^\\s*(?://|#)\\s*Status:\\s*(\\w+)', text)
-            if status and status[1] not in {'planned', 'mixed', 'implemented'}:
-                fail(file, 'API_STATUS', 'invalid declaration status')
-            if status and '文档' in file.parts and '设计' not in file.parts and (status[1] != 'implemented'):
-                fail(file, 'API_HANDOFF', 'unfinished declaration placed in formal docs')
-            if file.suffix == '.cs':
-                code = re.sub('(?m)^\\s*//.*$', '', text)
-                if re.search('\\bpublic\\s+(?:static\\s+|readonly\\s+)*[\\w<>\\[\\]?]+\\s+\\w+\\s*(?:;|=|\\{\\s*(?:get|set))', code):
-                    fail(file, 'API_MEMBER', 'field/property found in public-function declaration')
-                if re.search('\\bpublic\\s+[^;{}\\n]+\\([^;{}]*\\)\\s*\\{', code):
-                    fail(file, 'API_BODY', 'implementation body found')
+        if in_api and file.name != 'README.md':
+            if LEGACY_NAME.fullmatch(file.name):
+                fail(file, 'API_LEGACY', 'migrate document declaration to <type>.cs|ts|py.api.md; production/SDK sources must not be migrated')
+            elif API_NAME.fullmatch(file.name):
+                count += 1
+                validate_api(file, file.read_text(encoding='utf-8-sig'), fail, yaml_meta, valid_updated, link, args.project_root)
+            else:
+                fail(file, 'API_DIRECTORY', 'API directory accepts README.md and <type>.cs|ts|py.api.md only')
             continue
         if file.suffix.lower() != '.md':
             continue
@@ -217,8 +197,8 @@ def check(args):
                 fail(file, 'API_SECTION', 'type document requires ## API')
             elif not re.search('无公开函数|待补齐', api_section[1]):
                 refs = re.findall(r'\[[^\]]+\]\(([^)]+)\)', api_section[1])
-                if not refs or any('api' not in Path(ref.split('#')[0]).parts or Path(ref.split('#')[0]).suffix.lower() in {'.md', '.json', '.yaml', '.yml'} for ref in refs):
-                    fail(file, 'API_CODE', 'API section must directly link original-language declarations under api/')
+                if not refs or any(not is_api_ref(ref) for ref in refs):
+                    fail(file, 'API_CODE', 'API section must directly link language-fenced API Markdown under api/')
         if kind != 'skill' and 'roles' in meta:
             roles = meta['roles']
             if not isinstance(roles, list) or not roles or any(not isinstance(r, str) or r not in {'dispatcher', 'executor', 'tool', 'data'} for r in roles):
@@ -303,8 +283,8 @@ def check(args):
                     if any(Path(ref.split('#')[0]).suffix.lower() != '.md' for ref in doc_refs):
                         fail(file, 'CLASS_DOCUMENT', 'class document link must point to Markdown')
                     api_refs = re.findall(r'\[[^\]]+\]\(([^)]+)\)', item['API'])
-                    if any('api' not in Path(ref.split('#')[0]).parts or Path(ref.split('#')[0]).suffix.lower() in {'.md', '.json', '.yaml', '.yml'} for ref in api_refs):
-                        fail(file, 'CLASS_API', 'API must directly link a language declaration under api/')
+                    if any(not is_api_ref(ref) for ref in api_refs):
+                        fail(file, 'CLASS_API', 'API must directly link <type>.cs|ts|py.api.md under api/')
                     if not re.search(r'\[[^\]]+\]\([^)]+\)', item['文档']):
                         fail(file, 'CLASS_DOCUMENT', 'class entry must link its Markdown document')
                     if item['API'] not in {'无公开函数', '待补齐'} and not re.search(r'\[[^\]]+\]\([^)]+\)', item['API']):
@@ -340,7 +320,7 @@ def main():
  args.kind='planning'
  try:
   if args.command=='rules':
-   output({'kind':args.kind,'required_meta':SCHEMAS[args.kind],'read_only':True,'optional_dispatcher_meta':['roles','dispatcher','design_patterns']})
+   output({'kind':args.kind,'required_meta':SCHEMAS[args.kind],'read_only':True,'api_format':'<type>.cs|ts|py.api.md; API-specific YAML and language fence; Responsibility heading link','optional_dispatcher_meta':['roles','dispatcher','design_patterns']})
    return 0
   if args.command=='check':return check(args)
   raise ValueError('unsupported command')

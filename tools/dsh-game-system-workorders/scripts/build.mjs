@@ -1,0 +1,10 @@
+import { cp, mkdir, writeFile } from 'node:fs/promises';
+import { clientSource } from './client-source.mjs';
+import { fileURLToPath } from 'node:url';
+import path from 'node:path';
+const root = fileURLToPath(new URL('../', import.meta.url));
+await mkdir(path.join(root, 'dist'), { recursive: true });
+await cp(path.join(root, 'src', 'host'), path.join(root, 'dist', 'host'), { recursive: true });
+await cp(path.join(root, 'src', 'shared'), path.join(root, 'dist', 'shared'), { recursive: true });
+await writeFile(path.join(root, 'dist', 'client.js'), await clientSource(), 'utf8');
+console.log('Built Host modules and native Client factory. No build dependencies or install scripts.');

@@ -16,7 +16,7 @@ docs/文档/<模块>/设计/<任务>/
     README.md
     client|server|shared/
       README.md
-      <Class>.<原语言声明扩展名>
+      <Class>.<cs|ts|py>.api.md
 ~~~
 
 多模块任务分别写在各实际模块的设计目录，并相互链接，每级有 README；API 在模块内按端组织，职责 MD 链接唯一声明，不复制签名。UI/配置/网络等必要专题保存在所属模块并由 README/职责说明导航，不创建空专题。
@@ -29,7 +29,7 @@ docs/文档/<模块>/设计/<任务>/
 
 先按 [目录架构与脚本位置](../workflows/script-layout.md) 决定代码路径和装配归属，再定职责和接口，随后画真实或明确拟定的流水线与跨调度跳转。已有能力足够就复用，未确认重写不提前替代。
 
-模板由文档技能维护：[任务 README](../../assets/templates/planning-task.md)、[类说明](../../assets/templates/planning-class.md)、[目录摘要](../../assets/templates/planning-directory-readme.md)、[UI](../../assets/templates/planning-ui.md)；API 用本技能原语言模板。设计态 API 头标 planned/mixed，实现核对后经同一能力移交正式位置，不留双份。
+模板由文档技能维护：[任务 README](../../assets/templates/planning-task.md)、[类说明](../../assets/templates/planning-class.md)、[目录摘要](../../assets/templates/planning-directory-readme.md)、[UI](../../assets/templates/planning-ui.md)；API 用本技能 Markdown 模板。设计态 API 头标 planned/mixed，实现核对后经同一能力移交正式位置，不留双份。
 
 文档就绪后，规划按模块依赖生成逐类执行工单；文档技能不写或排序 TODO，不覆盖既有工作项。已实现补录或更新也可独立调用文档技能。
 

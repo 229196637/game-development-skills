@@ -19,7 +19,7 @@ dependencies: []
 ## 文档层级
 
 ```text
-<文档 README、职责 MD、api/client|server|shared/模块 原语言声明>
+<文档 README、职责 MD、api/client|server|shared/模块 语言围栏 API Markdown>
 ```
 
 ## 脚本与文档映射

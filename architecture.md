@@ -75,7 +75,7 @@ flowchart TD
 
 | 技能 | 操作范围 | 必需依赖 |
 | --- | --- | --- |
-| [文档](game-system-development-documentation/SKILL.md) | 研究代码/需求，按 SDK 风格增删改系统文档和原语言公开函数 API | 可独立安装使用 |
+| [文档](game-system-development-documentation/SKILL.md) | 研究代码/需求，按 SDK 风格增删改系统文档和Markdown 公开函数 API（原语言签名） | 可独立安装使用 |
 | [规划](game-system-development-planning/SKILL.md) | 先完成文档，填写具体目标/改动/工作项/标准，按依赖生成入口 TODO | 相邻文档技能 |
 | [执行](game-system-development-execution/SKILL.md) | 按 TODO 领取与恢复任务，读取对应 MD，实现、真实测试/报告、验收、完成 | 相邻规划技能的 task_store.py；文档技能用于同步 |
 | [风格讨论](game-art-style-discussion/SKILL.md) | 讨论候选、保存参考图、记录用户定稿；只读检查交付入口 | 生图时使用现有 imagegen；与美术技能相邻 |
@@ -89,9 +89,11 @@ flowchart TD
 game-system-development-documentation/   # 原文档能力保持
   scripts/documentation_tool.py
   scripts/planning_documents_tool.py
+  scripts/api_markdown.py                 # API Markdown 解析与校验
+  scripts/migrate_api_documents.py         # 默认 dry-run，显式 --apply 迁移旧文档声明
 game-system-development-planning/
   scripts/task_store.py                  # 无命令入口，共享格式/原子写/路径/依赖校验
-  scripts/planning_tool.py               # init/update/relocate/order/check/list/rules
+  scripts/planning_tool.py               # init/update/relocate/order/check/list/dashboard/rules
 game-system-development-execution/
   scripts/execution_tool.py              # next/show/claim/set-item/run-test/record-test/
                                         # record-acceptance/block/release/reopen/complete
@@ -110,6 +112,16 @@ game-system-development-execution/
 文档/规划/报告由 docs 独立 Git 维护；项目代码属于项目 Git。执行技能本身不授权推送生产代码或发布。旧规划的执行命令已移除；旧任务入口先用 planning_tool.py order 补 TODO，不改变类状态和历史。
 
 拆分前版本备份标签：`backup/before-execution-skill-20261014`，指向此前已交付提交 `4c3557412d7ebc4377380fa378ccf41087ddd185`；个人已安装版本另有本地完整备份。
+
+## API 与职责文档
+
+API 使用 `<类型>.cs.api.md` / `.ts.api.md` / `.py.api.md`，原语言公开签名放代码块，仅保留用途、必要参数返回、关键约束与职责章节链接；完整接入、流程、生命周期和失败处理在职责文档，不重复维护详细契约。planned/mixed 留设计目录，核对实现后才移正式位置。迁移器默认只预览，指定文档根并显式 `--apply` 才改引用、验证并删除旧声明；不动生产源码与 SDK。
+
+## DSH 原生工单界面
+
+[DSH 游戏开发工单](tools/dsh-game-system-workorders/README.md) 注册原生会话视图、composer 临时卡片及命令展示。只读静态 Remote 与 `game_workorders` 工具复用 Host operations，快照由规划 `dashboard` 单一格式生成；不另存任务状态，不绕 owner/锁/依赖/测试验收门禁。界面发现、读取和轮询不进入模型队列、不持续追加命令历史；显式规划/执行由用户确认后通过原生 prompt admission 在当前会话 queue。
+
+插件按匹配的 DSH 协议版本构建和归档安装。源码、测试与锁文件在 tools 版本控制，依赖/缓存/dist/tgz 不提交；三技能安装仍保持相邻。插件只读查询测试与技能回归在独立临时 fixtures 中执行，不能将挂载成功当作真实浏览器交互验收。
 
 ## 只读可视化工具
 

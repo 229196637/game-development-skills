@@ -33,4 +33,4 @@ roles: [<dispatcher/executor/tool/data>]
 
 ## API
 
-<链接同任务 planned/mixed 原语言公开函数声明或正式已有声明；无公开函数/待补齐据实说明，不以 MD 代替代码 API。>
+<链接同任务 planned/mixed 语言围栏 API Markdown或正式已有声明；无公开函数/待补齐据实说明，使用 <类型>.<cs|ts|py>.api.md。>

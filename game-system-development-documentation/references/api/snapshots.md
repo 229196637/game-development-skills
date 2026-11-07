@@ -1,55 +1,60 @@
 ---
 name: api-snapshots
-description: 查阅和同步按实际语言编写的公开函数 API、契约注释及代码版本。
+description: 查阅和同步语言围栏 API Markdown、职责契约及代码版本。
 metadata:
   kind: skill-reference
-  schema-version: "3"
+  schema-version: "4"
 ---
 # 查阅 API
-先查对应系统 Markdown 的 API 文件映射，按 client/server/shared 打开原语言声明。shared 是客户端与服务端真实共享接口。已有 API 足以回答且没有过期或冲突证据时直接使用，不扫描源码；缺失或不一致时只查看相关源码。同步修改时必须根据此次实现差异核对，不能以旧 API 充当最新实现证据。
-
-# 规划与开发共用的 API
-规划阶段只在 docs/文档/<模块>/设计/<任务>/api/<端>/ 生成拟定公开函数声明，开发阶段完善该文件；文件头 Status 为 planned、mixed 或 implemented。mixed 文件在每个函数注释分别标明拟定/已实现，已实现函数拟改签名时注明改动尚未实现，不能将提案当当前调用契约。
-规划时 Source 标明拟定路径尚未实现；CodeRevision 是设计所参考的代码基线，Verification 注明契约设计未实现验证。参数约束、异常等标为拟定，不宣称已有运行行为。开发阶段根据真实实现逐步补齐签名与注释、来源和版本、Markdown 映射以及关系说明。只有核对实际实现后才转为 implemented，测试结果单独记录。
-查阅 API 时检查状态；planned 可用于设计，不能作为当前可调用接口；接口存在且已实现能回答时无需扫描源码。
+先从系统职责 MD 的 API 映射打开对应 `<类型>.<语言>.api.md`。client/server/shared 仍按真实归属区分，shared 只表示两端真实共享。已有 API 足以回答且无过期或冲突证据时直接使用，不扫描源码；缺失或不一致时只查相关实现。同步本次修改必须依据真实实现，不能以旧声明冒充最新证据。
 
 # 文件与目录
-参照项目已有 docs/api 的声明风格：真实 namespace/package/module → 必要类型外壳 → 公开函数注释及签名。C# 只是其中一种语言，不限定项目技术。
-已实现并核对的正式文件放 docs/文档/<模块>/api/client/、server/ 或 shared/；规划期文件先存于 docs/文档/<模块>/设计/<任务>/api/ 的同样端/模块结构。每个模块内按实际类型或模块分声明文件，每级目录提供用途和直接入口摘要 README.md；除此不产生额外清单、Markdown/索引或 YAML。README 不复制函数签名，也不替代声明文件。由单独系统 Markdown 直接映射查找。保留既有 SDK/API 资料。
-扩展名采用 .api.cs、.api.d.ts、.api.pyi 或原语言声明文件扩展名。没有独立声明形式的语言，也用原语言文件与签名表示，注明仅供查阅，可能并非完整可编译代码；不补造可执行实现、不改用 Markdown。
+正式 API 在 `docs/文档/<模块>/api/<端>/`；设计态在 `docs/文档/<模块>/设计/<任务>/api/<端>/`。C# 为 `<类型>.cs.api.md` 配 `csharp` fence，TS/JS 为 `<类型>.ts.api.md` 配 `typescript`，Python 为 `<类型>.py.api.md` 配 `python`。新增语言需先扩展共享规则与测试，不重新引入可编译文档文件。
 
-# 仅收录公开函数
-- 只收录外部公开可调用的函数/方法，包括静态、实例、异步、泛型、公开接口方法，每个重载分别保留。
-- 按语言与项目公开约定判断：C# 方法及其声明类型都须对外可见；TS/JS 按导出及方法访问性；Python 按明确导出或项目公共接口约定，不能只因名称不以下划线开头就当公开 API。接口隐式公开方法遵守语言语义。
-- 不收录 private/protected/internal、显式接口私有实现、未导出函数、局部函数。
-- 不收录字段、属性/访问器、事件、常量、枚举项、构造器、析构器、运算符等条目；公开工厂函数属于公开函数。
-- 类型仅作为归属外壳，不展开其他成员。继承关系可保留，但不复制父类方法；实际公开重写应收录。引用类型沿用真实名称。
-- 没有公开函数时不建空 API 文件，在系统 Markdown 说明。
+每份 API 仅保存简明用途、公开函数签名、必要参数/返回值说明、关键提醒和职责章节链接；具体操作示例、前置和成功语义、流程、架构、生命周期、资源所有权、内部协作及完整失败/取消细节归职责 MD 的相应章节。关键限制可在 API 一句提醒并链接，不复制整套说明，也不能删掉重要行为。README 只导航，不复制签名；API 目录除目录摘要和具体 API Markdown 外不创建其他清单/manifest。
 
-# 签名与契约注释
-保留实际名称、访问性、static、参数顺序/类型、默认值、可空性、泛型约束、ref/out/params、返回类型和重载。按端与条件编译核对，不能合并两端差异签名。
-使用原生文档注释解释用途、参数可空和输入约束、返回含义与空值、真实异常及调用顺序/生命周期。无参数/返回值不机械补注释；没有校验就不能宣称会校验。
-C# 用 XML 注释和分号声明；TS/JS 用 JSDoc 和 .d.ts；Python 用 .pyi 签名、文档字符串及省略号。不保存实现体，不补 throw 或空实现，不用 partial 接入生产源码。
+仅收外部公开函数/方法，保留真实命名空间/模块与必要类型壳，包含各重载、异步、静态、泛型与真实修饰符。C# 声明类型及方法必须可见，TS/JS 按导出/访问性，Python 按明确公共约定，不能只以无下划线判断公开。不收字段、属性、事件、常量、枚举项、构造器、析构器、运算符、非公开函数、未导出函数、局部函数及实现体。不复制父类方法；实际公开重写可收录。没有公开函数不建空 API，在职责 MD 据实说明。
 
-补录/更新 API 时对照方法体的实际检查、任务取消与调用链，而不只复制源码 XML；旧注释遗漏的已释放、前置未就绪、重复调用、取消及返回边界需据实现补齐。仅写有证据的异常，未知 SDK 异常不猜测；声明核对不能冒充运行验证。
+签名保留参数顺序/类型、默认值、可空性、泛型约束、ref/out/params、返回类型和重载，端与条件编译的差异不合并。C# 使用分号声明；TS 使用声明签名；Python 只允许 docstring 和 `...` 占位，不写 pass/return/throw 或空实现。必要注释可原生 XML/JSDoc/docstring，也可围栏外简短描述。详细契约由职责 MD 承担，不能只复印过时 XML 或推测未知 SDK 异常。
 
-# 顶部版本注释与同步
-API 文件顶部使用原语言注释，注明 System、Side（client/server/shared）、Language、Namespace/Module、Source（相对代码仓库根）、CodeRevision（真实提交或 working-tree，规划时注明设计基线）、Status（planned/mixed/implemented）、Updated（用户时区时间，格式 YYYY-MM-DD HH:mm:ss ±HH:MM）、Verification（签名/契约的静态核对范围与结果，不复制测试记录），以及“仅供文档查阅，不参与编译或发布”。
-有真实发布版本可额外写 Version；没有则不编造。函数独有版本变化有证据时可写入函数注释，不推测首次引入版本。
-每次系统修改同步：接口实现状态、公开函数签名、参数/返回/异常/调用约束注释、头部代码版本/日期/验证状态、系统 Markdown 映射与 meta。删除旧函数声明，改文件名时修复链接，更新受影响消费者的用法。只改日期不等于核对过新实现。
+# API 专用 YAML
+API Markdown 进入专用检查分支，不套系统六项 meta、架构图或普通职责文档模板。顶部字段（字符串）如下：
+
+~~~yaml
+---
+System: <模块>
+Side: client
+Language: C#
+Namespace/Module: <真实名称>
+Source: <相对代码仓库根；设计态拟定路径注明未实现>
+CodeRevision: working-tree
+Status: implemented
+Updated: '2026-11-07 11:34:19 +08:00'
+Verification: <签名和契约的实际静态核对范围，不放测试记录>
+Responsibility: ../../职责/<类型>.md#<真实章节锚点>
+---
+~~~
+
+`Namespace/Module` 在适用时保留；有真实版本可额外保留 Version，不编造首次引入日期。文件仅供文档查阅，不参与生产编译或发布；不能改生产 SDK 或自动生成源码来满足格式。Markdown 扩展名避免文档误入语言构建，但仍需检查项目自定义文档打包规则。
 
 # 从规划移交正式文档
-逐文件核对全部函数已实现、实际签名与契约、来源及版本；满足后移动到 docs/文档/<模块>/api/<端>/，Status 标 implemented，Verification 写真实检查结果。planned/mixed 文件留在任务目录；可逐个移交已完成文件，不要求整任务一次性搬完。
-移动前检查源与目标都在预期独立 docs 工作树内。目标同名文件已存在时按实际实现逐项合并更新，不覆盖不相关成员或用户改动，也不生成重复文件绕过冲突。确认目标声明和引用完整后移除规划来源，保留 Git 的变更追踪，不复制长期保留双份。
-同步任务入口、interfaces.md、关系规划、其他调用方的相对链接（规划沿用 meta.links；正式文档按精简协议维护正文 API 映射，系统依赖只在 dependencies），并在系统 Markdown 加入或更新正式 API 映射；任务 TODO 记录移交及验证证据。当前项目已有正式 API 在规划中直接引用，拟议修改另标在任务 API 中，正式声明待实现核对后才更新。
+Status 为 planned/mixed/implemented。planned 只能作为设计，不能当成当前可调用能力；mixed 每函数注明拟定/已实现，拟改签名明确尚未实现；Source 指出拟定路径，CodeRevision 是设计参考基线，Verification 不宣称已运行。完整设计操作、协作与生命周期仍保存在设计职责 MD，不能被移交成正式能力。
 
-# 隔离与检查
-检查语言实际构建、打包、模块发现和类型发布范围，保证文档不进入生产：C# 检查 Compile，TS 检查 tsconfig 和类型发布，Python 检查包与 stub 发布规则。独立命名空间不能替代隔离。必要且已授权时才修改排除配置。
-核对仅含公开函数、没有实现体，头部版本与系统说明一致，Markdown 的链接直达声明文件。纯接口查阅无需为验证文档存在而扫描源码。
+每次实现改变同步状态、签名、必要参数/返回/关键提醒、版本/日期、职责章节和所有映射引用。参数检查、owner、重复调用、取消/失败及释放边界须据真实方法体和调用链核对；静态核对不是运行验证，测试结果单独存任务报告。
+
+逐文件核对所有函数已实现且签名、契约、来源和版本准确后，才移动到模块正式 api/，标 implemented。planned/mixed 文件继续保留设计目录；可移交已完成文件，不要求整任务一起迁移。目标同名时按实际实现人工合并，不覆盖无关成员或用户改动，不造重复文件绕过冲突。确认目标和全部引用完整后删除原设计声明，保留 Git 变更追踪。
+
+同步 README、职责 API 映射、meta.links/dependencies、图内点击、工单 interfaces 及其他消费者的相对链接；API 的 Responsibility 要重新计算。正式系统依赖只在 dependencies，不复制测试记录或执行 TODO。
+
+# 旧独立文档声明迁移
+使用 [工具说明](../tooling.md#旧文档-api-的显式安全迁移) 中独立 `migrate_api_documents.py`：默认 dry-run，显式 `--apply` 才执行。只迁移授权文档树中的 `.api.cs` / `.api.d.ts` / `.api.pyi`；不迁移 SDK、生产源码或历史资料。事务内先保真迁移长注释到唯一链接的职责契约章节，创建新 Markdown，修复根内 Markdown/YAML/Mermaid 引用，确认无遗留旧文件名后删除旧声明；冲突、语法不确定、职责歧义或校验失败不写入，写入异常回滚。已迁移再次运行无变化。
+
+自动迁移保留原注释全文而非猜测哪些细节可删，需人工整理为自然职责说明；不解析完整语言语义。跨所选根的消费者不自动改写，调用者必须另行同步。进程内回滚不等于崩溃/断电恢复。只读 rules/check 仅检查，不虚构生成命令。
 
 # 模板
-按实际语言使用 [通用格式](../../assets/templates/api/public-functions.md)：
-- [C#](../../assets/templates/api/public-functions.api.cs)
-- [TypeScript/JavaScript](../../assets/templates/api/public-functions.api.d.ts)
-- [Python](../../assets/templates/api/public-functions.api.pyi)
-示例仅展示格式，生成时替换为实际模块、签名与契约，不能把示例当现有 API。
+按真实类型替换 [通用格式](../../assets/templates/api/public-functions.md)：
+- [C# Markdown](../../assets/templates/api/public-functions.cs.api.md)
+- [TypeScript/JavaScript Markdown](../../assets/templates/api/public-functions.ts.api.md)
+- [Python Markdown](../../assets/templates/api/public-functions.py.api.md)
+
+示例只展示格式，不代表项目现有接口；不能因模板有可空或默认值就给真实签名增加语义。

@@ -23,7 +23,7 @@ updated: "<YYYY-MM-DD HH:mm:ss ±HH:MM>"
 - [对应类文档](<meta.document 路径>)
 - [文档入口](<文档 README 相对路径>)
 - [目录架构](<与文档 README 同级的目录架构.md>)
-- [公开函数 API](<适用时填原语言声明路径>)
+- [公开函数 API](<适用时填 Markdown API 速查路径；原语言签名，链接职责详情>)
 
 ## 任务内容
 

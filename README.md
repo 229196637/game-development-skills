@@ -7,7 +7,7 @@
 | [game-system-design](game-system-design/SKILL.md) | 游戏策划：按系统讨论规则，用流程图和表格表达，独立保存待确认事项 |
 | game-system-development-planning | 游戏系统开发规划：先文档，后逐类工单、验收标准与依赖 TODO，交付后停止 |
 | game-system-development-execution | 游戏系统开发执行：按 TODO 领取、阅读、实现、真实测试报告、验收与完成 |
-| game-system-development-documentation | 游戏系统开发文档：扫描现状、增量同步、原语言公开函数 API、独立 docs Git |
+| game-system-development-documentation | 游戏系统开发文档：扫描现状、增量同步、Markdown 公开函数 API（原语言签名）、独立 docs Git |
 | game-excel-config | 游戏 Excel 配置表：字段注释、表关系、端归属及项目固定路径一键导表，独立适配不同语言 |
 | log-reading | 日志阅读技能：定位构建/运行日志，关联会话、双端及异常链；含 SCE 可选适配 |
 | [game-art-style-discussion](game-art-style-discussion/SKILL.md) | 美术风格讨论与定稿：比较候选、记录反馈、保存完整风格描述与认可参考图 |
@@ -67,7 +67,7 @@ flowchart TD
 
 - 规划查阅 API 时，已有框架能力须先给出准确接口、调用/生命周期细节与差距，再询问复用还是重写；已明确选择沿用。
 - 开发任务入口：`docs/规划/<任务>/README.md`，每个类独立任务 MD，只引用文档，不复制设计，docs 由独立 Git 仓库维护。
-- API 在 docs/文档/<模块>/api/client|server|shared 中存储原语言公开函数声明，由 Markdown 映射；实现完成后同步到正式文档位置。
+- API 在 `docs/文档/<模块>/api/client|server|shared` 中使用 `<类型>.cs.api.md` / `.ts.api.md` / `.py.api.md`：简明用途、原语言签名代码块、必要参数返回和关键限制；详细操作与协作放职责文档并链接。不再生成独立声明文件。planned/mixed 留在模块设计任务目录，实现核对后转正式。旧项目通过文档技能的 `migrate_api_documents.py <docs根>` 预览，显式 `--apply` 才迁移。
 - 需要 UI 的模块独立写 `ui.md`，链接可直接打开的 HTML 设计稿。客户端业务逻辑的 UI 放模块 View/view；服务端业务逻辑的客户端 UI 直接放对应模块目录，遵循项目实际 UI 框架。
 - 配置字段需要完整注释，说明用途、单位、缺省、范围与引用关系。
 - 项目特定框架及 Excel 适配以实际项目为准；技能不授权自动推送项目代码或创建远程仓库。
@@ -78,22 +78,22 @@ flowchart TD
 | 技能 | 工具 | 命令与范围 |
 | --- | --- | --- |
 | 游戏策划 | scripts/design_tool.py | check：只读校验策划 meta、目录、链接、核心流程图与规则表 |
-| 开发规划 | scripts/planning_tool.py、scripts/task_store.py | init/update/relocate/order/check/list：具体工单与依赖 TODO，共享格式 |
+| 开发规划 | scripts/planning_tool.py、scripts/task_store.py | init/update/relocate/order/check/list/dashboard：具体工单与依赖 TODO；dashboard 只读快照 |
 | 开发执行 | scripts/execution_tool.py | next/show/claim/set-item/run-test/record-test/record-acceptance/block/release/reopen/complete：落实与真实报告 |
-| 开发文档 | scripts/documentation_tool.py | rules/check：精简 meta、文档依赖、API 和测试分离 |
+| 开发文档 | scripts/documentation_tool.py、scripts/migrate_api_documents.py | rules/check：文档与 API 校验；迁移器默认 dry-run、显式 --apply |
 | Excel 配置 | scripts/config_tool.py、scripts/export_config.py | inspect/check：配置读取与字段处理清单；export_config：按项目配置导出并检查 |
 | 日志阅读 | scripts/log_tool.py | read：日志标识过滤、行号和上下文 |
 | 风格讨论 | scripts/direction_tool.py | check/handoff：只读检查状态、版本化描述、参考图与摘要；不代替用户定稿 |
 | 美术预览 | scripts/preview_tool.cjs | build/check：独立缩略图、名称/文件名、原图与缩略图像素及体积；原图只读 |
 | 美术交付 | scripts/art_tool.py | handoff：实测正式PNG匹配设计尺寸，核对参考区域映射；未就绪退出2阻断交付 |
 
-每个工具随对应技能安装；执行工具复用相邻规划技能的共享工单模块，使用说明在该技能 references/tooling.md。规划工具可以在显式任务根内记录任务，配置导出工具按项目 profile 写生成产物，--check 调用已核对的检查器，--describe 只读显示路线；文档、配置盘点和日志工具只读。结果为 JSON，结构通过不代表业务/运行验证通过。测试代码不随技能或本仓库分发，分别在隔离目录验证。
+每个工具随对应技能安装；执行工具复用相邻规划技能的共享工单模块，使用说明在该技能 references/tooling.md。规划工具可以在显式任务根内记录任务，配置导出工具按项目 profile 写生成产物，--check 调用已核对的检查器，--describe 只读显示路线；文档、配置盘点和日志工具只读。结果为 JSON，结构通过不代表业务/运行验证通过。测试代码不随技能安装；DSH 工单插件及三技能的隔离回归测试随 `tools/dsh-game-system-workorders/tests` 版本管理，fixtures 使用临时目录，不改生产任务。
 
 更新时间使用便于阅读的 `YYYY-MM-DD HH:mm:ss ±HH:MM`，例如 `2026-10-12 17:19:55 +08:00`；YAML 用带引号字符串。新更新记录与 API 头部按此格式，旧历史不补造时分秒。日志事件的原始时间保持原样。
 
 ## 文档先行，规划默认交付工单
 
-文档技能继续维护已认可的系统说明、角色、生命周期、调度图及原语言公开函数 API；本次只补独立 `目录架构.md`，用于定位文件夹和脚本。规划不复制这些内容；每类任务引用对应文档，写目标与勾选工作项，底部保存真实测试过程，所有必需测试与前置完成后才设 completed。Python 工具辅助记录，不执行测试，不替代业务验证。
+文档技能继续维护已认可的系统说明、角色、生命周期、调度图及Markdown 公开函数 API（原语言签名）；本次只补独立 `目录架构.md`，用于定位文件夹和脚本。规划不复制这些内容；每类任务引用对应文档，写目标与勾选工作项，底部保存真实测试过程，所有必需测试与前置完成后才设 completed。Python 工具辅助记录，不执行测试，不替代业务验证。
 
 重构前认可版本已保存为 Git 标签 `backup/before-planning-driver-20261013-204919`，对应提交 `a7864d91ba47c776ce94260a1aa8c2859b4570dd`。
 
@@ -116,6 +116,12 @@ flowchart TD
 [执行技能实际验证与流程预览](examples/execution-workflow/README.md)。
 
 含类索引的文档 README 同时提供职责架构图与系统依赖图；[补充与验证](examples/game-rule-dispatchers/readme-diagram-review.md)。
+
+## DSH 游戏开发工单插件
+
+[DSH 游戏开发工单](tools/dsh-game-system-workorders/README.md) 是原生 Host/Client 插件，不是 skill 或独立网页。提供会话视图与并行只读临时卡片、最近未完成任务发现、执行目标补全、工单和工作项进度、依赖与最新测试/验收。`/game-tickets` 查询不进入模型队列；`/game-plan` 仅规划，`/game-execute` 经用户选择确认后在当前会话 queue 启动，不抢占现有工作。
+
+源码与回归在 `tools/dsh-game-system-workorders`，安装产物通过 `npm ci --ignore-scripts`、构建、`npm pack --ignore-scripts` 生成，再由 DSH 官方插件管理器安装 `.tgz`；不提交依赖、归档或个人 profile。[验证记录](tools/dsh-game-system-workorders/VERIFICATION.md)。目标兼容版本为 DSH 0.2.1-rc.4，升级宿主后需重新核对协议契约。
 
 ## HTML 任务进度工作台 MCP
 

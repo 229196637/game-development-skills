@@ -23,4 +23,4 @@ code_revision: working-tree
 
 [返回上级](../README.md)
 
-<!-- 目录摘要不复制 API、整套职责或 TODO。API 目录只导航原语言声明。生成后删除占位提示。 -->
+<!-- 目录摘要不复制 API、整套职责或 TODO。API 目录只导航语言围栏 API Markdown。生成后删除占位提示。 -->

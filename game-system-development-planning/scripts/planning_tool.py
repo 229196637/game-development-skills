@@ -5,10 +5,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     sub = parser.add_subparsers(dest="action", required=True)
     sub.add_parser("rules")
-    for name in ("init", "update", "relocate", "check", "list", "order"):
+    for name in ("init", "update", "relocate", "check", "list", "order", "dashboard"):
         command = sub.add_parser(name)
         command.add_argument("--root", required=True, type=Path)
-        if name in ("check", "list", "order"):
+        if name in ("check", "list", "order", "dashboard"):
             if name == "order":
                 command.add_argument("--id", action="append")
             continue
@@ -34,6 +34,8 @@ def main():
                 "completion": "前置完成、工作项勾选、每项必需测试与验收最近 passed；不证明真实测试执行"}
     root = args.root.resolve()
     require(".git" not in root.parts, "任务根不能是 .git")
+    if args.action == "dashboard":
+        return dashboard(root)
     if args.action == "order":
         return {"order": order_index(root, args.id)}
     if args.action == "init":
@@ -63,7 +65,7 @@ def main():
         directories(root, path)
         order_index(root)
         return {"created": str(path), "status": "todo"}
-    tasks, order = scan(root, enforce_layout=args.action not in ("relocate", "update"))
+    # todo_order 内部已读取并校验全部工单，check/list 不再提前重复扫描。
     if args.action in ("check", "list"):
         tasks, order = todo_order(root)
         if args.action == "check":
@@ -75,6 +77,7 @@ def main():
             for directory in {root} | {parent for task in tasks.values() for parent in task["path"].parents if parent.is_relative_to(root)}:
                 require((directory / "README.md").is_file(), f"缺少目录 README：{directory}")
         return {"tasks": [{"id": key, "class": tasks[key]["meta"]["class"], "status": tasks[key]["meta"]["status"], "file": str(tasks[key]["path"]), "depends_on": tasks[key]["meta"]["depends_on"]} for key in order]}
+    tasks, order = scan(root, enforce_layout=args.action not in ("relocate", "update"))
     path = location(root, args.file)
     task = next((task for task in tasks.values() if task["path"] == path), None)
     require(task, "任务文件不存在或未纳入任务根")

@@ -1,6 +1,7 @@
 """共享工单格式与约束；供规划编写和执行记录复用，不包含命令入口。"""
 import argparse
 from datetime import datetime
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -250,6 +251,169 @@ def scan(root, enforce_layout=True):
             order.append(key)
             del pending[key]
     return tasks, order
+
+
+CLAIM = r"<!-- execution-claim: (.*?) -->"
+
+
+def owner(task):
+    match = re.search(CLAIM, task["body"])
+    return json.loads(match[1]) if match else None
+
+
+def candidates(tasks, order):
+    return [key for key in order if tasks[key]["meta"]["status"] == "todo"
+            and not owner(tasks[key])
+            and all(tasks[dep]["meta"]["status"] == "completed" for dep in tasks[key]["meta"]["depends_on"])]
+
+
+def details(task):
+    """执行 next/show/claim 的兼容投影；扩展字段仅由 dashboard 添加。"""
+    links = re.findall(r"\[[^\]]+\]\(([^)]+)\)", section(task["body"], "文档索引"))
+    return {"id": task["meta"]["task_id"], "file": str(task["path"]), "status": task["meta"]["status"],
+            "claim": owner(task), "document": str(task["document"]),
+            "references": [str((task["path"].parent / ref.split("#")[0]).resolve()) for ref in links],
+            "items": task["items"], "required_tests": task["meta"]["required_tests"],
+            "acceptance": section(task["body"], "验收标准").strip()}
+
+
+def latest_rows(rows):
+    """每个 ID 取最后追加行；结果也按这些行的追加位置排列，不比较时间。"""
+    positions = {row[1]: index for index, row in enumerate(rows)}
+    return [row for index, row in enumerate(rows) if positions[row[1]] == index]
+
+
+def test_report(row):
+    # 历史记录沿用执行工具的 Path 语义；新记录均写绝对路径。
+    return Path(row[6])
+
+
+def completed_reports(task):
+    for row in latest_rows(task["tests"]):
+        require(test_report(row).is_file(), "测试报告不存在；请重新生成或记录真实报告")
+
+
+def dashboard_task(task, tasks):
+    result = details(task)
+    result.update({
+        "class": task["meta"]["class"], "depends_on": task["meta"]["depends_on"],
+        "updated": task["meta"]["updated"], "tests": task["tests"],
+        "acceptance_records": task["acceptance"],
+        "latest_tests": [dict(zip(("time", "id", "command", "expected", "actual", "result", "report"), row),
+                              reportExists=test_report(row).is_file()) for row in latest_rows(task["tests"])],
+        "latest_acceptance": [dict(zip(("time", "id", "actual", "result", "evidence"), row))
+                              for row in latest_rows(task["acceptance"])],
+        "blocked_by": [key for key in task["meta"]["depends_on"] if tasks[key]["meta"]["status"] != "completed"],
+    })
+    return result
+
+
+def dashboard_inputs(root):
+    """只读签名：枚举全部任务 MD/README，并覆盖验证实际读取的外部索引与报告。"""
+    paths = {path.resolve() for path in root.rglob("*.md")}
+    paths.add(root / "README.md")
+    contents = {}
+    for path in sorted(paths):
+        try:
+            contents[path] = path.read_bytes()
+        except FileNotFoundError:
+            contents[path] = None
+    external = set()
+    for path, raw in list(contents.items()):
+        if raw is None or path.name.lower() == "readme.md":
+            continue
+        try:
+            text = raw.decode("utf-8-sig")
+        except UnicodeDecodeError:
+            continue  # 部分 UTF-8 写入仍可签名；正式读取失败后按前后签名决定重试。
+        match = re.search(r"^document: (.+)$", text, re.M)
+        if match:
+            try:
+                document = json.loads(match[1])
+                if isinstance(document, str):
+                    external.add((path.parent / document).resolve())
+            except json.JSONDecodeError:
+                pass  # 正式解析返回结构错误；签名过程不吞掉正式验证。
+        for ref in re.findall(r"\[[^\]]+\]\(([^)]+)\)", section(text, "文档索引")):
+            target = (path.parent / ref.split("#")[0]).resolve()
+            external.add(target)
+            if target.name == "目录架构.md":
+                readme = target.parent / "README.md"
+                external.add(readme)
+                if readme not in contents:
+                    try:
+                        contents[readme] = readme.read_bytes()
+                    except FileNotFoundError:
+                        contents[readme] = None
+        for line in section(text, "测试过程").splitlines():
+            cells = [cell.strip() for cell in line.strip().strip("|").split("|")]
+            if line.startswith("|") and len(cells) == 7 and re.fullmatch(STAMP, cells[0]):
+                external.add(Path(cells[6]).resolve())
+    signature = []
+    for path in sorted(set(contents) | external):
+        try:
+            stat = path.stat()
+            stamp = (stat.st_size, stat.st_mtime_ns, stat.st_ctime_ns, stat.st_ino)
+        except FileNotFoundError:
+            stamp = None
+        digest = hashlib.sha256(contents[path]).hexdigest() if contents.get(path) is not None else None
+        signature.append((str(path), stamp, digest))
+    return signature
+
+
+def dashboard(root, attempts=3):
+    """有限重试的只读快照；无锁写入、不修复入口、不把观察结果当作领取授权。"""
+    require(attempts > 0, "快照重试次数必须为正数")
+    result = None
+    for _ in range(attempts):
+        locked_before = (root / ".execution.lock").exists()
+        before = dashboard_inputs(root)
+        error = None
+        try:
+            tasks, order = todo_order(root)
+            for task in tasks.values():
+                if task["meta"]["status"] == "completed":
+                    completion(task, tasks)
+                    completed_reports(task)
+            counts = {status: sum(task["meta"]["status"] == status for task in tasks.values()) for status in STATUSES}
+            counts["total"] = len(tasks)
+            ready = candidates(tasks, order)
+            projected = [dashboard_task(tasks[key], tasks) for key in order]
+            valid_updates = []
+            for task in tasks.values():
+                try:
+                    valid_updates.append((datetime.strptime(task["meta"]["updated"], "%Y-%m-%d %H:%M:%S %z"), task["meta"]["updated"]))
+                except ValueError:
+                    pass
+            result = {
+                "schemaVersion": 1, "root": str(root), "readme": str(root / "README.md"),
+                "updated": max(valid_updates, key=lambda entry: entry[0])[1] if valid_updates else None,
+                "counts": counts,
+                "progress": {"completed": counts["completed"], "total": len(tasks),
+                             "percent": round(counts["completed"] * 100 / len(tasks), 2) if tasks else 0,
+                             "itemsChecked": sum(mark.lower() == "x" for task in tasks.values() for mark, _ in task["items"]),
+                             "itemsTotal": sum(len(task["items"]) for task in tasks.values())},
+                "ready": ready, "next": next((task for task in projected if ready and task["id"] == ready[0]), None),
+                "tasks": projected,
+            }
+        except (ValueError, OSError) as caught:
+            error = caught
+        after = dashboard_inputs(root)
+        locked_after = (root / ".execution.lock").exists()
+        stable = before == after and not locked_before and not locked_after
+        if stable:
+            if error:
+                raise error
+            result["consistency"] = {"stable": True}
+            return result
+        # 损坏工单即便发生并发也不能悄悄回退到上次成功结果。
+        if error:
+            result = None
+        reason = "execution-lock" if locked_before or locked_after else "inputs-changed"
+    if result is None:
+        raise error
+    result["consistency"] = {"stable": False, "reason": reason}
+    return result
 
 
 def predecessors(task, tasks):

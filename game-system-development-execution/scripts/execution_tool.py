@@ -10,16 +10,14 @@ import subprocess
 import sys
 import uuid
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "game-system-development-planning" / "scripts"))
+# 共享工单代码属于安装依赖，不触发加载规划技能；按实际脚本位置定位，和客户端主目录无关。
+_planning_scripts = Path(__file__).resolve().parents[2] / "game-system-development-planning" / "scripts"
+if not (_planning_scripts / "task_store.py").is_file():
+    raise SystemExit(f"缺少工单代码依赖：{_planning_scripts / 'task_store.py'}；请将 game-system-development-planning 与执行技能安装在同一 skills 根。无需加载规划技能正文。")
+sys.path.insert(0, str(_planning_scripts))
 from task_store import (require, nonempty, now, scan, todo_order, read, save, section,
-                        replace_section, append_row, completion, invalidate, modern)
-
-CLAIM = r"<!-- execution-claim: (.*?) -->"
-
-
-def owner(task):
-    match = re.search(CLAIM, task["body"])
-    return json.loads(match[1]) if match else None
+                        replace_section, append_row, completion, invalidate, modern,
+                        CLAIM, owner, candidates, details, completed_reports)
 
 
 def set_owner(task, value):
@@ -44,21 +42,6 @@ def lock(root):
         yield
     finally:
         target.unlink()
-
-
-def candidates(tasks, order):
-    return [key for key in order if tasks[key]["meta"]["status"] == "todo"
-            and not owner(tasks[key])
-            and all(tasks[dep]["meta"]["status"] == "completed" for dep in tasks[key]["meta"]["depends_on"])]
-
-
-def details(task):
-    links = re.findall(r"\[[^\]]+\]\(([^)]+)\)", section(task["body"], "文档索引"))
-    return {"id": task["meta"]["task_id"], "file": str(task["path"]), "status": task["meta"]["status"],
-            "claim": owner(task), "document": str(task["document"]),
-            "references": [str((task["path"].parent / ref.split("#")[0]).resolve()) for ref in links],
-            "items": task["items"], "required_tests": task["meta"]["required_tests"],
-            "acceptance": section(task["body"], "验收标准").strip()}
 
 
 def report_target(root, folder):
@@ -204,9 +187,7 @@ def main():
                 set_owner(task, None)
             elif args.action == "complete":
                 completion(task, tasks)
-                latest = {row[1]: row for row in task["tests"]}
-                for key in task["meta"]["required_tests"]:
-                    require(Path(latest[key][6]).is_file(), "测试报告不存在；请重新生成或记录真实报告")
+                completed_reports(task)
                 task["meta"]["status"] = "completed"
                 set_owner(task, None)
         save(task)

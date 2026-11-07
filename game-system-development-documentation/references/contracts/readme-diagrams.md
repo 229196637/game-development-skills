@@ -1,3 +1,7 @@
+---
+name: readme-responsibility-and-dependency-diagrams
+description: README 类索引的职责架构图、系统依赖图和文档跳转维护规则。
+---
 # 职责架构与系统依赖图
 
 凡 README 包含“类索引”，同时提供“## 职责架构图”和“## 系统依赖图”，正式总入口、模块入口与设计入口均适用。普通职责/API 子目录摘要不重复全量图；规划工单 README 仍只维护 TODO，不复制文档架构。

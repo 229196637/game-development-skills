@@ -1,0 +1,21 @@
+# Installed dependencies and reproducible package output
+node_modules/
+dist/
+*.tgz
+
+# Python caches and local test fixtures
+__pycache__/
+*.py[cod]
+.pytest_cache/
+tests/runtime-check/
+tests/live-fixture/
+
+# Local environment, credentials and editor state
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+*.log

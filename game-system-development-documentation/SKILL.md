@@ -1,19 +1,27 @@
 ---
 name: game-system-development-documentation
-description: 生成或同步设计态和已实现态游戏文档、目录架构与脚本位置、角色职责、调度流水线、原语言公开函数 API 及各目录 README。可独立使用或被规划调用，根据需求增删改文档，不驱动代码实现或执行工单。
+description: 生成或同步设计态和已实现态游戏文档、目录架构与脚本位置、角色职责、调度流水线、Markdown 公开函数 API 及各目录 README。可独立使用或被规划调用，根据需求增删改文档，不驱动代码实现或执行工单。
 metadata:
   short-description: 扫描现状并同步系统说明、编程指南和 API
   schema-version: "1"
 ---
 # 游戏系统开发文档
 
+## 按需加载与安装路径
+
+- 按本次实际职责进入技能，遵守宿主的技能调用规则；链接是导航索引，不是加载所有兄弟技能或全部 references 的指令。只读取所选入口及当前步骤需要的契约、模板和专题。
+- 同一会话内，完整技能正文或引用已在可用上下文且未变更时直接复用，不为每一步或每个工单反复调用技能工具、重读相同文件。上下文缺失、已压缩而细节不足、文件更新或独立子代理没有收到正文时，再按需获取；不使用跨会话/跨代理全局“已加载”标记。
+- 调用 Python 工具、导入共享模块不等于调用其所属技能。只有确实进入另一技能的职责才调用；被调用方完成后返回当前调用者，不反向重启上游流程。不得因此跳过最新工单状态、锁内读取或实际代码核对。
+- 脚本和资源以本次加载返回的技能根（如 resourceBase 或 SKILL.md 所在目录）定位，使用绝对路径；项目路径以已核实的项目根定位。不能按客户端名称拼接用户主目录，也不假定当前工作目录就是技能目录。路径示例见本技能 references/tooling.md。
+
+
 涉及玩法规则时读取已有 `docs/策划/<系统>/策划.md` 与相关待确认.md，在对应文档 meta 的 dependencies 引用策划来源；技术文档只解释实现契约，避免复制整份规则。需要讨论的新规则交给 [游戏策划](../game-system-design/SKILL.md)，不能将尚未决定的候选描述为已确定需求；独立使用本技能不要求先创建策划目录。
 
-美术资源位置沿用用户路径或项目/任务仓库 `art-library.location.json`；将 `local_root` 相对定位文件解析后，引用独立美术库的定稿与精确版本。技能仓库的旧图片示例只是保留存档，文档不引导向旧目录追加新美术。
+个人级游戏文档生成技能，跨项目、跨语言使用。先完成文档；只有本次需求还包含开发规划时，才由 game-system-development-planning 读取文档编写规划工单；落实代码交由 [游戏系统开发执行](../game-system-development-execution/SKILL.md)，必须有用户明确执行要求。本技能可单独处理文档，也可被规划调用；根据需求及相关代码新增、修改、删除已失效的文档并同步引用，保持现有文档产物规范。仅负责文档研究、生成和同步，不驱动业务实现或执行工单。正式文档参照项目 SDK 的系统说明：先讲用途，再按实际使用场景给短调用示例，说明生命周期与限制；不把扫描结果和检查清单堆成正文。图中操作节点可点击对应规范，名称与文件相对应；图下保留同目标 Markdown 链接。
 
-涉及美术时引用 [美术风格讨论](../game-art-style-discussion/SKILL.md) 的art-direction.md、精确风格版本及认可图，再引用 [分层美术资源](../game-layered-art/SKILL.md) 的资源ID/版本和库相对路径，不复制风格全文。未定的风格如实标为讨论中，不能因补文档定稿或启动生图。背景与UI素材职责分开记录。
+## API 文档边界
 
-个人级游戏文档生成技能，跨项目、跨语言使用。先完成文档，再由 game-system-development-planning 读取文档编写规划工单；落实代码交由 [游戏系统开发执行](../game-system-development-execution/SKILL.md)，必须有用户明确执行要求。本技能可单独处理文档，也可被规划调用；根据需求及相关代码新增、修改、删除已失效的文档并同步引用，保持现有文档产物规范。仅负责文档研究、生成和同步，不驱动业务实现或执行工单。正式文档参照项目 SDK 的系统说明：先讲用途，再按实际使用场景给短调用示例，说明生命周期与限制；不把扫描结果和检查清单堆成正文。图中操作节点可点击对应规范，名称与文件相对应；图下保留同目标 Markdown 链接。
+API 文件统一为 `<类型>.<cs|ts|py>.api.md`，使用 `csharp` / `typescript` / `python` 签名围栏和 API 专用 YAML；不生成独立 .api.cs/.api.d.ts/.api.pyi 文档声明。API 只保留简明用途、公开签名、必要参数返回、关键提醒，并用 Responsibility 直达职责 MD 的具体章节。操作示例、流程、架构、生命周期与内部协作全部由职责文档完整维护，迁移不丢细节。planned/mixed 留在设计目录，禁止迁移生产源码和 SDK。格式与安全迁移入口见 [查阅 API](references/api/snapshots.md)。
 
 ## 系统文档工具（优先执行）
 
@@ -45,7 +53,7 @@ flowchart TD
 
 | 场景 | 对应规范 | 操作边界 |
 | --- | --- | --- |
-| 查阅接口 | [查阅 API](references/api/snapshots.md) | 系统 Markdown → 原语言声明；足够且无冲突不扫描源码，planned 不当已实现 API |
+| 查阅接口 | [查阅 API](references/api/snapshots.md) | 系统 Markdown → 语言围栏 API Markdown；足够且无冲突不扫描源码，planned 不当已实现 API |
 | 老工程缺文档 | [老工程补录](references/workflows/baseline.md) | 专项追踪创建/运行/释放和公开契约，不补造历史规划 |
 | 实现/修复/优化后 | [增量同步](references/workflows/sync.md) | 对照此次实现差异，更新系统及受影响消费者，不覆盖其他改动 |
 | 设计态 | [规划文档生成](references/workflows/planning-documents.md) | 同一生成器使用规划 meta 与 planned API；TODO 交回统一任务规划 |
@@ -91,7 +99,7 @@ flowchart TD
 | 检查仓库 | [独立文档 Git](references/contracts/docs-git.md) | docs 是独立仓库，知道本次范围与用户已有改动 |
 | 提炼现状 | [正式文档边界](references/contracts/document-layout.md) | 每系统一份使用说明；用途 → 理解架构 → 最短用法 → 必要场景 → 生命周期 → API 入口；持有与限制就近讲清，不强制职责表或固定章节 |
 | 维护 meta | [精简 meta](references/contracts/document-layout.md#精简-meta) | 默认 system、side、updated、code_revision、sources、dependencies；依赖其他文档用 document 与 uses，不在正文重复依赖表 |
-| 维护 API | [查阅 API](references/api/snapshots.md) | <模块>/api/client|server|shared/ 原语言公开函数声明及直接映射；保留真实参数/返回/异常与版本信息 |
+| 维护 API | [查阅 API](references/api/snapshots.md) | <模块>/api/client|server|shared/ 语言围栏 API Markdown及直接映射；保留真实参数/返回/异常与版本信息 |
 | 检查遗漏 | [精简后的信息完整性](references/contracts/document-layout.md#精简后的信息完整性)、[增量同步](references/workflows/sync.md) | 初始化前置、owner、成功含义、重复调用、取消/失败及清理限制可从主体/API 恢复；核对链接、架构显示与实际验证 |
 | 交付 | [增量同步](references/workflows/sync.md) | 在交付说明区分已核对与未验证；测试内容全部放任务测试文件/独立报告，不进入系统主体或 meta |
 
@@ -133,13 +141,13 @@ flowchart TD
 
 文档任务提供范围、已有决定和模式：planning 生成设计态产物，implemented 补录/同步实际实现。先按 [目录架构与脚本位置](references/workflows/script-layout.md) 确定每个类/模块的代码位置，再完成职责、API、流水线和各级 README。
 
-设计态完整流程与模板见 [规划文档生成](references/workflows/planning-documents.md)、[规划目录与元数据](references/contracts/planning-layout.md)；工具统一 scripts/documentation_tool.py，check --mode planning 或 --mode implemented。返回文档入口、源码路径表、模块依赖/交付门槛、框架决定和未决项，由 [游戏系统开发规划](../game-system-development-planning/SKILL.md) 读取对应文档建立逐类执行任务。生成器不擅自实现业务、不排序任务、不另存第二份 TODO；开发后更新仍由规划技能调用本技能。
+设计态完整流程与模板见 [规划文档生成](references/workflows/planning-documents.md)、[规划目录与元数据](references/contracts/planning-layout.md)；工具统一 scripts/documentation_tool.py，check --mode planning 或 --mode implemented。返回文档入口、源码路径表、模块依赖/交付门槛、框架决定和未决项，由 [游戏系统开发规划](../game-system-development-planning/SKILL.md) 读取对应文档建立逐类执行任务。生成器不擅自实现业务、不排序任务、不另存第二份 TODO；开发后由当前执行者调用本技能同步文档并返回；仅工单本身需要修订时再进入规划，不因文档同步反向启动规划。
 
 独立文件夹层级架构由 [目录架构与脚本位置](references/workflows/script-layout.md#独立目录架构文件) 生成；文档入口直接链接 `目录架构.md`，规划只引用。
 
 ## 模块优先的文档目录
 
-正式内容必须按 `docs/文档/<模块>/` 划分，不再把所有系统集中到顶层职责或 API 目录。读取 [模块文档目录](references/contracts/module-layout.md)；全局 README 导航模块与类，模块 README 汇总本模块的类/角色/简短职责/API/MD。每个模块入口与目录架构同级，模块内保存职责、原语言 API 和确有需要的 UI/网络/配置专题。文档技能可独立使用；规划只读取对应模块文档。
+正式内容必须按 `docs/文档/<模块>/` 划分，不再把所有系统集中到顶层职责或 API 目录。读取 [模块文档目录](references/contracts/module-layout.md)；全局 README 导航模块与类，模块 README 汇总本模块的类/角色/简短职责/API/MD。每个模块入口与目录架构同级，模块内保存职责、Markdown API 和确有需要的 UI/网络/配置专题。文档技能可独立使用；规划只读取对应模块文档。
 
 ## 单独使用文档技能
 
